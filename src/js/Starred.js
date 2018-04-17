@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Tabs, Tab} from 'material-ui';
+import {Chip} from 'material-ui';
 
 import '../css/App.css';
 
@@ -12,13 +12,8 @@ class Starred extends Component {
     render() {
         return (
             <div>
-                <Tabs>
-                    <Tab label="Tab One" value={0}/>
-                    <Tab label="Tab Two" value={1}/>
-                    <Tab label="Tab Three" value={2}/>
-                    <Tab label="Tab Four" value={3}/>
-                </Tabs>
                 <h1>Starred</h1>
+                <Chip>Chip</Chip>
             </div>
         )
     }
