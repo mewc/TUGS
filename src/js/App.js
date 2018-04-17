@@ -1,11 +1,22 @@
 import React, {Component} from 'react';
 
-import {AppBar, BottomNavigation, BottomNavigationItem, Paper} from 'material-ui';
+import {
+    AppBar,
+    BottomNavigation,
+    BottomNavigationItem,
+    Paper,
+    FlatButton,
+    IconButton,
+    IconMenu,
+    MenuItem,
+    Snackbar,
+} from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
 
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconStarsImport from 'material-ui/svg-icons/action/stars';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 import Settings from './Settings';
 import Catalog from './Catalog';
@@ -27,7 +38,27 @@ class App extends Component {
         this.state = {
             selectedBottomNavIndex: 0,
             bodyContent: <Catalog/>,
+            loggedIn: false,
+            snackbar: {
+                open: false,
+                message: "Snackbar message",
+            }
         }
+    }
+
+
+    handleSnackbarTrigger = (message) => {
+
+    }
+
+    handleSnackbarClose = () => {
+        this.setState({
+            snackbar: {
+                open: false,
+                message: '',
+            }
+        })
+
     }
 
     selectBottomNav = (index) => {
@@ -56,9 +87,18 @@ class App extends Component {
             <MTP>
                 <div className="App">
                     <AppBar
-                        title={Str.APP_TITLE}
+                        title={Str.APP_TITLE_FULL}
+                        iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
                     />
                     {this.state.bodyContent}
+
+                    {<Snackbar
+                        open={this.state.snackbar.open}
+                        message={this.state.snackbar.message}
+                        autoHideDuration={5000}
+                        onRequestClose={this.handleSnackbarClose}
+                    />}
+
                     <div className="BottomNav">
                         <Paper zDepth={1}>
                             <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
@@ -85,6 +125,27 @@ class App extends Component {
 
         );
     }
+
 }
+
+const Logged = (props) => (
+        <IconMenu {...props}
+                  iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        >
+            <MenuItem primaryText={Str.NAV_TITLE_SIGNOUT}/>
+        </IconMenu>
+    )
+;
+
+class Login extends Component {
+    static muiName = 'FlatButton';
+
+    render() {
+        return (<FlatButton {...this.props} label={Str.NAV_TITLE_LOGIN}/>);
+    }
+}
+
 
 export default App;
