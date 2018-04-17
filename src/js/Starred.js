@@ -12,7 +12,6 @@ class Starred extends Component {
     render() {
         return (
             <div>
-                <h1>Starred</h1>
                 <Chip>Chip</Chip>
             </div>
         )

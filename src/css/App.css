@@ -31,3 +31,10 @@
   bottom: 0;
   width: 100%;
 }
+
+.appbar-logo{
+  height: 50px;
+  width: auto;
+  vertical-align: middle;
+  display: inline;
+}

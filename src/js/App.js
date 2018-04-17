@@ -17,6 +17,7 @@ import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconStarsImport from 'material-ui/svg-icons/action/stars';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import TugsLogo from '../resources/branding/tugs_logo_wrapped.png'
 
 import Settings from './Settings';
 import Catalog from './Catalog';
@@ -37,18 +38,26 @@ class App extends Component {
         super(props);
         this.state = {
             selectedBottomNavIndex: 0,
-            bodyContent: <Catalog/>,
+            bodyContent: <Catalog data={testData}/>,
             loggedIn: false,
             snackbar: {
                 open: false,
                 message: "Snackbar message",
+            },
+            user: {
+                starred: [
+                    1, 2
+                ]
+            },
+            data: testData,
+            settings: {
+                uni: "Monash",
             }
-        }
+        };
     }
 
-
     handleSnackbarTrigger = (message) => {
-
+        //when theres something that can use a snackbar, use this
     }
 
     handleSnackbarClose = () => {
@@ -65,16 +74,16 @@ class App extends Component {
         var newBodyContent = this.state.bodyContent;
         switch (index) {
             case SETTINGS_INDEX:
-                newBodyContent = <Settings/>;
+                newBodyContent = <Settings settings={this.state.settings}/>;
                 break;
             case STAR_INDEX:
-                newBodyContent = <Starred/>;
+                newBodyContent = <Starred data={this.state.data} starred={this.state.user.starred}/>;
                 break;
             case CATALOG_INDEX:
-                newBodyContent = <Catalog/>;
+                newBodyContent = <Catalog data={this.state.data}/>;
                 break;
             default:
-                newBodyContent = <Catalog/>;
+                newBodyContent = <Catalog data={this.state.data}/>;
         }
         this.setState({
             selectedBottomNavIndex: index,
@@ -89,7 +98,11 @@ class App extends Component {
                     <AppBar
                         title={Str.APP_TITLE_FULL}
                         iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
+                        iconElementLeft={
+                            <img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>
+                        }
                     />
+
                     {this.state.bodyContent}
 
                     {<Snackbar
@@ -146,6 +159,41 @@ class Login extends Component {
         return (<FlatButton {...this.props} label={Str.NAV_TITLE_LOGIN}/>);
     }
 }
+
+const testData = {
+    faculty: "Information Technology",
+    subjects: [
+        {
+            id: 1,
+            code: 'FIT1031',
+            title: 'Computers & Networks',
+            avgIntensityRating: 0.5,
+            tips: []
+        },
+        {
+            id: 2,
+            code: 'FIT1040',
+            title: 'Programming Fundamentals',
+            avgIntensityRating: 0.2,
+            tips:  [
+                "You can do this in your sleep, do your other harder subjects alongside this",
+                "6 year olds do this"
+            ]
+        },
+        {
+            id: 3,
+            code: 'FIT3047',
+            title: 'Mobile Development',
+            avgIntensityRating: 0.8,
+            tips:  [
+                "One of the harder, but rewarding subjects. Very practical",
+            ]
+        }
+    ]
+
+}
+
+
 
 
 export default App;
