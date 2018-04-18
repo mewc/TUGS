@@ -23,7 +23,7 @@ class Settings extends Component {
                 {/*<h1>Settings</h1>*/}
                 <List>
                     <ListItem
-                        primaryText="University" secondaryText={this.props.settings.uni} />
+                        primaryText="University" secondaryText={this.props.settings.uniId} />
                     <Divider/>
                 </List>
             </div>

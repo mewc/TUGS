@@ -1,43 +1,71 @@
 export const testData = {
-    faculty: "Information Technology",
-    subjects:
-        [
-            {
-                id: 1,
-                code: 'FIT1031',
-                title: 'Computers & Networks',
-                votesUp: 3,
-                votesDown: 0,
-                avgIntensityRating: 0.5,
-                avgRewardingRating: 3.6,
-                tips: []
-            },
-            {
-                id: 2,
-                code: 'FIT1040',
-                title: 'Programming Fundamentals',
-                votesUp: 1,
-                votesDown: 5,
-                avgIntensityRating: 0.2,
-                avgRewardingRating: 1.2,
-                tips: [
-                    "You can do this in your sleep, do your other harder subjects alongside this",
-                    "6 year olds do this"
-                ]
-            },
-            {
-                id: 3,
-                code: 'FIT3047',
-                title: 'Mobile Development',
-                votesUp: 55,
-                votesDown: 55,
-                avgIntensityRating: 0.8,
-                avgRewardingRating: 4.5,
-                tips: [
-                    "One of the harder, but rewarding subjects. Very practical",
-                ]
-            }
-        ],
+    schools: [
+        {
+            id: 1,
+            name: "Monash University",
+            faculties: [
+                {
+                    name: "Information Technology",
+                    subjects:
+                        [
+                            {
+                                id: 1,
+                                code: 'FIT1031',
+                                title: 'Computers & Networks',
+                                votesUp: 3,
+                                votesDown: 0,
+                                intensity: {
+                                    avg: 0.3,
+                                    votes: 1342,
+                                },
+                                rewarding: {
+                                    avg: 3.8,
+                                    votes: 22,
+                                },
+                                tips: []
+                            },
+                            {
+                                id: 2,
+                                code: 'FIT1040',
+                                title: 'Programming Fundamentals',
+                                votesUp: 1,
+                                votesDown: 5,
+                                intensity: {
+                                    avg: 0.1,
+                                    votes: 754,
+                                },
+                                rewarding: {
+                                    avg: 0.2,
+                                    votes: 53,
+                                },
+                                tips: [
+                                    "You can do this in your sleep, do your other harder subjects alongside this",
+                                    "6 year olds do this"
+                                ]
+                            },
+                            {
+                                id: 3,
+                                code: 'FIT3047',
+                                title: 'Mobile Development',
+                                votesUp: 55,
+                                votesDown: 55,
+                                intensity: {
+                                    avg: 0.9,
+                                    votes: 264,
+                                },
+                                rewarding: {
+                                    avg: 4.1,
+                                    votes: 64,
+                                },
+                                tips: [
+                                    "One of the harder, but rewarding subjects. Very practical",
+                                ]
+                            }
+                        ]
+                }
+            ]
+        },
+    ],
     users:
         [
             {
@@ -60,7 +88,13 @@ export const testData = {
                         id: 1,
                         value: 3
                     }
-                ]
+                ],
+                settings: {
+                    uniId: 1,
+                    style: {
+                        backgroundColor: "#e7e7e7"
+                    }
+                }
             },
             {
                 id: 10000002,
@@ -68,7 +102,15 @@ export const testData = {
                 votesUp: [],
                 votesDn: [
                     1, 2, 3
-                ], rating: []
+                ],
+                rating: [],
+                tips: [2],
+                settings: {
+                    uni: "Monash",
+                    style: {
+                        backgroundColor: "#e7e7e7"
+                    }
+                }
             },
             {
                 id: 10000003,
@@ -88,7 +130,14 @@ export const testData = {
                         id: 2,
                         value: 5
                     }
-                ]
+                ],
+                tips: [2, 3],
+                settings: {
+                    uni: "RMIT",
+                    style: {
+                        backgroundColor: "#e7e7e7"
+                    }
+                }
             }
         ]
 

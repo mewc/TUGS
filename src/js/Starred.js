@@ -26,7 +26,7 @@ class Starred extends Component {
 
     setValidElements() {
         var valids = []
-        this.props.data.subjects.map((item) => {
+        this.props.data.schools[0].faculties[0].subjects.map((item) => {
                 if(this.isStarred(item.id)) {
                     valids.push(<SubjectCard key={item.id} item={item}
                                          requestReview={this.props.requestReview}

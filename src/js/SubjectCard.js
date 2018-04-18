@@ -33,21 +33,21 @@ class SubjectCard extends Component {
             <CardText>
                 <span style={{display: "inline"}}>
                 <span>
-                Rewarding? {this.props.item.avgRewardingRating}
+                Rewarding? {this.props.item.rewarding.avg}
                     <Rating
-                        value={Math.round(this.props.item.avgRewardingRating)}
+                        value={Math.round(this.props.item.rewarding.avg)}
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
                         readOnly={!this.props.loggedIn}
                     />
                 </span>
                 <span>
-                Intensity: {this.props.item.avgIntensityRating * 100 + "%"}
+                Intensity: {this.props.item.intensity.avg * 100 + "%"}
                     <LinearProgress
                         mode={'determinate'}
                         max={1}
                         min={0}
-                        value={((this.props.item.avgIntensityRating - 1) * -1)}//flipped because the changing of colour for progress bar only did one side.
+                        value={((this.props.item.intensity.avg - 1) * -1)}//flipped because the changing of colour for progress bar only did one side.
                         style={{width: 70, height: 10, backgroundColor: "#ab0000", margin: "auto", marginTop: "10px"}}
                     />
                 </span>

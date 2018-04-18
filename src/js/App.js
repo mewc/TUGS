@@ -42,7 +42,14 @@ class App extends Component {
             starred: [
                 1, 3
             ],
-            id: 999
+            id: 999,
+            settings: {
+
+                uni: "Monash",
+                style: {
+                    backgroundColor: "#e7e7e7"
+                }
+            }
         };
 
         this.state = {
@@ -54,13 +61,7 @@ class App extends Component {
             },
             user: testUser,
             data: testData,
-            settings: {
 
-                uni: "Monash",
-                style: {
-                    backgroundColor: "#e7e7e7"
-                }
-            }
         };
         this.handleSignout.bind(this);
     }
@@ -104,7 +105,7 @@ class App extends Component {
         var newBodyContent = this.state.bodyContent;
         switch (index) {
             case SETTINGS_INDEX:
-                newBodyContent = <Settings settings={this.state.settings}/>;
+                newBodyContent = <Settings settings={this.state.user.settings}/>;
                 break;
             case STAR_INDEX:
                 newBodyContent =
@@ -132,7 +133,7 @@ class App extends Component {
                         iconElementLeft={
                             <div></div>
                         }
-                        style={this.state.settings.style}
+                        style={this.state.user.settings.style}
                     />
 
                     {this.state.bodyContent}

@@ -39,7 +39,7 @@ class Catalog extends Component {
             >
                 <Subheader>Catalog</Subheader>
                 {
-                    this.props.data.subjects.map((tile) => (
+                    this.props.data.schools[0].faculties[0].subjects.map((tile) => (
                         <GridTile
                             key={tile.code}
                             title={tile.title}
@@ -65,7 +65,7 @@ class Catalog extends Component {
     render() {
         return (
             <div>
-                {this.props.data.subjects.map((item) => (
+                {this.props.data.schools[0].faculties[0].subjects.map((item) => (
                        <SubjectCard key={item.id} item={item} requestReview={this.props.requestReview} loggedIn={this.props.user.loggedIn}/>
                     ))}
             </div>
