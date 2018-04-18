@@ -94,13 +94,13 @@ class App extends Component {
                 break;
             case STAR_INDEX:
                 newBodyContent =
-                    <Starred data={this.state.data} starred={this.state.user.starred} user={this.state.user} requestReview={this.handleRequestToLeaveReview}/>;
+                    <Starred data={this.state.data} starred={this.state.user.starred} user={this.state.user} loggedIn={this.state.loggedIn}requestReview={this.handleRequestToLeaveReview}/>;
                 break;
             case CATALOG_INDEX:
-                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  requestReview={this.handleRequestToLeaveReview}/>;
+                newBodyContent = <Catalog data={this.state.data} user={this.state.user} loggedIn={this.state.loggedIn}  requestReview={this.handleRequestToLeaveReview}/>;
                 break;
             default:
-                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  requestReview={this.handleRequestToLeaveReview}/>;
+                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  loggedIn={this.state.loggedIn} requestReview={this.handleRequestToLeaveReview}/>;
         }
         this.setState({
             selectedBottomNavIndex: index,

@@ -18,18 +18,20 @@ import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
 import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
 import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import * as Str from './Str';
+import ShowMoreText from 'react-show-more-text'
 
 import {yellow800, grey500} from 'material-ui/styles/colors'
 
 
 class SubjectCard extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
     render() {
         return <Card key={this.props.item.id} style={{width: "50%", margin: "auto"}}>
-            <CardHeader showExpandableButton={true} actAsExpander={true} title={this.props.item.code + "  " + this.props.item.title}/>
+            <CardHeader showExpandableButton={true} actAsExpander={true}
+                        title={this.props.item.code + "  " + this.props.item.title}/>
 
             <CardText>
                 <span style={{display: "inline"}}>
@@ -56,17 +58,30 @@ class SubjectCard extends Component {
             </CardText>
 
             <CardText expandable={true}>
-                <h4>Tips</h4>{this.props.item.tips.map((tip) => {
-                if(tip.length < 1){return <p>No tips submitted .</p>}else{return <p key={tip}>{tip}</p>}
-            })}
+                <h4>Tips</h4>
+                    {this.props.item.tips.map((tip) => {
+                        if (tip.length < 1) {
+                            return "No tips submitted ."
+                        } else {
+                            return (
+                                <div className="show-more-text">
+                                <ShowMoreText key={tip} lines={10} more={'More'} less={'Less'} >
+                                    <p>- {tip}</p>
+                                </ShowMoreText>
+                                </div>
+                                    )
+                        }
+
+                    })}
 
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-                <IconButton ><StarIcon color={this.getStarColor()}/></IconButton>
-                <IconButton  disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
-                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={true} style={{verticalAlign: "middle"}}></FlatButton>
-                <IconButton  disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
+                <IconButton><StarIcon color={this.getStarColor()}/></IconButton>
+                <IconButton disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
+                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={true}
+                            style={{verticalAlign: "middle"}}></FlatButton>
+                <IconButton disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
                 <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
                             onClick={this.props.requestReview.bind(this, this.props.item.id)}>
                     <RateReviewIcon/>
@@ -77,22 +92,30 @@ class SubjectCard extends Component {
         </Card>
     }
 
-    getStarColor(){
-        if(this.props.starred){
+    getStarColor() {
+        if (this.props.starred) {
             return yellow800
         }
     }
 
-    calculateHelpful(){
+    calculateHelpful() {
         var up = this.props.item.votesUp;
-        var dn  = this.props.item.votesDown;
+        var dn = this.props.item.votesDown;
         var total = up + dn;
-        if(up < 1){return 0}
-        if(dn < 1){return 100}
+        if (up < 1) {
+            return 0
+        }
+        if (dn < 1) {
+            return 100
+        }
         var percent = up / total;
         percent = (percent * 100)
 
         return Math.round(percent);
+    }
+
+    executeShowMoreClick() {
+        console.log('is expanded');
     }
 }
 

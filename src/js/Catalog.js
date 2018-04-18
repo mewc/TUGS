@@ -44,7 +44,7 @@ class Catalog extends Component {
             <div>
                 {this.props.data[0].faculties[0].subjects.map((item) => {
                     return <SubjectCard key={item.id} item={item} requestReview={this.props.requestReview}
-                                 loggedIn={this.props.user.loggedIn} starred={this.isStarred(item.id)}/>
+                                 loggedIn={this.props.loggedIn} starred={this.isStarred(item.id)}/>
                 })}
             </div>
         )
