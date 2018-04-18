@@ -17,7 +17,7 @@ class Starred extends Component {
 
     isStarred(subId) {
         var is = false;
-        for (var id in this.props.user.starred) {
+        for (var id of this.props.user.starred) {
             if (id == subId) {
                 return true;
             }

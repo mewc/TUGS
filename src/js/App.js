@@ -40,7 +40,7 @@ class App extends Component {
         var testUser = {
             loggedIn: false,
             starred: [
-                1, 2
+                1, 3
             ]
         };
 
