@@ -1,18 +1,49 @@
 import React, {Component} from 'react';
-
-import {Chip} from 'material-ui';
-
+import SubjectCard from './SubjectCard'
 import '../css/App.css';
 
 class Starred extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            validElements: ''
+        }
+    }
+
+    componentDidMount(){
+        console.log("did mount");
+        this.setValidElements();
+    }
+
+    isStarred(subId) {
+        var is = false;
+        for (var id in this.props.user.starred) {
+            if (id == subId) {
+                return true;
+            }
+        }
+        return is;
+    }
+
+    setValidElements() {
+        var valids = []
+        this.props.data.subjects.map((item) => {
+                if(this.isStarred(item.id)) {
+                    valids.push(<SubjectCard key={item.id} item={item}
+                                         requestReview={this.props.requestReview}
+                                         loggedIn={this.props.user.loggedIn}/>
+                    )
+                }
+        })
+        this.setState({
+            validElements: valids
+        })
     }
 
     render() {
         return (
             <div>
-                <Chip>Chip</Chip>
+                {this.state.validElements}
             </div>
         )
     }

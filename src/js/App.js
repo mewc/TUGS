@@ -24,6 +24,7 @@ import Catalog from './Catalog';
 import Starred from './Starred';
 import * as Str from './Str';
 import '../css/App.css';
+import {testData} from '../resources/testData'
 
 const IconSettings = <IconSettingsImport/>;
 const IconStars = <IconStarsImport/>;
@@ -36,19 +37,21 @@ const CATALOG_INDEX = 0;
 class App extends Component {
     constructor(props) {
         super(props);
+        var testUser = {
+            loggedIn: false,
+            starred: [
+                1, 2
+            ]
+        };
+
         this.state = {
             selectedBottomNavIndex: 0,
-            bodyContent: <Catalog data={testData}/>,
-            loggedIn: false,
+            bodyContent: '',
             snackbar: {
                 open: false,
                 message: "Snackbar message",
             },
-            user: {
-                starred: [
-                    1, 2
-                ]
-            },
+            user: testUser,
             data: testData,
             settings: {
                 uni: "Monash",
@@ -58,6 +61,10 @@ class App extends Component {
 
     handleSnackbarTrigger = (message) => {
         //when theres something that can use a snackbar, use this
+    }
+
+    componentDidMount() {
+        this.selectBottomNav(CATALOG_INDEX);
     }
 
     handleSnackbarClose = () => {
@@ -70,6 +77,14 @@ class App extends Component {
 
     }
 
+    handleRequestToLeaveReview = (subjectId, user) => {
+        console.log(subjectId);
+        console.log(user);
+
+        //add another button to bottom nav, show the review component in body, pass in data for subject
+
+    }
+
     selectBottomNav = (index) => {
         var newBodyContent = this.state.bodyContent;
         switch (index) {
@@ -77,13 +92,14 @@ class App extends Component {
                 newBodyContent = <Settings settings={this.state.settings}/>;
                 break;
             case STAR_INDEX:
-                newBodyContent = <Starred data={this.state.data} starred={this.state.user.starred}/>;
+                newBodyContent =
+                    <Starred data={this.state.data} starred={this.state.user.starred} user={this.state.user} requestReview={this.handleRequestToLeaveReview}/>;
                 break;
             case CATALOG_INDEX:
-                newBodyContent = <Catalog data={this.state.data}/>;
+                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  requestReview={this.handleRequestToLeaveReview}/>;
                 break;
             default:
-                newBodyContent = <Catalog data={this.state.data}/>;
+                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  requestReview={this.handleRequestToLeaveReview}/>;
         }
         this.setState({
             selectedBottomNavIndex: index,
@@ -96,7 +112,7 @@ class App extends Component {
             <MTP>
                 <div className="App">
                     <AppBar
-                        title={Str.APP_TITLE_FULL}
+                        title={Str.APP_TITLE}
                         iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
                         iconElementLeft={
                             <img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>
@@ -159,41 +175,6 @@ class Login extends Component {
         return (<FlatButton {...this.props} label={Str.NAV_TITLE_LOGIN}/>);
     }
 }
-
-const testData = {
-    faculty: "Information Technology",
-    subjects: [
-        {
-            id: 1,
-            code: 'FIT1031',
-            title: 'Computers & Networks',
-            avgIntensityRating: 0.5,
-            tips: []
-        },
-        {
-            id: 2,
-            code: 'FIT1040',
-            title: 'Programming Fundamentals',
-            avgIntensityRating: 0.2,
-            tips:  [
-                "You can do this in your sleep, do your other harder subjects alongside this",
-                "6 year olds do this"
-            ]
-        },
-        {
-            id: 3,
-            code: 'FIT3047',
-            title: 'Mobile Development',
-            avgIntensityRating: 0.8,
-            tips:  [
-                "One of the harder, but rewarding subjects. Very practical",
-            ]
-        }
-    ]
-
-}
-
-
 
 
 export default App;
