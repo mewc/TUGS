@@ -8,5 +8,6 @@ export const NAV_TITLE_LOGIN = "Login";
 export const NAV_TITLE_SIGNOUT = "Sign Out";
 
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
+export const ACTION_TITLE_PENDINGTIPS = "Pending Tips";
 
 

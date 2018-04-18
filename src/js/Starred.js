@@ -5,6 +5,7 @@ import '../css/App.css';
 class Starred extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             validElements: ''
         }
@@ -26,7 +27,7 @@ class Starred extends Component {
 
     setValidElements() {
         var valids = []
-        this.props.data.schools[0].faculties[0].subjects.map((item) => {
+        this.props.data[0].faculties[0].subjects.map((item) => {
                 if(this.isStarred(item.id)) {
                     valids.push(<SubjectCard key={item.id} item={item}
                                          requestReview={this.props.requestReview}

@@ -37,30 +37,17 @@ const CATALOG_INDEX = 0;
 class App extends Component {
     constructor(props) {
         super(props);
-        var testUser = {
-            loggedIn: false,
-            starred: [
-                1, 3
-            ],
-            id: 999,
-            settings: {
-
-                uni: "Monash",
-                style: {
-                    backgroundColor: "#e7e7e7"
-                }
-            }
-        };
-
+        console.log(props);
         this.state = {
+            loggedIn: true,
             selectedBottomNavIndex: 0,
             bodyContent: '',
             snackbar: {
                 open: false,
                 message: "Snackbar message",
             },
-            user: testUser,
-            data: testData,
+            user: testData.users[0],
+            data: testData.schools,
 
         };
         this.handleSignout.bind(this);
@@ -73,9 +60,7 @@ class App extends Component {
     handleSignout = () => {
         console.log("signing out");
         this.setState({
-            user: {
-                loggedIn: false,
-            }
+            loggedIn: false,
         })
     }
 
@@ -129,7 +114,7 @@ class App extends Component {
                 <div className="App">
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
-                        iconElementRight={this.state.user.loggedIn ? <Logged/> : <Login/>}
+                        iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
                         iconElementLeft={
                             <div></div>
                         }

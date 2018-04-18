@@ -91,7 +91,6 @@ class SubjectCard extends Component {
         if(dn < 1){return 100}
         var percent = up / total;
         percent = (percent * 100)
-        console.log(percent);
 
         return Math.round(percent);
     }
