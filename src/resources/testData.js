@@ -5,6 +5,7 @@ export const testData = {
             name: "Monash University",
             faculties: [
                 {
+                    id: 1000,
                     name: "Information Technology",
                     subjects:
                         [
@@ -70,6 +71,7 @@ export const testData = {
             name: "RMIT",
             faculties: [
                 {
+                    id: 2000,
                     name: "Computer Science",
                     subjects:
                         [],
