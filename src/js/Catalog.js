@@ -61,13 +61,24 @@ class Catalog extends Component {
         }
     }
 
+    isStarred(subId) {
+        var is = false;
+        for (var id of this.props.user.starred) {
+            if (id == subId) {
+                return true;
+            }
+        }
+        return is;
+    }
+
 
     render() {
         return (
             <div>
-                {this.props.data.schools[0].faculties[0].subjects.map((item) => (
-                       <SubjectCard key={item.id} item={item} requestReview={this.props.requestReview} loggedIn={this.props.user.loggedIn}/>
-                    ))}
+                {this.props.data.schools[0].faculties[0].subjects.map((item) => {
+                    return <SubjectCard key={item.id} item={item} requestReview={this.props.requestReview}
+                                 loggedIn={this.props.user.loggedIn} starred={this.isStarred(item.id)}/>
+                })}
             </div>
         )
     }

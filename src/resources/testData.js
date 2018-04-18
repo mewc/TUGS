@@ -65,83 +65,95 @@ export const testData = {
                 }
             ]
         },
-    ],
-    users:
-        [
-            {
-                id: 10000001,
-                name: "Michael",
-                votesUp: [
-                    1, 3
-                ],
-                votesDn: [],
-                rating: [
-                    {
-                        id: 3,
-                        value: 1
-                    },
-                    {
-                        id: 2,
-                        value: 4
-                    },
-                    {
-                        id: 1,
-                        value: 3
+        {
+            id: 1,
+            name: "RMIT",
+            faculties: [
+                {
+                    name: "Computer Science",
+                    subjects:
+                        [],
+                }
+            ]
+        },
+        {
+            users: [
+                {
+                    id: 10000001,
+                    name: "Michael",
+                    votesUp: [
+                        1, 3
+                    ],
+                    votesDn: [],
+                    rating: [
+                        {
+                            id: 3,
+                            value: 1
+                        },
+                        {
+                            id: 2,
+                            value: 4
+                        },
+                        {
+                            id: 1,
+                            value: 3
+                        }
+                    ],
+                    settings: {
+                        admin: true,
+                        uniId: 1,
+                        style: {
+                            backgroundColor: "#e7e7e7"
+                        }
                     }
-                ],
-                settings: {
-                    admin: true,
-                    uniId: 1,
-                    style: {
-                        backgroundColor: "#e7e7e7"
+                },
+                {
+                    id: 10000002,
+                    name: "Ramzi",
+                    votesUp: [],
+                    votesDn: [
+                        1, 2, 3
+                    ],
+                    rating: [],
+                    tips: [2],
+                    settings: {
+                        admin: false,
+                        uniId: 1,
+                        style: {
+                            backgroundColor: "#e7e7e7"
+                        }
+                    }
+                },
+                {
+                    id: 10000003,
+                    name: "Jenkins",
+                    votesUp: [
+                        2
+                    ],
+                    votesDn: [
+                        1
+                    ],
+                    rating: [
+                        {
+                            id: 1,
+                            value: 1
+                        },
+                        {
+                            id: 2,
+                            value: 5
+                        }
+                    ],
+                    tips: [2, 3],
+                    settings: {
+                        admin: false,
+                        uniId: 1,
+                        style: {
+                            backgroundColor: "#e7e7e7"
+                        }
                     }
                 }
-            },
-            {
-                id: 10000002,
-                name: "Ramzi",
-                votesUp: [],
-                votesDn: [
-                    1, 2, 3
-                ],
-                rating: [],
-                tips: [2],
-                settings: {
-                    admin: false,
-                    uni: "Monash",
-                    style: {
-                        backgroundColor: "#e7e7e7"
-                    }
-                }
-            },
-            {
-                id: 10000003,
-                name: "Jenkins",
-                votesUp: [
-                    2
-                ],
-                votesDn: [
-                    1
-                ],
-                rating: [
-                    {
-                        id: 1,
-                        value: 1
-                    },
-                    {
-                        id: 2,
-                        value: 5
-                    }
-                ],
-                tips: [2, 3],
-                settings: {
-                    admin: false,
-                    uni: "RMIT",
-                    style: {
-                        backgroundColor: "#e7e7e7"
-                    }
-                }
-            }
-        ]
+            ]
 
+        }
+    ]
 }

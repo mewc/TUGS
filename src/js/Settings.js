@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Tabs, Tab, List, ListItem, Divider} from 'material-ui';
+import {Subheader, Tab, List, ListItem, Divider} from 'material-ui';
 
 import '../css/App.css';
 
@@ -22,6 +22,7 @@ class Settings extends Component {
                 {/*</Tabs>*/}
                 {/*<h1>Settings</h1>*/}
                 <List>
+                    <Subheader>Settings </Subheader>
                     <ListItem
                         primaryText="University" secondaryText={this.props.settings.uniId} />
                     <Divider/>

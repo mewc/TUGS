@@ -63,9 +63,9 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-                <IconButton ><StarIcon color={yellow800}/></IconButton>
+                <IconButton ><StarIcon color={this.getStarColor()}/></IconButton>
                 <IconButton  disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
-                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={false} style={{verticalAlign: "middle"}}></FlatButton>
+                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={true} style={{verticalAlign: "middle"}}></FlatButton>
                 <IconButton  disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
                 <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
                             onClick={this.props.requestReview.bind(this, this.props.item.id)}>
@@ -75,6 +75,12 @@ class SubjectCard extends Component {
             </CardActions>
 
         </Card>
+    }
+
+    getStarColor(){
+        if(this.props.starred){
+            return yellow800
+        }
     }
 
     calculateHelpful(){
