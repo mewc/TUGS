@@ -9,7 +9,8 @@ import {
     CardHeader,
     CardText,
     CardTitle,
-    Divider
+    Divider,
+    FlatButton
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
 import StarIcon from 'material-ui/svg-icons/action/stars';
@@ -62,9 +63,10 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-                <IconButton disabled={!this.props.loggedIn}><StarIcon color={yellow800}/></IconButton>
-                <IconButton><ThumbUpIcon/></IconButton>
-                <IconButton><ThumbDnIcon/></IconButton>
+                <IconButton ><StarIcon color={yellow800}/></IconButton>
+                <IconButton  disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
+                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={false} style={{verticalAlign: "middle"}}></FlatButton>
+                <IconButton  disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
                 <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
                             onClick={this.props.requestReview.bind(this, this.props.item.id)}>
                     <RateReviewIcon/>
@@ -73,6 +75,19 @@ class SubjectCard extends Component {
             </CardActions>
 
         </Card>
+    }
+
+    calculateHelpful(){
+        var up = this.props.item.votesUp;
+        var dn  = this.props.item.votesDown;
+        var total = up + dn;
+        if(up < 1){return 0}
+        if(dn < 1){return 100}
+        var percent = up / total;
+        percent = (percent * 100)
+        console.log(percent);
+
+        return Math.round(percent);
     }
 }
 

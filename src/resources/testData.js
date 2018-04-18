@@ -90,6 +90,7 @@ export const testData = {
                     }
                 ],
                 settings: {
+                    admin: true,
                     uniId: 1,
                     style: {
                         backgroundColor: "#e7e7e7"
@@ -106,6 +107,7 @@ export const testData = {
                 rating: [],
                 tips: [2],
                 settings: {
+                    admin: false,
                     uni: "Monash",
                     style: {
                         backgroundColor: "#e7e7e7"
@@ -133,6 +135,7 @@ export const testData = {
                 ],
                 tips: [2, 3],
                 settings: {
+                    admin: false,
                     uni: "RMIT",
                     style: {
                         backgroundColor: "#e7e7e7"
