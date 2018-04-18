@@ -1,24 +1,31 @@
 import React, {Component} from 'react';
 
-import {Tabs, Tab} from 'material-ui';
+import {Tabs, Tab, List, ListItem, Divider} from 'material-ui';
 
 import '../css/App.css';
 
 class Settings extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            activeIndex: 1
+        }
     }
 
     render() {
         return (
             <div>
-                <Tabs>
-                    <Tab label="Tab One" value={0}/>
-                    <Tab label="Tab Two" value={1}/>
-                    <Tab label="Tab Three" value={2}/>
-                    <Tab label="Tab Four" value={3}/>
-                </Tabs>
-                <h1>Settings</h1>
+                {/*<Tabs initialSelectedIndex={this.state.activeIndex}>*/}
+                    {/*<Tab label="Data" value={0}/>*/}
+                    {/*<Tab label="University" value={1}/>*/}
+                    {/*<Tab label="Profile" value={2}/>*/}
+                {/*</Tabs>*/}
+                {/*<h1>Settings</h1>*/}
+                <List>
+                    <ListItem
+                        primaryText="University" secondaryText={this.props.settings.uni} />
+                    <Divider/>
+                </List>
             </div>
         )
     }

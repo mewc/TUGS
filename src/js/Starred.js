@@ -11,7 +11,6 @@ class Starred extends Component {
     }
 
     componentDidMount(){
-        console.log("did mount");
         this.setValidElements();
     }
 
@@ -31,7 +30,9 @@ class Starred extends Component {
                 if(this.isStarred(item.id)) {
                     valids.push(<SubjectCard key={item.id} item={item}
                                          requestReview={this.props.requestReview}
-                                         loggedIn={this.props.user.loggedIn}/>
+                                         loggedIn={this.props.user.loggedIn}
+                                        starred={true}
+                        />
                     )
                 }
         })

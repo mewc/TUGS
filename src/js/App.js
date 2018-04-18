@@ -41,7 +41,8 @@ class App extends Component {
             loggedIn: false,
             starred: [
                 1, 3
-            ]
+            ],
+            id: 999
         };
 
         this.state = {
@@ -54,14 +55,29 @@ class App extends Component {
             user: testUser,
             data: testData,
             settings: {
+
                 uni: "Monash",
+                style: {
+                    backgroundColor: "#e7e7e7"
+                }
             }
         };
+        this.handleSignout.bind(this);
     }
 
     handleSnackbarTrigger = (message) => {
         //when theres something that can use a snackbar, use this
     }
+
+    handleSignout = () => {
+        console.log("signing out");
+        this.setState({
+            user: {
+                loggedIn: false,
+            }
+        })
+    }
+
 
     componentDidMount() {
         this.selectBottomNav(CATALOG_INDEX);
@@ -77,9 +93,8 @@ class App extends Component {
 
     }
 
-    handleRequestToLeaveReview = (subjectId, user) => {
+    handleRequestToLeaveReview = (subjectId) => {
         console.log(subjectId);
-        console.log(user);
 
         //add another button to bottom nav, show the review component in body, pass in data for subject
 
@@ -112,11 +127,12 @@ class App extends Component {
             <MTP>
                 <div className="App">
                     <AppBar
-                        title={Str.APP_TITLE}
-                        iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
+                        title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
+                        iconElementRight={this.state.user.loggedIn ? <Logged/> : <Login/>}
                         iconElementLeft={
-                            <img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>
+                            <div></div>
                         }
+                        style={this.state.settings.style}
                     />
 
                     {this.state.bodyContent}
@@ -163,7 +179,7 @@ const Logged = (props) => (
                   targetOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-            <MenuItem primaryText={Str.NAV_TITLE_SIGNOUT}/>
+            <MenuItem primaryText={Str.NAV_TITLE_SIGNOUT} onClick={() => this.handleSignout}/>
         </IconMenu>
     )
 ;
