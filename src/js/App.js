@@ -121,6 +121,7 @@ class App extends Component {
         }, () => {
             console.log("New Starred");
             console.log(this.state.user.starred);
+
         })
     }
 

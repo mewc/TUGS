@@ -108,19 +108,26 @@ class SubjectCard extends Component {
     }
 
     handleStarClick(){
-        //only passed in from the starred tab - to handle redrawing list when unstarred
-        if(this.props.updateValidsForStarred === undefined) {
-        }else{
-            this.props.updateValidsForStarred();
-        }
 
+        console.log(this.state.starred);
         this.setState({
             starred: !this.state.starred,
-            starColor: this.getStarColor(),
         }, () => {
             // console.log(this.state);
+            console.log(this.state.starred);
             this.props.handleStarToggle(
                 this.props.item.id);
+
+            //only passed in from the starred tab - to handle redrawing list when unstarred
+            if(this.props.updateValidsForStarred === undefined) {
+            }else{
+                this.props.updateValidsForStarred();
+            }
+
+            this.setState({
+                ...this.state,
+                starColor: this.getStarColor()
+            })
         })
 
 
@@ -150,9 +157,6 @@ class SubjectCard extends Component {
         return Math.round(percent);
     }
 
-    executeShowMoreClick() {
-        console.log('is expanded');
-    }
 }
 
 export default SubjectCard;
