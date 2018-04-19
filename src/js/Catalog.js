@@ -28,11 +28,12 @@ class Catalog extends Component {
         return (
             <div>
                 {this.props.data[0].faculties[0].subjects.map((item) => {
+                    var isStarred = this.isStarred(item.id);
                     return <SubjectCard key={item.id}
                                         item={item}
                                         requestReview={this.props.requestReview}
                                         loggedIn={this.props.loggedIn}
-                                        starred={this.isStarred(item.id)}
+                                        starred={isStarred}
                                         handleStarToggle={this.props.handleStarToggle}
                     />
                 })}

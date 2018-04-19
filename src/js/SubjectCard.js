@@ -27,10 +27,17 @@ class SubjectCard extends Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             starred: this.props.starred,
             starColor: yellow800,
         }
+    }
+
+    componentDidMount(){
+        this.setState({
+            starColor: this.getStarColor(),
+        });
     }
 
     render() {
@@ -101,12 +108,17 @@ class SubjectCard extends Component {
     }
 
     handleStarClick(){
+        //only passed in from the starred tab - to handle redrawing list when unstarred
+        if(this.props.updateValidsForStarred === undefined) {
+        }else{
+            this.props.updateValidsForStarred();
+        }
 
         this.setState({
             starred: !this.state.starred,
             starColor: this.getStarColor(),
         }, () => {
-            console.log(this.state);
+            // console.log(this.state);
             this.props.handleStarToggle(
                 this.props.item.id);
         })

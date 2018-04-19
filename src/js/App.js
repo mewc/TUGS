@@ -81,40 +81,46 @@ class App extends Component {
 
     handleStarToggle(id) {
         var prevStarred = this.state.user.starred;
+        console.log("Old Starred");
         console.log(this.state.user.starred);
-        console.log("Already?" + this.alreadyStarred(id, prevStarred));
-        if (this.alreadyStarred(id, prevStarred)) {
+        if (this.isStarred(id, prevStarred)) {
             //remove star
-            // this.rmStarred(id)
+            this.rmStarred(id)
         } else {
             //add starred
-            // this.addStarred(id)
+            this.addStarred(id)
         }
-        console.log(this.state.user.starred);
+
     }
 
-    alreadyStarred(toggledId, starredArray) {
+    isStarred(toggledId, starredArray) {
+        var is = false;
         for (var i = 0; i < starredArray.length; i++) {
-            console.log( toggledId);
-            console.log(starredArray[i] );
             if (starredArray[i] === toggledId) {
+            console.log("Starred:" + toggledId + " === " +  starredArray[i] + " is " + (starredArray[i] === toggledId));
                 return true;
             } else {
-                return false;
+                is = false;
             }
         }
+        return is;
 
     }
 
     rmStarred(id) {
-        console.log("Rm" + id);
+        console.log("Remove" + id);
         var array = this.state.user.starred;
         var index = array.indexOf(id)
+        console.log("Index " + index + " is " + array[index] + " to rm");
         array.splice(index, 1);
         this.setState({
             user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
                 starred: array,
             }
+        }, () => {
+            console.log("New Starred");
+            console.log(this.state.user.starred);
         })
     }
 
@@ -122,9 +128,12 @@ class App extends Component {
         console.log("Add" + id);
         this.setState({
             user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite below
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
                 starred: [...this.state.user.starred, id]
             }
+        }, () => {
+            console.log("New Starred");
+            console.log(this.state.user.starred);
         })
     }
 

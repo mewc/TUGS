@@ -5,10 +5,10 @@ import '../css/App.css';
 class Starred extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             validElements: ''
         }
+        this.setValidElements = this.setValidElements.bind(this);
     }
 
     componentDidMount(){
@@ -28,11 +28,14 @@ class Starred extends Component {
     setValidElements() {
         var valids = []
         this.props.data[0].faculties[0].subjects.map((item) => {
-                if(this.isStarred(item.id)) {
+                var isStarred = this.isStarred(item.id);
+                if(isStarred) {
                     valids.push(<SubjectCard key={item.id} item={item}
                                          requestReview={this.props.requestReview}
                                          loggedIn={this.props.loggedIn}
-                                        starred={true}
+                                         starred={isStarred} //star check done before, this is fine
+                                         handleStarToggle={this.props.handleStarToggle}
+                                         updateValidsForStarred={this.setValidElements}
                         />
                     )
                 }
