@@ -109,12 +109,9 @@ class SubjectCard extends Component {
 
     handleStarClick(){
 
-        console.log(this.state.starred);
         this.setState({
             starred: !this.state.starred,
         }, () => {
-            // console.log(this.state);
-            console.log(this.state.starred);
             this.props.handleStarToggle(
                 this.props.item.id);
 

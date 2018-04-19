@@ -81,8 +81,6 @@ class App extends Component {
 
     handleStarToggle(id) {
         var prevStarred = this.state.user.starred;
-        console.log("Old Starred");
-        console.log(this.state.user.starred);
         if (this.isStarred(id, prevStarred)) {
             //remove star
             this.rmStarred(id)
@@ -97,7 +95,6 @@ class App extends Component {
         var is = false;
         for (var i = 0; i < starredArray.length; i++) {
             if (starredArray[i] === toggledId) {
-            console.log("Starred:" + toggledId + " === " +  starredArray[i] + " is " + (starredArray[i] === toggledId));
                 return true;
             } else {
                 is = false;
@@ -108,10 +105,8 @@ class App extends Component {
     }
 
     rmStarred(id) {
-        console.log("Remove" + id);
         var array = this.state.user.starred;
         var index = array.indexOf(id)
-        console.log("Index " + index + " is " + array[index] + " to rm");
         array.splice(index, 1);
         this.setState({
             user: {
@@ -119,22 +114,17 @@ class App extends Component {
                 starred: array,
             }
         }, () => {
-            console.log("New Starred");
-            console.log(this.state.user.starred);
 
         })
     }
 
     addStarred(id) {
-        console.log("Add" + id);
         this.setState({
             user: {
                 ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
                 starred: [...this.state.user.starred, id]
             }
         }, () => {
-            console.log("New Starred");
-            console.log(this.state.user.starred);
         })
     }
 
@@ -142,7 +132,7 @@ class App extends Component {
 
 
     handleRequestToLeaveReview = (subjectId) => {
-        console.log(subjectId);
+        console.log(subjectId + " wants to be reviewed by " + this.state.user.id);
 
         //add another button to bottom nav, show the review component in body, pass in data for subject
 
