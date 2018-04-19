@@ -18,7 +18,7 @@ class Starred extends Component {
     isStarred(subId) {
         var is = false;
         for (var id of this.props.user.starred) {
-            if (id == subId) {
+            if (id === subId) {
                 return true;
             }
         }
@@ -36,6 +36,7 @@ class Starred extends Component {
                         />
                     )
                 }
+                return ''; //unneeded but checkStyle demands it
         })
         this.setState({
             validElements: valids

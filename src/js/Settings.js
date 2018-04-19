@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
-import {Subheader, Tab, List, ListItem, Divider} from 'material-ui';
+import {Subheader,
+    // Tab,
+    List, ListItem, Divider} from 'material-ui';
 import * as Str from './Str'
 import '../css/App.css';
 
@@ -39,6 +41,7 @@ class Settings extends Component {
                 <Divider/>
                 <Subheader>ADMIN SETTINGS</Subheader>
                 <ListItem primaryText={Str.ACTION_TITLE_PENDINGTIPS}/>
+                <ListItem primaryText={Str.ACTION_TITLE_ANALYTICS}/>
             </div>
         }
     }

@@ -5,24 +5,9 @@ import SubjectCard from './SubjectCard'
 
 import '../css/App.css';
 
-const styles = {
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-    },
-    gridList: {
-        width: "100%",
-        height: "100%",
-        overflowY: 'auto',
-        margin: 'auto',
-    },
-}
-
 class Catalog extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
 
         }
@@ -31,7 +16,7 @@ class Catalog extends Component {
     isStarred(subId) {
         var is = false;
         for (var id of this.props.user.starred) {
-            if (id == subId) {
+            if (id === subId) {
                 return true;
             }
         }
@@ -43,8 +28,13 @@ class Catalog extends Component {
         return (
             <div>
                 {this.props.data[0].faculties[0].subjects.map((item) => {
-                    return <SubjectCard key={item.id} item={item} requestReview={this.props.requestReview}
-                                 loggedIn={this.props.loggedIn} starred={this.isStarred(item.id)}/>
+                    return <SubjectCard key={item.id}
+                                        item={item}
+                                        requestReview={this.props.requestReview}
+                                        loggedIn={this.props.loggedIn}
+                                        starred={this.isStarred(item.id)}
+                                        handleStarToggle={this.props.handleStarToggle}
+                    />
                 })}
             </div>
         )

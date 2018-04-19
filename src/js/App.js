@@ -37,7 +37,6 @@ const CATALOG_INDEX = 0;
 class App extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             loggedIn: true,
             selectedBottomNavIndex: 0,
@@ -50,7 +49,8 @@ class App extends Component {
             data: testData.schools,
 
         };
-        this.handleSignout.bind(this);
+        this.handleSignout = this.handleSignout.bind(this);
+        this.handleStarToggle = this.handleStarToggle.bind(this);
     }
 
     handleSnackbarTrigger = (message) => {
@@ -79,6 +79,58 @@ class App extends Component {
 
     }
 
+    handleStarToggle(id) {
+        var prevStarred = this.state.user.starred;
+        console.log(this.state.user.starred);
+        console.log("Already?" + this.alreadyStarred(id, prevStarred));
+        if (this.alreadyStarred(id, prevStarred)) {
+            //remove star
+            // this.rmStarred(id)
+        } else {
+            //add starred
+            // this.addStarred(id)
+        }
+        console.log(this.state.user.starred);
+    }
+
+    alreadyStarred(toggledId, starredArray) {
+        for (var i = 0; i < starredArray.length; i++) {
+            console.log( toggledId);
+            console.log(starredArray[i] );
+            if (starredArray[i] === toggledId) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    }
+
+    rmStarred(id) {
+        console.log("Rm" + id);
+        var array = this.state.user.starred;
+        var index = array.indexOf(id)
+        array.splice(index, 1);
+        this.setState({
+            user: {
+                starred: array,
+            }
+        })
+    }
+
+    addStarred(id) {
+        console.log("Add" + id);
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite below
+                starred: [...this.state.user.starred, id]
+            }
+        })
+    }
+
+
+
+
     handleRequestToLeaveReview = (subjectId) => {
         console.log(subjectId);
 
@@ -88,19 +140,29 @@ class App extends Component {
 
     selectBottomNav = (index) => {
         var newBodyContent = this.state.bodyContent;
+        var catalog = <Catalog data={this.state.data}
+                               user={this.state.user}
+                               loggedIn={this.state.loggedIn}
+                               requestReview={this.handleRequestToLeaveReview}
+                               handleStarToggle={this.handleStarToggle}/>
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent = <Settings settings={this.state.user.settings}/>;
                 break;
             case STAR_INDEX:
                 newBodyContent =
-                    <Starred data={this.state.data} starred={this.state.user.starred} user={this.state.user} loggedIn={this.state.loggedIn}requestReview={this.handleRequestToLeaveReview}/>;
+                    <Starred data={this.state.data}
+                             starred={this.state.user.starred}
+                             user={this.state.user}
+                             loggedIn={this.state.loggedIn}
+                             requestReview={this.handleRequestToLeaveReview}
+                             handleStarToggle={this.handleStarToggle}/>;
                 break;
             case CATALOG_INDEX:
-                newBodyContent = <Catalog data={this.state.data} user={this.state.user} loggedIn={this.state.loggedIn}  requestReview={this.handleRequestToLeaveReview}/>;
+                newBodyContent = catalog;
                 break;
             default:
-                newBodyContent = <Catalog data={this.state.data} user={this.state.user}  loggedIn={this.state.loggedIn} requestReview={this.handleRequestToLeaveReview}/>;
+                newBodyContent = catalog;
         }
         this.setState({
             selectedBottomNavIndex: index,

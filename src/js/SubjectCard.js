@@ -5,10 +5,10 @@ import {
     LinearProgress,
     Card,
     CardActions,
-    CardMedia,
+    // CardMedia,
     CardHeader,
     CardText,
-    CardTitle,
+    // CardTitle,
     Divider,
     FlatButton
 } from 'material-ui';
@@ -20,12 +20,17 @@ import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import * as Str from './Str';
 import ShowMoreText from 'react-show-more-text'
 
-import {yellow800, grey500} from 'material-ui/styles/colors'
+import {yellow800, black} from 'material-ui/styles/colors'
 
 
 class SubjectCard extends Component {
-    constructor(props) {
+
+    constructor(props){
         super(props);
+        this.state = {
+            starred: this.props.starred,
+            starColor: yellow800,
+        }
     }
 
     render() {
@@ -64,8 +69,8 @@ class SubjectCard extends Component {
                             return "No tips submitted ."
                         } else {
                             return (
-                                <div className="show-more-text">
-                                <ShowMoreText key={tip} lines={10} more={'More'} less={'Less'} >
+                                <div key={tip}   className="show-more-text">
+                                <ShowMoreText lines={10} more={'More'} less={'Less'} >
                                     <p>- {tip}</p>
                                 </ShowMoreText>
                                 </div>
@@ -77,10 +82,13 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-                <IconButton><StarIcon color={this.getStarColor()}/></IconButton>
+                <IconButton
+                    onClick={this.handleStarClick.bind(this)}>
+                    <StarIcon color={this.state.starColor}/>
+                </IconButton>
                 <IconButton disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
-                <FlatButton key={1} label={this.calculateHelpful() + "%"} disabled={true}
-                            style={{verticalAlign: "middle"}}></FlatButton>
+                <FlatButton key={1} disabled={true}
+                            style={{verticalAlign: "middle"}}>{this.calculateHelpful() + "%"}</FlatButton>
                 <IconButton disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
                 <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
                             onClick={this.props.requestReview.bind(this, this.props.item.id)}>
@@ -92,9 +100,25 @@ class SubjectCard extends Component {
         </Card>
     }
 
+    handleStarClick(){
+
+        this.setState({
+            starred: !this.state.starred,
+            starColor: this.getStarColor(),
+        }, () => {
+            console.log(this.state);
+            this.props.handleStarToggle(
+                this.props.item.id);
+        })
+
+
+    }
+
     getStarColor() {
-        if (this.props.starred) {
+        if (this.state.starred) {
             return yellow800
+        }else{
+            return black
         }
     }
 
