@@ -36,8 +36,12 @@ class SubjectCard extends Component {
         this.state = {
             starred: this.props.starred,
             starColor: yellow800,
-            dialogOpen: true,
+            dialogOpen: false,
+            tipText: '',
         }
+
+        this.handleDialogToggle = this.handleDialogToggle.bind(this);
+        this.handleSubmitReview = this.handleSubmitReview.bind(this);
     }
 
     componentDidMount(){
@@ -89,7 +93,6 @@ class SubjectCard extends Component {
                                 </div>
                                     )
                         }
-
                     })}
 
             </CardText>
@@ -104,15 +107,18 @@ class SubjectCard extends Component {
                             style={{verticalAlign: "middle"}}>{this.calculateHelpful() + "%"}</FlatButton>
                 <IconButton disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
                 <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
-                            onClick={this.props.requestReview.bind(this, this.props.item.id)}>
+                            onClick={this.handleDialogToggle}>
                     <RateReviewIcon/>
                 </IconButton>
                 <Dialog
                     title={Str.ACTION_TITLE_LEAVEREVIEW}
-                    actions={<FlatButton label="OK" primary={true} onKeyboardFocus={false} onClick={this.handleDialogClose}/>}
-                    modal={false}
+                    actions={[
+                        <FlatButton label="Cancel" default={true} onClick={this.handleDialogToggle}/>,
+                        <FlatButton label="Submit" primary={true} onClick={this.handleSubmitReview}/>
+                    ]}
                     open={this.state.dialogOpen}
-                    onRequestClose={this.handleSubmitReview} >
+
+                >
 
                     <TextField
                         hintText={Str.ACTION_HINT_LEAVEREVIEW}
@@ -126,21 +132,26 @@ class SubjectCard extends Component {
                             if(e.target.value.length > VALUE_MAX_TIPLENGTH){
                                 e.target.value = e.target.value.toString().slice(0, VALUE_MAX_TIPLENGTH);
                             }
+                            this.setState({
+                                tipText: e.target.value
+                            })
                         }}
                     />
                 </Dialog>
-
             </CardActions>
-
         </Card>
     }
 
-    handleDialogClose(){
-
+    handleDialogToggle(){
+        this.setState({
+            dialogOpen: !this.state.dialogOpen
+        })
     }
 
     handleSubmitReview(){
-
+        console.log("subject card submit review run for " + this.props.item.id);
+        this.handleDialogToggle();
+        this.props.handleRequestToLeaveReview(this.props.item.id, this.state.tipText)
     }
 
     handleStarClick(){
@@ -150,19 +161,15 @@ class SubjectCard extends Component {
         }, () => {
             this.props.handleStarToggle(
                 this.props.item.id);
-
             //only passed in from the starred tab - to handle redrawing list when unstarred
             if(this.props.updateValidsForStarred !== undefined) {
                 this.props.updateValidsForStarred();
             }
-
             this.setState({
                 ...this.state,
                 starColor: this.getStarColor()
             })
         })
-
-
     }
 
     getStarColor() {

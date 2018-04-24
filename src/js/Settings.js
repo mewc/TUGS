@@ -28,6 +28,12 @@ class Settings extends Component {
                     <Subheader>Settings </Subheader>
                     <ListItem
                         primaryText="University" secondaryText={this.props.settings.uniId}/>
+                    <ListItem
+                        primaryText="Faculty" secondaryText={this.props.settings.uniId}/>
+                    <Divider/>
+                    <ListItem
+                        primaryText="Disclaimer" secondaryText={""}/>
+
                     <Divider/>
                     {this.tryForAdminPanel()}
                 </List>

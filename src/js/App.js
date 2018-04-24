@@ -47,11 +47,19 @@ class App extends Component {
             },
             user: testData.users[0],
             data: testData.schools,
-            pendingTips: {}
-
+            pendingTips: [
+                {
+                    userid: 10000001,
+                    subjectId: 3,
+                    ip: "10.0.0.10",
+                    text: "This is a first"
+                }
+            ],
         };
         this.handleSignout = this.handleSignout.bind(this);
         this.handleStarToggle = this.handleStarToggle.bind(this);
+        this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
+        this.logState = this.logState.bind(this);
     }
 
     handleSnackbarTrigger = (message) => {
@@ -92,6 +100,7 @@ class App extends Component {
 
     }
 
+
     isStarred(toggledId, starredArray) {
         var is = false;
         for (var i = 0; i < starredArray.length; i++) {
@@ -102,10 +111,9 @@ class App extends Component {
             }
         }
         return is;
-
     }
 
-    rmStarred(id) {
+    rmStarred(id) { //basically the same as review, can clean up
         var array = this.state.user.starred;
         var index = array.indexOf(id)
         array.splice(index, 1);
@@ -119,7 +127,7 @@ class App extends Component {
         })
     }
 
-    addStarred(id) {
+    addStarred(id) {//basically the same as review, can clean up
         this.setState({
             user: {
                 ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
@@ -130,10 +138,70 @@ class App extends Component {
     }
 
 
+    rmReview(id) {//basically the same as starred, can clean up
+        var array = this.state.user.tipped;
+        var index = array.indexOf(id)
+        array.splice(index, 1);
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                tipped: array,
+            }
+        }, () => {
+
+        })
+    }
+
+    addReview(subjectId, reviewText) {//basically the same as starred, can clean up
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                tipped: [...this.state.user.tipped, subjectId],
+            },
+            pendingTips: [...this.state.pendingTips,
+                {
+                    userid: this.state.user.id,
+                    subjectId: subjectId,
+                    ip: "10.0.0.0",
+                    text: reviewText
+                }
+            ]
+        }, () => {
+            this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
+            console.log(this.state.pendingTips);
+        })
+    }
+
+    alreadyReviewed(rvwId, rvwArray) { //basically the same as starred, can clean up
+        var is = false;
+        for (var i = 0; i < rvwArray.length; i++) {
+            if (rvwArray[i] === rvwId) {
+                return true;
+            } else {
+                is = false;
+            }
+        }
+        return is;
+    }
+
+    triggerSnackbar(message) {
+        this.setState({
+            snackbar: {
+                open: true,
+                message: message,
+            },
+        })
+    }
 
 
-    handleRequestToLeaveReview = (subjectId) => {
-        console.log(subjectId + " wants to be reviewed by " + this.state.user.id);
+    handleRequestToLeaveReview = (subjectId, reviewText) => {
+        console.log(subjectId + " wants to be reviewed by " + this.state.user.id + " with tip " + reviewText);
+
+        if (this.alreadyReviewed(subjectId, this.state.user.tipped)) {
+            this.triggerSnackbar("Review already left for that subject, try another");
+        } else {
+            this.addReview(subjectId, reviewText);
+        }
 
         //add another button to bottom nav, show the review component in body, pass in data for subject
 
@@ -144,7 +212,7 @@ class App extends Component {
         var catalog = <Catalog data={this.state.data}
                                user={this.state.user}
                                loggedIn={this.state.loggedIn}
-                               requestReview={this.handleRequestToLeaveReview}
+                               handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                                handleStarToggle={this.handleStarToggle}/>
         switch (index) {
             case SETTINGS_INDEX:
@@ -156,7 +224,7 @@ class App extends Component {
                              starred={this.state.user.starred}
                              user={this.state.user}
                              loggedIn={this.state.loggedIn}
-                             requestReview={this.handleRequestToLeaveReview}
+                             handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                              handleStarToggle={this.handleStarToggle}/>;
                 break;
             case CATALOG_INDEX:
@@ -171,13 +239,23 @@ class App extends Component {
         })
     }
 
+    logState() {
+        console.log(this.state.pendingTips);
+    }
+
     render() {
         return (
             <MTP>
                 <div className="App">
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
-                        iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
+                        iconElementRight={
+                            <div>
+                                {this.state.loggedIn ? <Logged/> : <Login/>}
+                                {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> : <div/>}
+                            </div>
+
+                        }
                         iconElementLeft={
                             <div></div>
                         }

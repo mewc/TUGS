@@ -21,7 +21,7 @@ class Catalog extends Component {
                     var isStarred = this.isStarred(item.id);
                     return <SubjectCard key={item.id}
                                         item={item}
-                                        requestReview={this.props.requestReview}
+                                        handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                         loggedIn={this.props.loggedIn}
                                         starred={isStarred}
                                         handleStarToggle={this.props.handleStarToggle}

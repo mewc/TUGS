@@ -31,7 +31,7 @@ class Starred extends Component {
                 var isStarred = this.isStarred(item.id);
                 if(isStarred) {
                     return (<SubjectCard key={item.id} item={item}
-                                             requestReview={this.props.requestReview}
+                                         handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                              loggedIn={this.props.loggedIn}
                                              starred={isStarred} //star check done before, this is fine
                                              handleStarToggle={this.props.handleStarToggle}
