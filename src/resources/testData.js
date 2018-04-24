@@ -181,7 +181,8 @@ export const testData = {
     ],
     pendingTips: [
         {
-            tip: "This is a pending tip",
+            subjectId: 1,
+            text: "This is a pending tip",
             ip: "192.169.0.1",
             user: 10000001,
         }

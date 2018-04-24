@@ -161,9 +161,9 @@ class App extends Component {
             pendingTips: [...this.state.pendingTips,
                 {
                     userid: this.state.user.id,
+                    text: reviewText,
                     subjectId: subjectId,
                     ip: "10.0.0.0",
-                    text: reviewText
                 }
             ]
         }, () => {
