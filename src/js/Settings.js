@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 
-import {Subheader, FlatButton, List, ListItem, Divider} from 'material-ui';
+import {Subheader, FlatButton, List, ListItem, Divider, IconButton} from 'material-ui';
 import * as Str from './Str'
+import ApproveIcon from 'material-ui/svg-icons/action/done'
+import RejectIcon from 'material-ui/svg-icons/content/clear'
 import '../css/App.css';
 
 const homeIndex = 0;
@@ -37,7 +39,16 @@ class Settings extends Component {
                         {this.props.pendingTips.map((item) => {
 
                             return <ListItem key={item.subjectId}
-                                primaryText={"Subject: " + item.subjectId} secondaryText={item.text}/>
+                                primaryText={"Subject: " + item.subjectId} secondaryText={item.text}>
+                                <IconButton
+                                            onClick={this.handleApprove}>
+                                    <ApproveIcon/>
+                                </IconButton>
+                                <IconButton
+                                            onClick={this.handleReject}>
+                                    <RejectIcon/>
+                                </IconButton>
+                            </ListItem>
                         })}
                     </List>
                 </div>
@@ -54,6 +65,14 @@ class Settings extends Component {
                 {this.state.pageElements[this.state.activeElement]}
             </div>
         )
+    }
+
+    handleApprove(){
+
+    }
+
+    handleReject(){
+
     }
 
     tryForAdminPanel() {
