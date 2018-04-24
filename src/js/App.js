@@ -47,6 +47,7 @@ class App extends Component {
             },
             user: testData.users[0],
             data: testData.schools,
+            pendingTips: {}
 
         };
         this.handleSignout = this.handleSignout.bind(this);

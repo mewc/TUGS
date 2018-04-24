@@ -38,12 +38,11 @@ class Starred extends Component {
                                              updateValidsForStarred={this.setValidElements}
                         />
                     )
-                }
+                }else{return ''}
             })
-        }), () => {
-
+        }, () => {
             this.render();
-        }
+        })
     }
 
 

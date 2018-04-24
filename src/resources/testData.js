@@ -59,7 +59,7 @@ export const testData = {
                                     votes: 64,
                                 },
                                 tips: [
-                                    "One of the harder, but rewarding subjects. Very practical",
+                                    "One of the harder, but very much the most rewarding subjects. Very practical",
                                 ]
                             }
                         ]

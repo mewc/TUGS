@@ -10,7 +10,9 @@ import {
     CardText,
     // CardTitle,
     Divider,
-    FlatButton
+    FlatButton,
+    Dialog,
+    TextField
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
 import StarIcon from 'material-ui/svg-icons/action/stars';
@@ -21,6 +23,9 @@ import * as Str from './Str';
 import ShowMoreText from 'react-show-more-text'
 
 import {yellow800, black} from 'material-ui/styles/colors'
+import {ACTION_ERROR_LEAVEREVIEW} from "./Str";
+import {ACTION_LABEL_LEAVEREVIEW} from "./Str";
+import {VALUE_MAX_TIPLENGTH} from "./Str";
 
 
 class SubjectCard extends Component {
@@ -31,6 +36,7 @@ class SubjectCard extends Component {
         this.state = {
             starred: this.props.starred,
             starColor: yellow800,
+            dialogOpen: true,
         }
     }
 
@@ -101,10 +107,40 @@ class SubjectCard extends Component {
                             onClick={this.props.requestReview.bind(this, this.props.item.id)}>
                     <RateReviewIcon/>
                 </IconButton>
+                <Dialog
+                    title={Str.ACTION_TITLE_LEAVEREVIEW}
+                    actions={<FlatButton label="OK" primary={true} onKeyboardFocus={false} onClick={this.handleDialogClose}/>}
+                    modal={false}
+                    open={this.state.dialogOpen}
+                    onRequestClose={this.handleSubmitReview} >
+
+                    <TextField
+                        hintText={Str.ACTION_HINT_LEAVEREVIEW}
+                        errorText={ACTION_ERROR_LEAVEREVIEW}
+                        multiLine={true}
+                        floatingLabelText={ACTION_LABEL_LEAVEREVIEW}
+                        rows={1}
+                        rowsMax={3}
+                        fullWidth={true}
+                        onChange={(e) =>{
+                            if(e.target.value.length > VALUE_MAX_TIPLENGTH){
+                                e.target.value = e.target.value.toString().slice(0, VALUE_MAX_TIPLENGTH);
+                            }
+                        }}
+                    />
+                </Dialog>
 
             </CardActions>
 
         </Card>
+    }
+
+    handleDialogClose(){
+
+    }
+
+    handleSubmitReview(){
+
     }
 
     handleStarClick(){
@@ -116,8 +152,7 @@ class SubjectCard extends Component {
                 this.props.item.id);
 
             //only passed in from the starred tab - to handle redrawing list when unstarred
-            if(this.props.updateValidsForStarred === undefined) {
-            }else{
+            if(this.props.updateValidsForStarred !== undefined) {
                 this.props.updateValidsForStarred();
             }
 
