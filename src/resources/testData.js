@@ -104,12 +104,19 @@ export const testData = {
             starred: [
                 1,2
             ],
+            tipped: [
+                
+            ],
             settings: {
                 admin: true,
                 uniId: 1,
+                facultyId: 1,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.1", "192.169.0.2"]
             }
         },
         {
@@ -127,9 +134,13 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
+                facultyId: 1,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.4", "192.169.0.5"]
             }
         },
         {
@@ -158,11 +169,21 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
+                facultyId: 1,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.1", "192.169.0.3"]
             }
         }
+    ],
+    pendingTips: [
+        {
+            tip: "This is a pending tip",
+            ip: "192.169.0.1",
+            user: 10000001,
+        }
     ]
-
 }
