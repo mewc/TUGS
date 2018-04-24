@@ -14,7 +14,7 @@ import {
 import MTP from 'material-ui/styles/MuiThemeProvider';
 
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
-import IconStarsImport from 'material-ui/svg-icons/action/stars';
+import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TugsLogo from '../resources/branding/tugs_logo_wrapped.png'
@@ -27,7 +27,7 @@ import '../css/App.css';
 import {testData} from '../resources/testData'
 
 const IconSettings = <IconSettingsImport/>;
-const IconStars = <IconStarsImport/>;
+const IconYou = <IconPersonImport/>;
 const IconCatalog = <IconCatalogImport/>;
 
 const SETTINGS_INDEX = 2;
@@ -216,7 +216,7 @@ class App extends Component {
                                handleStarToggle={this.handleStarToggle}/>
         switch (index) {
             case SETTINGS_INDEX:
-                newBodyContent = <Settings settings={this.state.user.settings}/>;
+                newBodyContent = <Settings settings={this.state.user.settings} pendingTips={this.state.pendingTips}/>;
                 break;
             case STAR_INDEX:
                 newBodyContent =
@@ -254,7 +254,6 @@ class App extends Component {
                                 {this.state.loggedIn ? <Logged/> : <Login/>}
                                 {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> : <div/>}
                             </div>
-
                         }
                         iconElementLeft={
                             <div></div>
@@ -280,8 +279,8 @@ class App extends Component {
                                     onClick={() => this.selectBottomNav(0)}
                                 />
                                 <BottomNavigationItem
-                                    label={Str.NAV_TITLE_STARRED}
-                                    icon={IconStars}
+                                    label={Str.NAV_TITLE_YOU}
+                                    icon={IconYou}
                                     onClick={() => this.selectBottomNav(1)}
                                 />
                                 <BottomNavigationItem

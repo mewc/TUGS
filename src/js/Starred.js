@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Tab, Tabs} from 'material-ui'
 import SubjectCard from './SubjectCard'
 import '../css/App.css';
 
@@ -50,6 +51,12 @@ class Starred extends Component {
     render() {
         return (
             <div>
+                <Tabs initialSelectedIndex={this.state.activeIndex}>
+                <Tab label="Starred" value={0}/>
+                <Tab label="Tips" value={1}/>
+                <Tab label="Ratings" value={2}/>
+                </Tabs>
+                <h1>My Dashboard</h1>
                 {this.state.validElements}
             </div>
         )
