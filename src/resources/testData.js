@@ -110,7 +110,7 @@ export const testData = {
             settings: {
                 admin: true,
                 uniId: 1,
-                facultyId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
@@ -134,7 +134,7 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
-                facultyId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
@@ -169,7 +169,7 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
-                facultyId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }

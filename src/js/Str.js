@@ -17,6 +17,8 @@ export const ACTION_LABEL_LEAVEREVIEW = "Submit a Tip";
 export const ACTION_HINT_LEAVEREVIEW = "Type in a short tip about this subject";
 export const ACTION_ERROR_LEAVEREVIEW = "Make it short and to the point";
 export const ACTION_SUCCESS_LEAVEREVIEW = "Your tip was submitted to be reviewed";
+export const ACTION_SUCCESS_APPROVEREVIEW = "Tip Approved";
+export const ACTION_SUCCESS_REJECTREVIEW = "Tip Rejected";
 export const ACTION_NODUPE_LEAVEREVIEW = "Review already left for that subject, try another";
 
 export const VALUE_MAX_TIPLENGTH = 128;

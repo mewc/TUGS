@@ -46,7 +46,7 @@ class App extends Component {
                 message: "Snackbar message",
             },
             user: testData.users[0],
-            data: testData.schools,
+            data: this.getUpdatedDataset(),
             pendingTips: [
                 {
                     userid: 10000001,
@@ -74,6 +74,11 @@ class App extends Component {
         this.handleStarToggle = this.handleStarToggle.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
+    }
+
+    getUpdatedDataset(){
+        //this needs to be a request to the mongo backend so we can anctually keep things persistent
+        return testData.schools
     }
 
     handleSnackbarTrigger = (message) => {
@@ -151,25 +156,27 @@ class App extends Component {
         })
     }
 
-    handleRejectReview(pendingTipsIndex){
+    handleRejectReview(pendingTipsIndex) {
         this.rmFromPendingTips(pendingTipsIndex);
 
     }
 
-    handleApproveReview(pendingTipsIndex){
+    handleApproveReview(pendingTipsIndex) {
         var reviewApproved = this.state.pendingTips[pendingTipsIndex];
         //add review to the subject
+        this.addApprovedTipToSubject(pendingTipsIndex);
+
         this.rmFromPendingTips(pendingTipsIndex);
     }
 
-    rmFromPendingTips(index){
+    rmFromPendingTips(index) {
         var pendingTipsArray = this.state.pendingTips;
         //remove from state
         pendingTipsArray.splice(index, 1);
 
         this.setState({
             pendingTips: pendingTipsArray
-        }, () => console.log("PendingTips " +  index + " removed from saved"));
+        }, () => console.log("PendingTips " + index + " removed from saved"));
     }
 
 
@@ -187,7 +194,26 @@ class App extends Component {
         })
     }
 
-    addReview(subjectId, reviewText) {//basically the same as starred, can clean up
+
+    //this is where we need to be able to, in the back end,
+    // submit a tip text to a subject id and it just ingest it
+    // then we just update the front end with the update and we're all gooooood
+    addApprovedTipToSubject(index) {
+        var fullTip = this.state.pendingTips[index];
+
+        var tip = {
+            userid: 10000001,
+            subjectId: 110001,
+            ip: "10.0.0.10",
+            text: "This is a first"
+        }
+
+
+        // this.updateDataset();  //will need to be run when db integration is up and going
+    }
+
+
+    addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
         this.setState({
             user: {
                 ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
@@ -235,7 +261,7 @@ class App extends Component {
         if (this.alreadyReviewed(subjectId, this.state.user.tipped)) {
             this.triggerSnackbar("Review already left for that subject, try another");
         } else {
-            this.addReview(subjectId, reviewText);
+            this.addPendingTip(subjectId, reviewText);
         }
 
         //add another button to bottom nav, show the review component in body, pass in data for subject
@@ -243,20 +269,21 @@ class App extends Component {
     }
 
     selectBottomNav = (index) => {
-        var newBodyContent = this.state.bodyContent;
+        var newBodyContent = 1 + 1;
+        newBodyContent = this.state.bodyContent;
         var catalog =
             <Catalog data={this.state.data}
-                               user={this.state.user}
-                               loggedIn={this.state.loggedIn}
-                               handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                               handleStarToggle={this.handleStarToggle}/>
+                     user={this.state.user}
+                     loggedIn={this.state.loggedIn}
+                     handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                     handleStarToggle={this.handleStarToggle}/>
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
                     <Settings settings={this.state.user.settings}
                               pendingTips={this.state.pendingTips}
                               handleApproveReview={this.handleApproveReview}
-                              handleRejectReview={this.handleRejectReview} />;
+                              handleRejectReview={this.handleRejectReview}/>;
                 break;
             case STAR_INDEX:
                 newBodyContent =
@@ -280,7 +307,7 @@ class App extends Component {
     }
 
     logState() {
-        console.log(this.state.pendingTips);
+        console.log(this.state);
     }
 
     render() {
@@ -292,7 +319,8 @@ class App extends Component {
                         iconElementRight={
                             <div>
                                 {this.state.loggedIn ? <Logged/> : <Login/>}
-                                {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> : <div/>}
+                                {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> :
+                                    <div/>}
                             </div>
                         }
                         iconElementLeft={

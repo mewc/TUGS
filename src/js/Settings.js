@@ -13,7 +13,7 @@ const approvePendingViewIndex = 1;
 class Settings extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        console.log(props.settings);
         this.state = {
             pageElements: [
                 <div>
@@ -38,7 +38,6 @@ class Settings extends Component {
         }
 
         this.handleSettingWindowChange = this.handleSettingWindowChange.bind(this);
-        console.log(this.props);
     }
 
     handleReject(i){
