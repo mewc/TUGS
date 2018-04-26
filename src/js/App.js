@@ -50,12 +50,26 @@ class App extends Component {
             pendingTips: [
                 {
                     userid: 10000001,
-                    subjectId: 3,
+                    subjectId: 110001,
                     ip: "10.0.0.10",
                     text: "This is a first"
+                },
+                {
+                    userid: 10000001,
+                    subjectId: 110002,
+                    ip: "10.0.0.10",
+                    text: "This is a Second"
+                },
+                {
+                    userid: 10000001,
+                    subjectId: 110003,
+                    ip: "10.0.0.10",
+                    text: "This is a Third"
                 }
             ],
         };
+        this.handleRejectReview = this.handleRejectReview.bind(this);
+        this.handleApproveReview = this.handleApproveReview.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
         this.handleStarToggle = this.handleStarToggle.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
@@ -137,6 +151,27 @@ class App extends Component {
         })
     }
 
+    handleRejectReview(pendingTipsIndex){
+        this.rmFromPendingTips(pendingTipsIndex);
+
+    }
+
+    handleApproveReview(pendingTipsIndex){
+        var reviewApproved = this.state.pendingTips[pendingTipsIndex];
+        //add review to the subject
+        this.rmFromPendingTips(pendingTipsIndex);
+    }
+
+    rmFromPendingTips(index){
+        var pendingTipsArray = this.state.pendingTips;
+        //remove from state
+        pendingTipsArray.splice(index, 1);
+
+        this.setState({
+            pendingTips: pendingTipsArray
+        }, () => console.log("PendingTips " +  index + " removed from saved"));
+    }
+
 
     rmReview(id) {//basically the same as starred, can clean up
         var array = this.state.user.tipped;
@@ -209,14 +244,19 @@ class App extends Component {
 
     selectBottomNav = (index) => {
         var newBodyContent = this.state.bodyContent;
-        var catalog = <Catalog data={this.state.data}
+        var catalog =
+            <Catalog data={this.state.data}
                                user={this.state.user}
                                loggedIn={this.state.loggedIn}
                                handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                                handleStarToggle={this.handleStarToggle}/>
         switch (index) {
             case SETTINGS_INDEX:
-                newBodyContent = <Settings settings={this.state.user.settings} pendingTips={this.state.pendingTips}/>;
+                newBodyContent =
+                    <Settings settings={this.state.user.settings}
+                              pendingTips={this.state.pendingTips}
+                              handleApproveReview={this.handleApproveReview}
+                              handleRejectReview={this.handleRejectReview} />;
                 break;
             case STAR_INDEX:
                 newBodyContent =

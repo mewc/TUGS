@@ -10,7 +10,7 @@ export const testData = {
                     subjects:
                         [
                             {
-                                id: 1,
+                                id: 110001,
                                 code: 'FIT1031',
                                 title: 'Computers & Networks',
                                 votesUp: 3,
@@ -26,7 +26,7 @@ export const testData = {
                                 tips: []
                             },
                             {
-                                id: 2,
+                                id: 110002,
                                 code: 'FIT1040',
                                 title: 'Programming Fundamentals',
                                 votesUp: 1,
@@ -45,7 +45,7 @@ export const testData = {
                                 ]
                             },
                             {
-                                id: 3,
+                                id: 110003,
                                 code: 'FIT3047',
                                 title: 'Mobile Development',
                                 votesUp: 55,
