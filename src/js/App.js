@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import Passport from 'passport';
+import PassportGithub from 'passport-github';
 import {
     AppBar,
     BottomNavigation,
@@ -10,6 +12,7 @@ import {
     IconMenu,
     MenuItem,
     Snackbar,
+    Dialog,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
 
@@ -38,7 +41,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: true,
+            loggedIn: false,
             selectedBottomNavIndex: 0,
             bodyContent: '',
             snackbar: {
@@ -67,6 +70,12 @@ class App extends Component {
                     text: "This is a Third"
                 }
             ],
+            dialog:{
+                open: false,
+                title: 'reset',
+                actions: <FlatButton label="Cancel" default={true} onClick={this.handleDialogToggle}/>,
+                content: 'reset - you really shouldnt be able to see this',
+            }
         };
         this.handleRejectReview = this.handleRejectReview.bind(this);
         this.handleApproveReview = this.handleApproveReview.bind(this);
@@ -310,15 +319,48 @@ class App extends Component {
         console.log(this.state);
     }
 
+    handleDialogClose = () => {
+        this.setState({
+            dialog:{
+                open: false,
+                title: 'reset',
+                actions: <FlatButton label="Cancel" default={true} onClick={this.handleDialogToggle}/>,
+                content: 'reset - you really shouldnt be able to see this',
+            }
+        })
+    }
+
+    handleLoginDialogToggle = () =>{
+        this.setState({
+            dialog:{
+                open: !this.state.dialog.open,
+                title: Str.ACTION_TITLE_LOGIN,
+                actions:[
+                    <FlatButton label={Str.ACTION_TITLE_CANCEL} default={true} onClick={this.handleDialogToggle}/>
+                ],
+                content: Str.ACTION_TITLE_LOGIN,
+            }
+        })
+    }
+
+
     render() {
         return (
             <MTP>
                 <div className="App">
+                    <Dialog
+                    title={this.state.dialog.title}
+                    actions={this.state.dialog.actions }
+                    open={this.state.dialog.open}
+                    onRequestClose={this.handleDialogClose}
+                    >
+                        {this.state.content}
+                    </Dialog>
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
                         iconElementRight={
                             <div>
-                                {this.state.loggedIn ? <Logged/> : <Login/>}
+                                {this.state.loggedIn ? <Logged/> : <Login onClick={this.handleLoginDialogToggle}/>}
                                 {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> :
                                     <div/>}
                             </div>
@@ -373,7 +415,7 @@ const Logged = (props) => (
                   targetOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-            <MenuItem primaryText={Str.NAV_TITLE_SIGNOUT} onClick={() => this.handleSignout}/>
+            <MenuItem primaryText={Str.ACTION_TITLE_SIGNOUT} onClick={() => this.handleSignout}/>
         </IconMenu>
     )
 ;
@@ -382,7 +424,7 @@ class Login extends Component {
     static muiName = 'FlatButton';
 
     render() {
-        return (<FlatButton {...this.props} label={Str.NAV_TITLE_LOGIN}/>);
+        return (<FlatButton {...this.props} label={Str.ACTION_TITLE_LOGIN}/>);
     }
 }
 

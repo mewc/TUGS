@@ -7,9 +7,10 @@ export const APP_PRIVACY_TEXT = "We understand everyone wants to be honest, but 
 export const NAV_TITLE_YOU = "Me";
 export const NAV_TITLE_CATALOG = "Catalog";
 export const NAV_TITLE_SETTINGS = "Settings";
-export const NAV_TITLE_LOGIN = "Login";
-export const NAV_TITLE_SIGNOUT = "Sign Out";
 
+export const ACTION_TITLE_CANCEL = "Login";
+export const ACTION_TITLE_SIGNOUT = "Sign Out";
+export const ACTION_TITLE_LOGIN = "Login";
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
 export const ACTION_TITLE_PENDINGTIPS = "Approve Pending Tips";
 export const ACTION_TITLE_ANALYTICS = "Analytics";
