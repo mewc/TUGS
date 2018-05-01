@@ -126,7 +126,6 @@ class Catalog extends Component {
 
 
     render() {
-        console.log(this.state.selectedIndex);
         return (
             <Grid>
                 <Row>
