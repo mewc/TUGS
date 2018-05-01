@@ -32,5 +32,6 @@ export const LOCALISED_SUBJECTNAME_UK = "module";
 export const LOCALISED_SUBJECTNAME_AU = "unit";
 export const LOCALISED_SUBJECTNAME_US = "subject";
 
+export const AUTH_GITHUB_URL = "http://localhost:3000/login/github/?callback=?";
 
 

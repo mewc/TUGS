@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-import Passport from 'passport';
-import PassportGithub from 'passport-github';
+import axios from 'axios';
 import {
     AppBar,
     BottomNavigation,
@@ -330,17 +329,36 @@ class App extends Component {
         })
     }
 
-    handleLoginDialogToggle = () =>{
-        this.setState({
-            dialog:{
-                open: !this.state.dialog.open,
-                title: Str.ACTION_TITLE_LOGIN,
-                actions:[
-                    <FlatButton label={Str.ACTION_TITLE_CANCEL} default={true} onClick={this.handleDialogToggle}/>
-                ],
-                content: Str.ACTION_TITLE_LOGIN,
-            }
-        })
+    handleLoginDialogToggle = (event) =>{
+        console.log("Login clicked");
+        console.log(event);
+        axios.get(Str.AUTH_GITHUB_URL)
+            .then(function (response) {
+
+                //auth a success
+                //TODO find out what information is passed and get an ID out to save at backend, returnable
+
+                console.log(response);
+                this.setState({
+                    user: this.getUserForAuthId(7357),
+                    dialog:{
+                        open: !this.state.dialog.open,
+                        title: Str.ACTION_TITLE_LOGIN,
+                        actions:[
+                            <FlatButton label={Str.ACTION_TITLE_CANCEL} default={true} onClick={this.handleDialogToggle}/>
+                        ],
+                        content: Str.ACTION_TITLE_LOGIN,
+                    }
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    getUserForAuthId(authId){
+        //return saved user setting and info from backend when Auth is successful
+        return this.state.user;
     }
 
 
