@@ -73,7 +73,7 @@ class SubjectCard extends Component {
                         max={1}
                         min={0}
                         value={((this.props.item.intensity.avg - 1) * -1)}//flipped because the changing of colour for progress bar only did one side.
-                        style={{width: 70, height: 10, backgroundColor: "#ab0000", margin: "auto", marginTop: "10px"}}
+                        style={{width: 70, height: 10, margin: "auto", marginTop: "10px"}}
                     />
                 </span>
                 </span>

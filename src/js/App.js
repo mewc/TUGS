@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-
+import TugsMuiTheme from './TugsMuiTheme';
 import {
     AppBar,
     BottomNavigation,
@@ -14,6 +14,7 @@ import {
     Snackbar,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
@@ -22,7 +23,7 @@ import TugsLogo from '../resources/branding/tugs_logo_wrapped.png'
 
 import Settings from './Settings';
 import Catalog from './Catalog';
-import Starred from './Starred';
+import MeDashboard from './MeDashboard';
 import * as Str from './Str';
 import '../css/App.css';
 import {testData} from '../resources/testData'
@@ -271,11 +272,11 @@ class App extends Component {
         newBodyContent = this.state.bodyContent;
         var catalog =
 
-            <Catalog
-                     user={this.state.user}
-                     loggedIn={this.state.loggedIn}
-                     handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                     handleStarToggle={this.handleStarToggle}/>
+                <Catalog
+                         user={this.state.user}
+                         loggedIn={this.state.loggedIn}
+                         handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                         handleStarToggle={this.handleStarToggle}/>
 
         switch (index) {
             case SETTINGS_INDEX:
@@ -290,10 +291,8 @@ class App extends Component {
             case STAR_INDEX:
                 newBodyContent =
 
-                    <Starred
-                             starred={this.state.user.starred}
+                    <MeDashboard
                              user={this.state.user}
-                             loggedIn={this.state.loggedIn}
                              handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                              handleStarToggle={this.handleStarToggle}/>;
 
@@ -316,7 +315,7 @@ class App extends Component {
 
     render() {
         return (
-            <MTP>
+            <MTP muiTheme={getMuiTheme(TugsMuiTheme)} >
                 <div className="App">
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
