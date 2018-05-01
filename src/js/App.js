@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import axios from 'axios';
+
 
 import {
     AppBar,
@@ -12,7 +14,6 @@ import {
     Snackbar,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
-
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
@@ -38,6 +39,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             loggedIn: true,
             selectedBottomNavIndex: 0,
             bodyContent: '',
@@ -46,7 +48,6 @@ class App extends Component {
                 message: "Snackbar message",
             },
             user: testData.users[0],
-            data: this.getUpdatedDataset(),
             pendingTips: [
                 {
                     userid: 10000001,
@@ -76,10 +77,7 @@ class App extends Component {
         this.logState = this.logState.bind(this);
     }
 
-    getUpdatedDataset(){
-        //this needs to be a request to the mongo backend so we can anctually keep things persistent
-        return testData.schools
-    }
+
 
     handleSnackbarTrigger = (message) => {
         //when theres something that can use a snackbar, use this
@@ -272,27 +270,33 @@ class App extends Component {
         var newBodyContent = 1 + 1;
         newBodyContent = this.state.bodyContent;
         var catalog =
-            <Catalog data={this.state.data}
+
+            <Catalog
                      user={this.state.user}
                      loggedIn={this.state.loggedIn}
                      handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                      handleStarToggle={this.handleStarToggle}/>
+
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
+
                     <Settings settings={this.state.user.settings}
                               pendingTips={this.state.pendingTips}
                               handleApproveReview={this.handleApproveReview}
                               handleRejectReview={this.handleRejectReview}/>;
+
                 break;
             case STAR_INDEX:
                 newBodyContent =
-                    <Starred data={this.state.data}
+
+                    <Starred
                              starred={this.state.user.starred}
                              user={this.state.user}
                              loggedIn={this.state.loggedIn}
                              handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                              handleStarToggle={this.handleStarToggle}/>;
+
                 break;
             case CATALOG_INDEX:
                 newBodyContent = catalog;
