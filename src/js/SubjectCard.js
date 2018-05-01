@@ -51,7 +51,7 @@ class SubjectCard extends Component {
     }
 
     render() {
-        return <Card key={this.props.item.id} style={{width: "50%", margin: "auto"}}>
+        return <Card key={this.props.item.id} style={{width: "100%", margin: "auto"}}>
             <CardHeader showExpandableButton={true} actAsExpander={true}
                         title={this.props.item.code + "  " + this.props.item.title}/>
 
@@ -67,7 +67,7 @@ class SubjectCard extends Component {
                     />
                 </span>
                 <span>
-                Intensity: {this.props.item.intensity.avg * 100 + "%"}
+                Intensity: {Math.round(this.props.item.intensity.avg * 100) + "%"}
                     <LinearProgress
                         mode={'determinate'}
                         max={1}

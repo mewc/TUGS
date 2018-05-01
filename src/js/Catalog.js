@@ -46,9 +46,8 @@ class Catalog extends Component {
     }
 
     generateSubjectCards() {
-        console.log(this.state.data[0]);
         this.setState({
-                subjectCards: this.state.data[0].faculties[0].subjects.map((item) => {
+                subjectCards: this.state.data[this.state.selectedIndex.school].faculties[this.state.selectedIndex.faculty].subjects.map((item) => {
                     var isStarred = this.isStarred(item.id);
                     return <SubjectCard key={item.id}
                                         item={item}
@@ -84,6 +83,7 @@ class Catalog extends Component {
                         primaryText={item.name}
                         secondaryText={"Faculties: " + item.faculties.length}
                         onClick={() => this.handleSchoolClick(index)}
+                        value={index}
                     />
                 })
             }
@@ -92,6 +92,7 @@ class Catalog extends Component {
 
     handleSchoolClick(index){
         this.setState({
+            subjectCards: <div></div>,
             selectedIndex:{
                 school: index,
                 faculty: null,
@@ -125,7 +126,7 @@ class Catalog extends Component {
 
 
     render() {
-        console.log(this.state.data[this.state.selectedIndex.school]);
+        console.log(this.state.selectedIndex);
         return (
             <Grid>
                 <Row>
