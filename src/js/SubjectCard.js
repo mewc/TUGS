@@ -26,6 +26,7 @@ import {yellow800, black} from 'material-ui/styles/colors'
 import {ACTION_ERROR_LEAVEREVIEW} from "./Str";
 import {ACTION_LABEL_LEAVEREVIEW} from "./Str";
 import {VALUE_MAX_TIPLENGTH} from "./Str";
+import TugsMuiTheme from "./TugsMuiTheme";
 
 
 class SubjectCard extends Component {
@@ -70,10 +71,11 @@ class SubjectCard extends Component {
                 Intensity: {Math.round(this.props.item.intensity.avg * 100) + "%"}
                     <LinearProgress
                         mode={'determinate'}
+                        color={TugsMuiTheme.palette.primary3Color}
                         max={1}
                         min={0}
                         value={((this.props.item.intensity.avg - 1) * -1)}//flipped because the changing of colour for progress bar only did one side.
-                        style={{width: 70, height: 10, margin: "auto", marginTop: "10px"}}
+                        style={{width: 70, height: 10, margin: "auto", marginTop: "10px", backgroundColor: TugsMuiTheme.palette.primary1Color}}
                     />
                 </span>
                 </span>
