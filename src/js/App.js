@@ -346,7 +346,7 @@ class App extends Component {
                                     onClick={() => this.selectBottomNav(0)}
                                 />
                                 <BottomNavigationItem
-                                    label={Str.NAV_TITLE_YOU}
+                                    label={(this.state.user)?this.state.user.name:Str.NAV_TITLE_YOU}
                                     icon={IconYou}
                                     onClick={() => this.selectBottomNav(1)}
                                 />

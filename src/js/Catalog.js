@@ -10,6 +10,7 @@ import SchoolCard from './SchoolCard'
 import '../css/App.css';
 import {testData} from "../resources/testData";
 import * as Str from "./Str";
+import TugsMuiTheme from "./TugsMuiTheme";
 
 class Catalog extends Component {
     constructor(props) {
@@ -17,8 +18,8 @@ class Catalog extends Component {
         this.state = {
             data: '',
             schoolItems: <div>Loading...</div>,
-            facultyItems: <div></div>,
-            subjectCards: <div></div>,
+            facultyItems: false, //bool to handle red of tabs
+            subjectCards: false,
             selectedIndex: {
                 school: 0,
                 faculty: 0,
@@ -93,7 +94,7 @@ class Catalog extends Component {
 
     handleSchoolClick(index){
         this.setState({
-            subjectCards: <div></div>,
+            subjectCards: false, //to handle red of tabs
             selectedIndex:{
                 school: index,
                 faculty: null,
@@ -131,10 +132,11 @@ class Catalog extends Component {
             <Grid>
                 <Row>
                     <Col xs4={2} sm={2} lg={2} xl={2}>
-                        <Card>
+                        <Card >
                             <CardHeader title={"Schools"}
                                         subtitle={this.state.schoolItems.length}
-                                        avatar={<School/>}
+                                        avatar={(this.state.facultyItems === false)? <School/> : <School/> }
+                                        // style={(this.state.facultyItems === false)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>
@@ -145,7 +147,7 @@ class Catalog extends Component {
                         <Card>
                             <CardHeader title={"Faculties"}
                                         subtitle={(this.state.facultyItems.length > 0)? this.state.facultyItems.length : "Select a school"}
-                                        avatar={<School/>}
+                                        // style={(this.state.facultyItems.length > 0 && this.state.subjectCards === false )? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>
@@ -156,7 +158,7 @@ class Catalog extends Component {
                         <Card>
                             <CardHeader title={"Subjects"}
                                         subtitle={(this.state.subjectCards.length > 0)? this.state.subjectCards.length : "Select a faculty"}
-                                        avatar={<School/>}
+                                        // style={(this.state.subjectCards.length > 0)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>

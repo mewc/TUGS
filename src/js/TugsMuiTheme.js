@@ -10,7 +10,7 @@ export default {
     fontFamily: 'Josefin Sans, Roboto, sans-serif', //fetched from script in index.html
     palette: {
         primary1Color: red900,
-        primary2Color: grey700,
+        primary2Color: red600,
         primary3Color: grey400,
         accent1Color: grey200,
         accent2Color: teal600,
