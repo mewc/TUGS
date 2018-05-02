@@ -2,7 +2,7 @@ export const APP_TITLE = "TUGS";
 export const APP_TITLE_FULL = "The University Guide by Students";
 export const APP_PRIVACY_TITLE = "Privacy Information";
 export const APP_PRIVACY_SUBTITLE = "How you're protected";
-export const APP_PRIVACY_TEXT = "We understand everyone wants honesty, but the potential repurcussions could be uncomfortable or dire if a review was to be publicly linked to yourself. At no time is any personally identifiable information linked to any tip, rating or other contribution to the site. Your information and the contributions you make are completely separate and secured. Every contribution is looked at and any information that may be traced back to another student or yourself will be omitted. We take anonymity here very seriously and every precaution known to keep this true is pursued. TUGS will simply be a place where contributors can submit anonymous reviews curated for the best interest of the wider educational community, upcoming students and those perhaps those who have done the subject previously out of curiosity. Once submitted and approved, all tips are stripped of any other metadata and is then just text associated with the unit/subject/module to guarantee your security. If If there are any questions, please email TUGbyStudents@gmail.com";
+export const APP_PRIVACY_TEXT = "We understand everyone wants honesty, but the potential repurcussions could be uncomfortable or dire if a review was to be publicly linked to yourself. At no time is any personally identifiable information linked to any tip, rating or other contribution to the site. Your information and the contributions you make are completely separate and secured. Every contribution is looked at and any information that may be traced back to another student or yourself will be omitted. Once submitted and approved, all tips are stripped of any other metadata and is then just text associated with the unit/subject/module to guarantee your security. We take anonymity here very seriously and every precaution known to keep this true is pursued. The only link between you and a review is that it's known by your account what subject had been contributed to (by a saved id), not the exact contribution and its contents. TUGS will simply be a place where contributors can submit anonymous reviews curated for the best interest of the wider educational community, upcoming students and those perhaps those who have done the subject previously out of curiosity.  If there are any questions, please email TUGbyStudents@gmail.com";
 
 export const NAV_TITLE_YOU = "Me";
 export const NAV_TITLE_CATALOG = "Catalog";
@@ -34,9 +34,12 @@ export const LOCALISED_SUBJECTNAME_US = "subject";
 
 export const DATA_LH = "http://localhost:3000";  //so we can easily append to endpoint names
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
-
 export const DATA_BASIC = "/basic";
 export const DATA_ALL = "/all";
+
+export const DATA_USERS = "/users";
+export const DATA_STARRED = "/starred";
+
 export const DATA_SCHOOLS = "/schools";
 export const DATA_SCHOOLS_BASIC = "/schools/basic";
 export const DATA_FACULTIES = "/faculties";

@@ -270,31 +270,28 @@ class App extends Component {
         var newBodyContent = 1 + 1;
         newBodyContent = this.state.bodyContent;
         var catalog =
-
                 <Catalog
                          user={this.state.user}
                          loggedIn={this.state.loggedIn}
                          handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                         handleStarToggle={this.handleStarToggle}/>
-
+                         handleStarToggle={this.handleStarToggle}
+                />;
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
-
                     <Settings settings={this.state.user.settings}
                               pendingTips={this.state.pendingTips}
                               handleApproveReview={this.handleApproveReview}
-                              handleRejectReview={this.handleRejectReview}/>;
-
+                              handleRejectReview={this.handleRejectReview}
+                    />;
                 break;
             case STAR_INDEX:
                 newBodyContent =
-
                     <MeDashboard
                              user={this.state.user}
                              handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                             handleStarToggle={this.handleStarToggle}/>;
-
+                             handleStarToggle={this.handleStarToggle}
+                    />;
                 break;
             case CATALOG_INDEX:
                 newBodyContent = catalog;

@@ -26,6 +26,10 @@ class Catalog extends Component {
         }
     }
 
+    componentDidMount() {
+        this.getUpdatedDataset();
+    }
+
     getUpdatedDataset() {
         //this needs to be a request to the mongo backend so we can anctually keep things persistent
         axios.get(Str.DATA_LH + Str.DATA_SCHOOLS)
@@ -41,9 +45,6 @@ class Catalog extends Component {
             });
     }
 
-    componentDidMount() {
-        this.getUpdatedDataset();
-    }
 
     generateSubjectCards() {
         this.setState({
