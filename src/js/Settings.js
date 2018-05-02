@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 
-import {Subheader, FlatButton, List, ListItem, Divider, IconButton} from 'material-ui';
+import {Subheader, FlatButton, List, ListItem, Divider, IconButton, Card, CardHeader, CardText} from 'material-ui';
 import * as Str from './Str'
 import ApproveIcon from 'material-ui/svg-icons/action/done'
 import RejectIcon from 'material-ui/svg-icons/content/clear'
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
+import HubIcon from 'material-ui/svg-icons/hardware/device-hub'
+import AlertIcon from 'material-ui/svg-icons/alert/error-outline'
 
 import {Grid, Row, Col} from 'react-material-responsive-grid';
 import axios from "axios/index";
 
 import '../css/App.css';
-
-const approvePendingViewIndex = 1;
 
 class Settings extends Component {
     constructor(props) {
@@ -89,23 +89,24 @@ class Settings extends Component {
 
     render() {
         var colSize = {
-                left:
-                    [
-                        {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
-                        {xs: 4, s: 11, l: 12, xl: 12}, //isOpen:false
-                        ],
-                right:
-                    [
-                        {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
-                        {xs: 0, s: 0, l: 0, xl: 0}, //isOpen:false
-                        ],
-            };
+            left:
+                [
+                    {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
+                    {xs: 4, s: 11, l: 12, xl: 12}, //isOpen:false
+                ],
+            right:
+                [
+                    {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
+                    {xs: 0, s: 0, l: 0, xl: 0}, //isOpen:false
+                ],
+        };
 
         return (
             <div>
                 <Grid>
                     <Row>
-                        <Col xs4={(this.state.isOpen)?2:4} sm={(this.state.isOpen)?6:12} lg={(this.state.isOpen)?8:12} xl={(this.state.isOpen)?8:12}>
+                        <Col xs4={(this.state.isOpen) ? 2 : 4} sm={(this.state.isOpen) ? 6 : 12}
+                             lg={(this.state.isOpen) ? 8 : 12} xl={(this.state.isOpen) ? 8 : 12}>
                             <div>
                                 <List>
                                     <Subheader>Settings </Subheader>
@@ -115,14 +116,15 @@ class Settings extends Component {
                                         primaryText="Faculty" secondaryText={this.state.faculty.name}/>
                                     <Divider/>
                                     <ListItem
-                                        primaryText="Disclaimer" secondaryText={""}/>
+                                        primaryText="Disclaimer" secondaryText={""} onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
 
                                     <Divider/>
                                     {this.tryForAdminPanel()}
                                 </List>
                             </div>
                         </Col>
-                        <Col xs4={(this.state.isOpen)?2:0} sm={(this.state.isOpen)?5:0} lg={(this.state.isOpen)?4:0} xl={(this.state.isOpen)?4:0}>
+                        <Col xs4={(this.state.isOpen) ? 2 : 0} sm={(this.state.isOpen) ? 5 : 0}
+                             lg={(this.state.isOpen) ? 4 : 0} xl={(this.state.isOpen) ? 4 : 0}>
                             {this.state.pageSecondaryElement}
                         </Col>
                     </Row>
@@ -139,9 +141,42 @@ class Settings extends Component {
                 <Subheader>ADMIN SETTINGS</Subheader>
                 <ListItem primaryText={Str.ACTION_TITLE_PENDINGTIPS + " (" + this.props.pendingTips.length + ")"}
                           onClick={() => this.handleOpenSecondary(this.getNewPendingView())}/>
-                <ListItem primaryText={Str.ACTION_TITLE_ANALYTICS}/>
+                <ListItem primaryText={Str.ACTION_TITLE_ANALYTICS}
+                          onClick={() => this.handleOpenSecondary(this.getNewAnalyticsView())}/>
             </div>
         }
+    }
+
+    getNewAnalyticsView() {
+        return <div>
+            <List>
+                {this.getSettingsHomeButton()}
+                <Divider/>
+                <Subheader>Analytics</Subheader>
+                <Divider/>
+                <Card>
+                    <CardHeader title={"Data"} subtitle={"Counts and contributions"} avatar={<HubIcon/>}/>
+                    <CardText>
+                        {"In here will go, say, a graph and chart and counts and other analytics of our data"}
+                    </CardText>
+                </Card>
+            </List>
+        </div>;
+    }
+
+    getNewDisclaimerView() {
+        return <div>
+            <List>
+                {this.getSettingsHomeButton()}
+                <Divider/>
+                <Card>
+                    <CardHeader title={"What you need to know"} subtitle={"How we make this safe to be honest and helpful to others"} avatar={<AlertIcon/>}/>
+                    <CardText>
+                        {Str.APP_PRIVACY_TEXT}
+                    </CardText>
+                </Card>
+            </List>
+        </div>;
     }
 
     getSettingsHomeButton() {
@@ -163,10 +198,11 @@ class Settings extends Component {
         })
     }
 
-    getNewPendingTips(){
+    getNewPendingTips() {
         return '';
         //for axios when pending tips backend is up
     }
+
     updateWithNewUserSchoolData() {
         axios.get(Str.DATA_LH + Str.DATA_SCHOOLS + "/"
             + this.props.settings.uniId + Str.DATA_FACULTIES + "/" + this.props.settings.facultyId +
