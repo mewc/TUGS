@@ -33,7 +33,7 @@ class Catalog extends Component {
 
     getUpdatedDataset() {
         //this needs to be a request to the mongo backend so we can anctually keep things persistent
-        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS)
+        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS_OLD)
             .then((res) => {
                 this.setState({
                     data: res.data,

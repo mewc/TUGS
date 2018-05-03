@@ -40,6 +40,8 @@ export const DATA_ALL = "/all";
 export const DATA_USERS = "/users";
 export const DATA_STARRED = "/starred";
 
+export const DATA_SCHOOLS_OLD = "/schoolsOld";
+
 export const DATA_SCHOOLS = "/schools";
 export const DATA_SCHOOLS_BASIC = "/schools/basic";
 export const DATA_FACULTIES = "/faculties";
