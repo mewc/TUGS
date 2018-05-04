@@ -65,6 +65,7 @@ class SubjectCard extends Component {
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
                         readOnly={!this.props.loggedIn}
+
                     />
                 </span>
                 <span>
@@ -104,11 +105,19 @@ class SubjectCard extends Component {
                     onClick={this.handleStarClick.bind(this)}>
                     <StarIcon color={this.state.starColor}/>
                 </IconButton>
-                <IconButton disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
+                <IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>
+                    <ThumbUpIcon/>
+                </IconButton>
                 <FlatButton key={1} disabled={true}
-                            style={{verticalAlign: "middle"}}>{this.calculateHelpful() + "%"}</FlatButton>
-                <IconButton disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
-                <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
+                            style={{verticalAlign: "middle"}}>
+                    {this.calculateHelpful() + "%"}
+                </FlatButton>
+                <IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>
+                    <ThumbDnIcon/>
+                </IconButton>
+                <IconButton
+                    disabled={!!(!this.props.loggedIn || this.props.isTipped) } //shorthand for true false if statements
+                            label={Str.ACTION_TITLE_LEAVEREVIEW}
                             onClick={this.handleDialogToggle}>
                     <RateReviewIcon/>
                 </IconButton>
