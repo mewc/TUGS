@@ -64,22 +64,19 @@ class Catalog extends Component {
 
     generateSubjectCards() {
         this.setState({
-                subjectCards: this.state.facSubData[this.state.selectedIndex.faculty].faculty.subjects.map((item) => {
-                    var isVotedUp = this.isVotedUp(item.id);
-                    var isVotedDn = this.isVotedDn(item.id);
-                    var isStarred = this.isStarred(item.id);
-                    var isTipped = this.isTipped(item.id);
-                    return <SubjectCard key={item.id}
-                                        item={item}
-                                        handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
-                                        loggedIn={this.props.loggedIn}
-                                        starred={isStarred}
-                                        tipped={isTipped}
-                                        votedUp={isVotedUp}
-                                        votedDn={isVotedDn}
-                                        handleStarToggle={this.props.handleStarToggle}
-                    />
-                })
+                subjectCards: this.state.facSubData[this.state.selectedIndex.faculty].faculty.subjects.map(
+                    (item, index) => {
+                        let isStarred = this.isStarred(item.id);
+                        let isTipped = this.isTipped(item.id);
+                        return <SubjectCard key={item.id}
+                                            item={item}
+                                            handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
+                                            userId={this.props.user.id}
+                                            starred={isStarred}
+                                            tipped={isTipped}
+                                            updateUserInfo={this.props.updateUserInfo}
+                        />
+                    })
             }
         )
     }
@@ -140,11 +137,14 @@ class Catalog extends Component {
 
 
     isStarred(subId) {
-        var is = false;
+        let is = false;
+        console.log(subId);
+        console.log(this.props.user.starred);
         for (var id of this.props.user.starred) {
-            if (id === subId) {
-                return true;
-            }
+            console.log(id);
+                if (id === subId) {
+                    return true;
+                }
         }
         return is;
     }

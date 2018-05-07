@@ -56,7 +56,7 @@ class App extends Component {
         this.handleRejectReview = this.handleRejectReview.bind(this);
         this.handleApproveReview = this.handleApproveReview.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
-        this.handleStarToggle = this.handleStarToggle.bind(this);
+        this.updateUserInfo = this.updateUserInfo.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
     }
@@ -75,8 +75,8 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.selectBottomNav(CATALOG_INDEX);
-        this.checkLogin();
+        this.checkLogin(); //which callbacks for this.selectBottomNav(CATALOG_INDEX);
+
     }
 
     checkLogin(){
@@ -89,6 +89,7 @@ class App extends Component {
                     user: res.data,
                 }, () => {
                     console.log("User logged in");
+                    this.selectBottomNav(CATALOG_INDEX);
                 })
             })
             .catch((err) => {
@@ -106,54 +107,10 @@ class App extends Component {
 
     }
 
-    handleStarToggle(id) {
-        var prevStarred = this.state.user.starred;
-        if (this.isStarred(id, prevStarred)) {
-            //remove star
-            this.rmStarred(id)
-        } else {
-            //add starred
-            this.addStarred(id)
-        }
+    updateUserInfo(id){
 
     }
 
-
-    isStarred(toggledId, starredArray) {
-        var is = false;
-        for (var i = 0; i < starredArray.length; i++) {
-            if (starredArray[i] === toggledId) {
-                return true;
-            } else {
-                is = false;
-            }
-        }
-        return is;
-    }
-
-    rmStarred(id) { //basically the same as review, can clean up
-        var array = this.state.user.starred;
-        var index = array.indexOf(id)
-        array.splice(index, 1);
-        this.setState({
-            user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                starred: array,
-            }
-        }, () => {
-
-        })
-    }
-
-    addStarred(id) {//basically the same as review, can clean up
-        this.setState({
-            user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                starred: [...this.state.user.starred, id]
-            }
-        }, () => {
-        })
-    }
 
     handleRejectReview(pendingTipsIndex) {
         this.rmFromPendingTips(pendingTipsIndex);
@@ -286,7 +243,7 @@ class App extends Component {
                 user={this.state.user}
                 loggedIn={this.state.loggedIn}
                 handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                handleStarToggle={this.handleStarToggle}
+                updateUserInfo={this.updateUserInfo}
             />;
         switch (index) {
             case SETTINGS_INDEX:

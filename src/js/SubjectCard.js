@@ -33,10 +33,9 @@ class SubjectCard extends Component {
 
     constructor(props){
         super(props);
-
+        console.log(props.starred);
         this.state = {
-            starred: this.props.starred,
-            starColor: yellow800,
+            starred: this.props.starred,    //all handled in here once initial state is set
             dialogOpen: false,
             tipText: '',
         }
@@ -101,20 +100,12 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
+
                 <IconButton
                     onClick={this.handleStarClick.bind(this)}>
-                    <StarIcon color={this.state.starColor}/>
+                    <StarIcon color={(this.state.starred)?yellow800:black}/>
                 </IconButton>
-                {/*<IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>*/}
-                    {/*<ThumbUpIcon/>*/}
-                {/*</IconButton>*/}
-                {/*<FlatButton key={1} disabled={true}*/}
-                            {/*style={{verticalAlign: "middle"}}>*/}
-                    {/*{this.calculateHelpful() + "%"}*/}
-                {/*</FlatButton>*/}
-                {/*<IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>*/}
-                    {/*<ThumbDnIcon/>*/}
-                {/*</IconButton>*/}
+
                 <IconButton
                     disabled={!!(!this.props.loggedIn || this.props.isTipped) } //shorthand for true false if statements
                             label={Str.ACTION_TITLE_LEAVEREVIEW}
@@ -166,20 +157,11 @@ class SubjectCard extends Component {
     }
 
     handleStarClick(){
-
+        //this will change visuals,
         this.setState({
             starred: !this.state.starred,
         }, () => {
-            this.props.handleStarToggle(
-                this.props.item.id);
-            //only passed in from the starred tab - to handle redrawing list when unstarred
-            if(this.props.updateValidsForStarred !== undefined) {
-                this.props.updateValidsForStarred();
-            }
-            this.setState({
-                ...this.state,
-                starColor: this.getStarColor()
-            })
+            this.props.updateUserInfo(this.props.userId); //to handle backend sync across app
         })
     }
 
@@ -189,6 +171,57 @@ class SubjectCard extends Component {
         }else{
             return black
         }
+    }
+
+
+    handleStarToggle(id) {
+        let prevStarred = this.state.user.starred;
+        if (this.isStarred(id, prevStarred)) {
+            //remove star
+            return this.rmStarred(id)
+        } else {
+            //add starred
+            return this.addStarred(id)
+        }
+
+        return true;
+
+    }
+
+
+    isStarred(toggledId, starredArray) {
+        var is = false;
+        for (var i = 0; i < starredArray.length; i++) {
+            if (starredArray[i] === toggledId) {
+                return true;
+            } else {
+                is = false;
+            }
+        }
+        return is;
+    }
+
+    rmStarred(id) { //basically the same as review, can clean up
+        var array = this.state.user.starred;
+        var index = array.indexOf(id)
+        array.splice(index, 1);
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                starred: array,
+            }
+        }, () => {
+        })
+    }
+
+    addStarred(id) {//basically the same as review, can clean up
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                starred: [...this.state.user.starred, id]
+            }
+        }, () => {
+        })
     }
 
     calculateHelpful() {

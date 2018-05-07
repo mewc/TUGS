@@ -82,7 +82,7 @@ class MeDashboard extends Component {
                 items={this.state.starredItems}
                 handleStarToggle={this.props.handleStarToggle}
                 handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
-            />;  //nb same as line 45
+            />;  //nb same as line ~45 setDefaultBody()
         switch (index) {
             case INDEX_STARRED:
                 //Default
