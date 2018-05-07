@@ -18,7 +18,8 @@ import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import TugsLogo from '../resources/branding/tugs_logo_wrapped.png'
+import TugsLogo from '../resources/branding/tugs_logo_wrapped.png';
+import axios from 'axios';
 
 import Settings from './Settings';
 import Catalog from './Catalog';
@@ -26,6 +27,12 @@ import MeDashboard from './MeDashboard';
 import * as Str from './Str';
 import '../css/App.css';
 import {testData} from '../resources/testData'
+import {DATA_LH} from "./Str";
+import {DATA_USERS} from "./Str";
+import {DATA_PENDINGTIPS} from "./Str";
+import {DATA_PENDINGTIPS_ADD} from "./Str";
+import {DATA_ADDTIP} from "./Str";
+import {DATA_REMOVETIP} from "./Str";
 
 const IconSettings = <IconSettingsImport/>;
 const IconYou = <IconPersonImport/>;
@@ -76,7 +83,6 @@ class App extends Component {
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
     }
-
 
 
     handleSnackbarTrigger = (message) => {
@@ -212,24 +218,31 @@ class App extends Component {
 
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
-        this.setState({
-            user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                tipped: [...this.state.user.tipped, subjectId],
-            },
-            pendingTips: [...this.state.pendingTips,
-                {
-                    userid: this.state.user.id,
-                    text: reviewText,
-                    subjectId: subjectId,
-                    ip: "10.0.0.0",
-                }
-            ]
-        }, () => {
-            this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
-            console.log(this.state.pendingTips);
-        })
+        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + DATA_ADDTIP + subjectId).then(() => {
+            axios.post(DATA_LH + DATA_PENDINGTIPS + DATA_ADDTIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+        }).then( () => {
+            this.setState({
+                user: {
+                    ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                    tipped: [...this.state.user.tipped, subjectId],
+                },
+                pendingTips: [...this.state.pendingTips,
+                    {
+                        userid: this.state.user.id,
+                        text: reviewText,
+                        subjectId: subjectId,
+                        ip: "10.0.0.0",
+                    }
+                ]
+            }, () => {
+                this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
+                console.log(this.state.pendingTips);
+            })
+        }).catch(()=> {
+            axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + DATA_REMOVETIP + subjectId)
+        });
     }
+
 
     alreadyReviewed(rvwId, rvwArray) { //basically the same as starred, can clean up
         var is = false;
@@ -270,12 +283,12 @@ class App extends Component {
         var newBodyContent = 1 + 1;
         newBodyContent = this.state.bodyContent;
         var catalog =
-                <Catalog
-                         user={this.state.user}
-                         loggedIn={this.state.loggedIn}
-                         handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                         handleStarToggle={this.handleStarToggle}
-                />;
+            <Catalog
+                user={this.state.user}
+                loggedIn={this.state.loggedIn}
+                handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                handleStarToggle={this.handleStarToggle}
+            />;
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
@@ -288,9 +301,9 @@ class App extends Component {
             case STAR_INDEX:
                 newBodyContent =
                     <MeDashboard
-                             user={this.state.user}
-                             handleRequestToLeaveReview={this.handleRequestToLeaveReview}
-                             handleStarToggle={this.handleStarToggle}
+                        user={this.state.user}
+                        handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                        handleStarToggle={this.handleStarToggle}
                     />;
                 break;
             case CATALOG_INDEX:
@@ -311,7 +324,7 @@ class App extends Component {
 
     render() {
         return (
-            <MTP muiTheme={getMuiTheme(TugsMuiTheme)} >
+            <MTP muiTheme={getMuiTheme(TugsMuiTheme)}>
                 <div className="App">
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
@@ -346,7 +359,7 @@ class App extends Component {
                                     onClick={() => this.selectBottomNav(0)}
                                 />
                                 <BottomNavigationItem
-                                    label={(this.state.user)?this.state.user.name:Str.NAV_TITLE_YOU}
+                                    label={(this.state.user) ? this.state.user.name : Str.NAV_TITLE_YOU}
                                     icon={IconYou}
                                     onClick={() => this.selectBottomNav(1)}
                                 />

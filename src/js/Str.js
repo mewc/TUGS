@@ -32,19 +32,22 @@ export const LOCALISED_SUBJECTNAME_AU = "unit";
 export const LOCALISED_SUBJECTNAME_US = "subject";
 
 
-export const DATA_LH = "http://localhost:3000";  //so we can easily append to endpoint names
+export const DATA_LH = "http://localhost:3000/";  //so we can easily append to endpoint names
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
-export const DATA_BASIC = "/basic";
-export const DATA_ALL = "/all";
+export const DATA_BASIC = "basic/";
+export const DATA_ALL = "all/";
 
-export const DATA_USERS = "/users";
-export const DATA_STARRED = "/starred";
+export const DATA_USERS = "users/";
+export const DATA_STARRED = "starred/";
 
-export const DATA_SCHOOLS_OLD = "/schoolsOld";
+export const DATA_SCHOOLS_OLD = "schoolsOld/";
 
-export const DATA_SCHOOLS = "/schools";
-export const DATA_SCHOOLS_BASIC = "/schools/basic";
-export const DATA_FACULTIES = "/faculties";
-export const DATA_FACULTIES_BASIC = "/faculties/basic";
-export const DATA_SUBJECTS = "/subjects";
-export const DATA_SUBJECTS_BASIC = "/subjects/basic";
+export const DATA_SCHOOLS = "schools/";
+export const DATA_SCHOOLS_BASIC = "schools/basic/";
+export const DATA_FACULTIES = "faculties/";
+export const DATA_FACULTIES_BASIC = "faculties/basic/";
+export const DATA_SUBJECTS = "subjects/";
+export const DATA_SUBJECTS_BASIC = "subjects/basic/";
+export const DATA_PENDINGTIPS = "pendingtips/";
+export const DATA_ADDTIP = "addTip/";
+export const DATA_REMOVETIP = "removeTip/";

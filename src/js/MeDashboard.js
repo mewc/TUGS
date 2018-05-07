@@ -41,9 +41,9 @@ class MeDashboard extends Component {
     }
 
     getUpdatedDataset() {
-        let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + "/" + this.props.user.id + Str.DATA_STARRED;
+        let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + Str.DATA_STARRED;
 
-        axios.get(Str.DATA_LH + Str.DATA_USERS + "/" + this.props.user.id + Str.DATA_STARRED)
+        axios.get(Str.DATA_LH + Str.DATA_USERS + this.props.user.id + Str.DATA_STARRED)
             .then((res) => {
                 console.log(res);
                 this.setState({

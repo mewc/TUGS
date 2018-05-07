@@ -204,8 +204,7 @@ class Settings extends Component {
     }
 
     updateWithNewUserSchoolData() {
-        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS_OLD + "/"
-            + this.props.settings.uniId + Str.DATA_FACULTIES + "/" + this.props.settings.facultyId +
+        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS_OLD + this.props.settings.uniId + Str.DATA_FACULTIES  + this.props.settings.facultyId +
             Str.DATA_BASIC)
             .then((res) => {
                 console.log(res.data[0]);
