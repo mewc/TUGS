@@ -105,16 +105,16 @@ class SubjectCard extends Component {
                     onClick={this.handleStarClick.bind(this)}>
                     <StarIcon color={this.state.starColor}/>
                 </IconButton>
-                <IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>
-                    <ThumbUpIcon/>
-                </IconButton>
-                <FlatButton key={1} disabled={true}
-                            style={{verticalAlign: "middle"}}>
-                    {this.calculateHelpful() + "%"}
-                </FlatButton>
-                <IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>
-                    <ThumbDnIcon/>
-                </IconButton>
+                {/*<IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>*/}
+                    {/*<ThumbUpIcon/>*/}
+                {/*</IconButton>*/}
+                {/*<FlatButton key={1} disabled={true}*/}
+                            {/*style={{verticalAlign: "middle"}}>*/}
+                    {/*{this.calculateHelpful() + "%"}*/}
+                {/*</FlatButton>*/}
+                {/*<IconButton disabled={!!(!this.props.loggedIn || this.props.isVotedDn)}>*/}
+                    {/*<ThumbDnIcon/>*/}
+                {/*</IconButton>*/}
                 <IconButton
                     disabled={!!(!this.props.loggedIn || this.props.isTipped) } //shorthand for true false if statements
                             label={Str.ACTION_TITLE_LEAVEREVIEW}
