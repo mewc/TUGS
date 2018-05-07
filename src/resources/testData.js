@@ -10,7 +10,7 @@ export const testData = {
                     subjects:
                         [
                             {
-                                id: 1,
+                                id: 110001,
                                 code: 'FIT1031',
                                 title: 'Computers & Networks',
                                 votesUp: 3,
@@ -26,7 +26,7 @@ export const testData = {
                                 tips: []
                             },
                             {
-                                id: 2,
+                                id: 110002,
                                 code: 'FIT1040',
                                 title: 'Programming Fundamentals',
                                 votesUp: 1,
@@ -45,7 +45,7 @@ export const testData = {
                                 ]
                             },
                             {
-                                id: 3,
+                                id: 110003,
                                 code: 'FIT3047',
                                 title: 'Mobile Development',
                                 votesUp: 55,
@@ -59,7 +59,7 @@ export const testData = {
                                     votes: 64,
                                 },
                                 tips: [
-                                    "One of the harder, but rewarding subjects. Very practical",
+                                    "One of the harder, but very much the most rewarding subjects. Very practical",
                                 ]
                             }
                         ]
@@ -104,12 +104,19 @@ export const testData = {
             starred: [
                 1,2
             ],
+            tipped: [
+                
+            ],
             settings: {
                 admin: true,
                 uniId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.1", "192.169.0.2"]
             }
         },
         {
@@ -127,9 +134,13 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.4", "192.169.0.5"]
             }
         },
         {
@@ -158,11 +169,22 @@ export const testData = {
             settings: {
                 admin: false,
                 uniId: 1,
+                facultyId: 1000,
                 style: {
                     backgroundColor: "#e7e7e7"
                 }
+            },
+            meta: {
+                ips: ["192.169.0.1", "192.169.0.3"]
             }
         }
+    ],
+    pendingTips: [
+        {
+            subjectId: 1,
+            text: "This is a pending tip",
+            ip: "192.169.0.1",
+            user: 10000001,
+        }
     ]
-
 }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import TugsMuiTheme from './TugsMuiTheme';
 import {
     AppBar,
     BottomNavigation,
@@ -12,22 +13,25 @@ import {
     Snackbar,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
-
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
-import IconStarsImport from 'material-ui/svg-icons/action/stars';
+import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import TugsLogo from '../resources/branding/tugs_logo_wrapped.png'
+import TugsLogo from '../resources/branding/tugs_logo_wrapped.png';
+import axios from 'axios';
 
 import Settings from './Settings';
 import Catalog from './Catalog';
-import Starred from './Starred';
+import MeDashboard from './MeDashboard';
 import * as Str from './Str';
 import '../css/App.css';
-import {testData} from '../resources/testData'
+import {DATA_LH} from "./Str";
+import {DATA_USERS} from "./Str";
+import {baseUser} from '../resources/baseUser'
 
 const IconSettings = <IconSettingsImport/>;
-const IconStars = <IconStarsImport/>;
+const IconYou = <IconPersonImport/>;
 const IconCatalog = <IconCatalogImport/>;
 
 const SETTINGS_INDEX = 2;
@@ -38,6 +42,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             loggedIn: true,
             selectedBottomNavIndex: 0,
             bodyContent: '',
@@ -45,13 +50,17 @@ class App extends Component {
                 open: false,
                 message: "Snackbar message",
             },
-            user: testData.users[0],
-            data: testData.schools,
+            user: baseUser,
 
         };
+        this.handleRejectReview = this.handleRejectReview.bind(this);
+        this.handleApproveReview = this.handleApproveReview.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
-        this.handleStarToggle = this.handleStarToggle.bind(this);
+        this.updateUserInfo = this.updateUserInfo.bind(this);
+        this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
+        this.logState = this.logState.bind(this);
     }
+
 
     handleSnackbarTrigger = (message) => {
         //when theres something that can use a snackbar, use this
@@ -66,7 +75,26 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.selectBottomNav(CATALOG_INDEX);
+        this.checkLogin(); //which callbacks for this.selectBottomNav(CATALOG_INDEX);
+
+    }
+
+    checkLogin(){
+        //todo handle auth and setting of user state here
+        //get default user
+        console.log("Checking user login status")
+        axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
+            .then((res) => {
+                this.setState({
+                    user: res.data,
+                }, () => {
+                    console.log("User logged in");
+                    this.selectBottomNav(CATALOG_INDEX);
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     handleSnackbarClose = () => {
@@ -79,84 +107,159 @@ class App extends Component {
 
     }
 
-    handleStarToggle(id) {
-        var prevStarred = this.state.user.starred;
-        if (this.isStarred(id, prevStarred)) {
-            //remove star
-            this.rmStarred(id)
-        } else {
-            //add starred
-            this.addStarred(id)
-        }
+    updateUserInfo(id){
 
     }
 
-    isStarred(toggledId, starredArray) {
+
+    handleRejectReview(pendingTipsIndex) {
+        this.rmFromPendingTips(pendingTipsIndex);
+
+    }
+
+    handleApproveReview(pendingTipsIndex) {
+        // var reviewApproved = this.state.pendingTips[pendingTipsIndex];
+
+        //add review to the subject
+        this.addApprovedTipToSubject(pendingTipsIndex);
+
+        this.rmFromPendingTips(pendingTipsIndex);
+    }
+
+    rmFromPendingTips(index) {
+        var pendingTipsArray = this.state.pendingTips;
+        //remove from state
+        pendingTipsArray.splice(index, 1);
+
+        this.setState({
+            pendingTips: pendingTipsArray
+        }, () => console.log("PendingTips " + index + " removed from saved"));
+    }
+
+
+    rmReview(id) {//basically the same as starred, can clean up
+        var array = this.state.user.tipped;
+        var index = array.indexOf(id)
+        array.splice(index, 1);
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                tipped: array,
+            }
+        }, () => {
+
+        })
+    }
+
+
+    //this is where we need to be able to, in the back end,
+    // submit a tip text to a subject id and it just ingest it
+    // then we just update the front end with the update and we're all gooooood
+    addApprovedTipToSubject(index) {
+        //only commented out for compile warning suppression--
+        // var fullTip = this.state.pendingTips[index];
+
+        // var tip = {
+        //     userid: 10000001,
+        //     subjectId: 110001,
+        //     ip: "10.0.0.10",
+        //     text: "This is a first"
+        // }
+
+
+        // this.updateDataset();  //will need to be run when db integration is up and going
+    }
+
+
+    addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
+        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+        }).then( () => {
+            this.setState({
+                user: {
+                    ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                    tipped: [...this.state.user.tipped, subjectId],
+                },
+                pendingTips: [...this.state.pendingTips,
+                    {
+                        userid: this.state.user.id,
+                        text: reviewText,
+                        subjectId: subjectId,
+                        ip: "10.0.0.0",
+                    }
+                ]
+            }, () => {
+                this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
+                console.log(this.state.pendingTips);
+            })
+        }).catch(()=> {
+            //tip already exists
+            axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_REMOVE_TIP + subjectId)
+        });
+    }
+
+
+    alreadyReviewed(rvwId, rvwArray) { //basically the same as starred, can clean up
         var is = false;
-        for (var i = 0; i < starredArray.length; i++) {
-            if (starredArray[i] === toggledId) {
+        for (var i = 0; i < rvwArray.length; i++) {
+            if (rvwArray[i] === rvwId) {
                 return true;
             } else {
                 is = false;
             }
         }
         return is;
-
     }
 
-    rmStarred(id) {
-        var array = this.state.user.starred;
-        var index = array.indexOf(id)
-        array.splice(index, 1);
+    triggerSnackbar(message) {
         this.setState({
-            user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                starred: array,
-            }
-        }, () => {
-
-        })
-    }
-
-    addStarred(id) {
-        this.setState({
-            user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                starred: [...this.state.user.starred, id]
-            }
-        }, () => {
+            snackbar: {
+                open: true,
+                message: message,
+            },
         })
     }
 
 
+    handleRequestToLeaveReview = (subjectId, reviewText) => {
+        console.log(subjectId + " wants to be reviewed by " + this.state.user.id + " with tip " + reviewText);
 
-
-    handleRequestToLeaveReview = (subjectId) => {
-        console.log(subjectId + " wants to be reviewed by " + this.state.user.id);
+        if (this.alreadyReviewed(subjectId, this.state.user.tipped)) {
+            this.triggerSnackbar("Review already left for that subject, try another");
+        } else {
+            this.addPendingTip(subjectId, reviewText);
+        }
 
         //add another button to bottom nav, show the review component in body, pass in data for subject
 
     }
 
     selectBottomNav = (index) => {
-        var newBodyContent = this.state.bodyContent;
-        var catalog = <Catalog data={this.state.data}
-                               user={this.state.user}
-                               loggedIn={this.state.loggedIn}
-                               requestReview={this.handleRequestToLeaveReview}
-                               handleStarToggle={this.handleStarToggle}/>
+        var newBodyContent = 1 + 1;
+        newBodyContent = this.state.bodyContent;
+        var catalog =
+            <Catalog
+                user={this.state.user}
+                loggedIn={this.state.loggedIn}
+                handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                updateUserInfo={this.updateUserInfo}
+            />;
         switch (index) {
             case SETTINGS_INDEX:
-                newBodyContent = <Settings settings={this.state.user.settings}/>;
+                newBodyContent =
+                    <Settings settings={this.state.user.settings}
+                              handleApproveReview={this.handleApproveReview}
+                              handleRejectReview={this.handleRejectReview}
+                    />;
                 break;
             case STAR_INDEX:
                 newBodyContent =
-                    <Starred data={this.state.data}
-                             starred={this.state.user.starred}
-                             user={this.state.user}
-                             loggedIn={this.state.loggedIn}
-                             requestReview={this.handleRequestToLeaveReview}
-                             handleStarToggle={this.handleStarToggle}/>;
+                    <MeDashboard
+                        user={this.state.user}
+                        handleRequestToLeaveReview={this.handleRequestToLeaveReview}
+                        handleStarToggle={this.handleStarToggle}
+                    />;
                 break;
             case CATALOG_INDEX:
                 newBodyContent = catalog;
@@ -170,13 +273,23 @@ class App extends Component {
         })
     }
 
+    logState() {
+        console.log(this.state);
+    }
+
     render() {
         return (
-            <MTP>
+            <MTP muiTheme={getMuiTheme(TugsMuiTheme)}>
                 <div className="App">
                     <AppBar
                         title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
-                        iconElementRight={this.state.loggedIn ? <Logged/> : <Login/>}
+                        iconElementRight={
+                            <div>
+                                {this.state.loggedIn ? <Logged/> : <Login/>}
+                                {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> :
+                                    <div/>}
+                            </div>
+                        }
                         iconElementLeft={
                             <div></div>
                         }
@@ -201,8 +314,8 @@ class App extends Component {
                                     onClick={() => this.selectBottomNav(0)}
                                 />
                                 <BottomNavigationItem
-                                    label={Str.NAV_TITLE_STARRED}
-                                    icon={IconStars}
+                                    label={(this.state.user) ? this.state.user.name : Str.NAV_TITLE_YOU}
+                                    icon={IconYou}
                                     onClick={() => this.selectBottomNav(1)}
                                 />
                                 <BottomNavigationItem

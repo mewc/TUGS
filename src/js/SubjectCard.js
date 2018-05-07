@@ -10,7 +10,9 @@ import {
     CardText,
     // CardTitle,
     Divider,
-    FlatButton
+    FlatButton,
+    Dialog,
+    TextField
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
 import StarIcon from 'material-ui/svg-icons/action/stars';
@@ -21,17 +23,25 @@ import * as Str from './Str';
 import ShowMoreText from 'react-show-more-text'
 
 import {yellow800, black} from 'material-ui/styles/colors'
+import {ACTION_ERROR_LEAVEREVIEW} from "./Str";
+import {ACTION_LABEL_LEAVEREVIEW} from "./Str";
+import {VALUE_MAX_TIPLENGTH} from "./Str";
+import TugsMuiTheme from "./TugsMuiTheme";
 
 
 class SubjectCard extends Component {
 
     constructor(props){
         super(props);
-
+        console.log(props.starred);
         this.state = {
-            starred: this.props.starred,
-            starColor: yellow800,
+            starred: this.props.starred,    //all handled in here once initial state is set
+            dialogOpen: false,
+            tipText: '',
         }
+
+        this.handleDialogToggle = this.handleDialogToggle.bind(this);
+        this.handleSubmitReview = this.handleSubmitReview.bind(this);
     }
 
     componentDidMount(){
@@ -41,7 +51,7 @@ class SubjectCard extends Component {
     }
 
     render() {
-        return <Card key={this.props.item.id} style={{width: "50%", margin: "auto"}}>
+        return <Card key={this.props.item.id} style={{width: "100%", margin: "auto"}}>
             <CardHeader showExpandableButton={true} actAsExpander={true}
                         title={this.props.item.code + "  " + this.props.item.title}/>
 
@@ -54,16 +64,18 @@ class SubjectCard extends Component {
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
                         readOnly={!this.props.loggedIn}
+
                     />
                 </span>
                 <span>
-                Intensity: {this.props.item.intensity.avg * 100 + "%"}
+                Intensity: {Math.round(this.props.item.intensity.avg * 100) + "%"}
                     <LinearProgress
                         mode={'determinate'}
+                        color={TugsMuiTheme.palette.primary3Color}
                         max={1}
                         min={0}
                         value={((this.props.item.intensity.avg - 1) * -1)}//flipped because the changing of colour for progress bar only did one side.
-                        style={{width: 70, height: 10, backgroundColor: "#ab0000", margin: "auto", marginTop: "10px"}}
+                        style={{width: 70, height: 10, margin: "auto", marginTop: "10px", backgroundColor: TugsMuiTheme.palette.primary1Color}}
                     />
                 </span>
                 </span>
@@ -83,51 +95,74 @@ class SubjectCard extends Component {
                                 </div>
                                     )
                         }
-
                     })}
 
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
+
                 <IconButton
                     onClick={this.handleStarClick.bind(this)}>
-                    <StarIcon color={this.state.starColor}/>
+                    <StarIcon color={(this.state.starred)?yellow800:black}/>
                 </IconButton>
-                <IconButton disabled={!this.props.loggedIn}><ThumbUpIcon/></IconButton>
-                <FlatButton key={1} disabled={true}
-                            style={{verticalAlign: "middle"}}>{this.calculateHelpful() + "%"}</FlatButton>
-                <IconButton disabled={!this.props.loggedIn}><ThumbDnIcon/></IconButton>
-                <IconButton disabled={!this.props.loggedIn} label={Str.ACTION_TITLE_LEAVEREVIEW}
-                            onClick={this.props.requestReview.bind(this, this.props.item.id)}>
+
+                <IconButton
+                    disabled={!!(!this.props.loggedIn || this.props.isTipped) } //shorthand for true false if statements
+                            label={Str.ACTION_TITLE_LEAVEREVIEW}
+                            onClick={this.handleDialogToggle}>
                     <RateReviewIcon/>
                 </IconButton>
+                <Dialog
+                    title={Str.ACTION_TITLE_LEAVEREVIEW}
+                    actions={[
+                        <FlatButton label="Cancel" default={true} onClick={this.handleDialogToggle}/>,
+                        <FlatButton label="Submit" primary={true} onClick={this.handleSubmitReview}/>
+                    ]}
+                    open={this.state.dialogOpen}
 
+                >
+
+                    <TextField
+                        hintText={Str.ACTION_HINT_LEAVEREVIEW}
+                        errorText={ACTION_ERROR_LEAVEREVIEW}
+                        multiLine={true}
+                        floatingLabelText={ACTION_LABEL_LEAVEREVIEW}
+                        rows={1}
+                        rowsMax={3}
+                        fullWidth={true}
+                        onChange={(e) =>{
+                            if(e.target.value.length > VALUE_MAX_TIPLENGTH){
+                                e.target.value = e.target.value.toString().slice(0, VALUE_MAX_TIPLENGTH);
+                            }
+                            this.setState({
+                                tipText: e.target.value
+                            })
+                        }}
+                    />
+                </Dialog>
             </CardActions>
-
         </Card>
     }
 
-    handleStarClick(){
+    handleDialogToggle(){
+        this.setState({
+            dialogOpen: !this.state.dialogOpen
+        })
+    }
 
+    handleSubmitReview(){
+        console.log("subject card submit review run for " + this.props.item.id);
+        this.handleDialogToggle();
+        this.props.handleRequestToLeaveReview(this.props.item.id, this.state.tipText)
+    }
+
+    handleStarClick(){
+        //this will change visuals,
         this.setState({
             starred: !this.state.starred,
         }, () => {
-            this.props.handleStarToggle(
-                this.props.item.id);
-
-            //only passed in from the starred tab - to handle redrawing list when unstarred
-            if(this.props.updateValidsForStarred === undefined) {
-            }else{
-                this.props.updateValidsForStarred();
-            }
-
-            this.setState({
-                ...this.state,
-                starColor: this.getStarColor()
-            })
+            this.props.updateUserInfo(this.props.userId); //to handle backend sync across app
         })
-
-
     }
 
     getStarColor() {
@@ -136,6 +171,57 @@ class SubjectCard extends Component {
         }else{
             return black
         }
+    }
+
+
+    handleStarToggle(id) {
+        let prevStarred = this.state.user.starred;
+        if (this.isStarred(id, prevStarred)) {
+            //remove star
+            return this.rmStarred(id)
+        } else {
+            //add starred
+            return this.addStarred(id)
+        }
+
+        return true;
+
+    }
+
+
+    isStarred(toggledId, starredArray) {
+        var is = false;
+        for (var i = 0; i < starredArray.length; i++) {
+            if (starredArray[i] === toggledId) {
+                return true;
+            } else {
+                is = false;
+            }
+        }
+        return is;
+    }
+
+    rmStarred(id) { //basically the same as review, can clean up
+        var array = this.state.user.starred;
+        var index = array.indexOf(id)
+        array.splice(index, 1);
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                starred: array,
+            }
+        }, () => {
+        })
+    }
+
+    addStarred(id) {//basically the same as review, can clean up
+        this.setState({
+            user: {
+                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                starred: [...this.state.user.starred, id]
+            }
+        }, () => {
+        })
     }
 
     calculateHelpful() {
