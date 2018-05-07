@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tab, Tabs} from 'material-ui';
+import {Tab, Tabs, RefreshIndicator} from 'material-ui';
 import StarIcon from 'material-ui/svg-icons/action/stars';
 import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
 // import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
@@ -16,19 +16,17 @@ const INDEX_RATINGS = 2;
 const INDEX_REVIEWS = 1;
 const INDEX_STARRED = 0;
 
+
+
 class MeDashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             activeIndex: 0,
-            bodyContent:
-                <Starred
-                user={this.props.user}
-                handleStarToggle={this.props.handleStarToggle}
-                handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
-                starred={this.props.user.starred} />
-            ,
-            starredItems: this.props.user.starred
+            bodyContent: <RefreshIndicator left={100} top={100} size={Str.VALUE_REFRESH_SIZE} status={"loading"}/>,
+            starredItems: [],
+            tippedItems: [],
+            ratedItems: [],
         }
     }
 
@@ -36,43 +34,65 @@ class MeDashboard extends Component {
 
     componentDidMount() {
         //TODO Implement this when /users/#/starred/all endpoint works (getting subject objects)
-        // this.getUpdatedDataset();
+        this.getUpdatedUserSubjectDatasets();
+
     }
 
-    getUpdatedDataset() {
-        let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + Str.DATA_STARRED;
+    setDefaultBody(){
+        this.setState({
+            bodyContent: <Starred
+                items={this.state.starredItems}
+                handleStarToggle={this.props.handleStarToggle}
+                handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
+                 />
+        })
+    }
 
-        axios.get(userStarredEndpoint)
-            .then((res) => {
-                console.log(res);
+    getUpdatedUserSubjectDatasets() {
+        let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
+        let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
+        let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
+
+        console.log(userRatingsEndpoint);
+
+        axios.all([
+            axios.get(userStarredEndpoint),
+            axios.get(userTippedEndpoint),
+            axios.get(userRatingsEndpoint),
+        ])
+            .then(axios.spread((stars, tips, rates) => {
                 this.setState({
-                    starredItems: res.data, //processing done inside starred, we just get data
+                    starredItems: stars.data,
+                    tippedItems: tips.data,
+                    ratedItems: rates.data,
+                }, () => {
+                    this.setDefaultBody();
                 })
-            })
+
+            }))
             .catch((err) => {
                 console.log(err);
-            });
+            })
     }
 
     handleTabChange = (index) => {
         let newBodyContent = <Starred
-            user={this.props.user}
-            handleStarToggle={this.props.handleStarToggle}
-            handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
-            starred={this.props.user.starred}
-        />;
+                items={this.state.starredItems}
+                handleStarToggle={this.props.handleStarToggle}
+                handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
+            />;  //nb same as line 45
         switch (index) {
             case INDEX_STARRED:
                 //Default
                 break;
             case INDEX_REVIEWS:
                 newBodyContent = <Reviews
-                    reviewed={this.props.user.tipped}
+                    reviewed={this.state.tippedItems}
                 />;
                 break;
             case INDEX_RATINGS:
                 newBodyContent = <Ratings
-                    rated={this.props.user.rating} //contains up and down
+                    rated={this.state.ratedItems} //contains up and down
                 />;
                 break;
             default:
@@ -93,9 +113,9 @@ class MeDashboard extends Component {
                     initialSelectedIndex={this.state.activeIndex}
                     onChange={this.handleTabChange}
                 >
-                    <Tab icon={<StarIcon/>} label="Starred" value={0}/>
-                    <Tab icon={<RateReviewIcon/>} label={"Reviews"} value={1}/>
-                    <Tab icon={<ThumbUpIcon/>} label={"Ratings"} value={2}/>
+                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_STARRED} value={0}/>
+                    <Tab icon={<RateReviewIcon/>} label={Str.NAV_TITLE_TIP} value={1}/>
+                    <Tab icon={<ThumbUpIcon/>} label={Str.NAV_TITLE_RATINGS} value={2}/>
                 </Tabs>
                 {this.state.bodyContent}
             </div>

@@ -14,11 +14,11 @@ class Starred extends Component {
     render() {
         return (
             <div>
-                <h1>My Starred Subjects ({this.props.starred.length})</h1>
-                {(this.props.starred.length > 0) ?
-                    this.props.starred.map((item, index) => {
+                <h1>My Starred Subjects ({this.props.items.length})</h1>
+                {(this.props.items.length > 0) ?
+                    this.props.items.map((item, index) => {
                         return <Card key={index}>
-                            <CardHeader title={"Starred" + item} subtitle={"test"}/>
+                            <CardHeader title={" " + item.code} subtitle={item.title}/>
                         </Card>
                     })
                     :<div>No Reviewed Subjects</div>

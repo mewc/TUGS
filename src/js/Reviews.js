@@ -16,7 +16,7 @@ class Reviews extends Component {
                 {(this.props.reviewed.length > 0) ?
                     this.props.reviewed.map((item, index) => {
                         return <Card key={index}>
-                            <CardHeader title={"Reviewed" + item} subtitle={"test"}/>
+                            <CardHeader title={" " + item.code} subtitle={item.title}/>
                         </Card>
                     })
                     :<div>No Reviewed Subjects</div>

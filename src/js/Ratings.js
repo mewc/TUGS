@@ -14,7 +14,7 @@ class Ratings extends Component {
                 {(this.props.rated.length > 0) ?
                     this.props.rated.map((item, index) => {
                         return <Card key={index}>
-                            <CardHeader title={"Rated " + item.value + " for sub:" + item.id} subtitle={"test"}/>
+                            <CardHeader title={" " + item.code} subtitle={item.title}/>
                         </Card>
                     })
                     :<div>No Rated Subjects</div>
