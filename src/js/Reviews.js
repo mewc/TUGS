@@ -12,7 +12,6 @@ class Reviews extends Component {
     render() {
         return (
             <div>
-                <h1>My Reviewed Subjects ({this.props.reviewed.length})</h1>
                 {(this.props.reviewed.length > 0) ?
                     this.props.reviewed.map((item, index) => {
                         return <Card key={index}>

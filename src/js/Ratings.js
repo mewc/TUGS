@@ -10,7 +10,6 @@ class Ratings extends Component {
     render() {
         return (
             <div>
-                <h1>My Rated Subjects ({this.props.rated.length})</h1>
                 {(this.props.rated.length > 0) ?
                     this.props.rated.map((item, index) => {
                         return <Card key={index}>

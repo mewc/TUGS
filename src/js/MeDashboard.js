@@ -50,8 +50,8 @@ class MeDashboard extends Component {
 
     getUpdatedUserSubjectDatasets() {
         let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
-        let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
-        let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
+        let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_TIPPED_BASIC;
+        let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_RATING_BASIC;
 
         console.log(userRatingsEndpoint);
 
@@ -61,11 +61,13 @@ class MeDashboard extends Component {
             axios.get(userRatingsEndpoint),
         ])
             .then(axios.spread((stars, tips, rates) => {
+                console.log(stars, tips, rates)
                 this.setState({
                     starredItems: stars.data,
                     tippedItems: tips.data,
                     ratedItems: rates.data,
                 }, () => {
+
                     this.setDefaultBody();
                 })
 
@@ -113,9 +115,9 @@ class MeDashboard extends Component {
                     initialSelectedIndex={this.state.activeIndex}
                     onChange={this.handleTabChange}
                 >
-                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_STARRED} value={0}/>
-                    <Tab icon={<RateReviewIcon/>} label={Str.NAV_TITLE_TIP} value={1}/>
-                    <Tab icon={<ThumbUpIcon/>} label={Str.NAV_TITLE_RATINGS} value={2}/>
+                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_STARRED + " (" + this.state.starredItems.length +")"} value={0}/>
+                    <Tab icon={<RateReviewIcon/>} label={Str.NAV_TITLE_TIP + " (" + this.state.tippedItems.length +")"} value={1}/>
+                    <Tab icon={<ThumbUpIcon/>} label={Str.NAV_TITLE_RATINGS + " (" + this.state.ratedItems.length +")"} value={2}/>
                 </Tabs>
                 {this.state.bodyContent}
             </div>

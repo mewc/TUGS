@@ -14,7 +14,6 @@ class Starred extends Component {
     render() {
         return (
             <div>
-                <h1>My Starred Subjects ({this.props.items.length})</h1>
                 {(this.props.items.length > 0) ?
                     this.props.items.map((item, index) => {
                         return <Card key={index}>
