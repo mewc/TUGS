@@ -51,26 +51,7 @@ class App extends Component {
                 message: "Snackbar message",
             },
             user: baseUser,
-            pendingTips: [
-                {
-                    userid: 10000001,
-                    subjectId: 110001,
-                    ip: "10.0.0.10",
-                    text: "This is a first"
-                },
-                {
-                    userid: 10000001,
-                    subjectId: 110002,
-                    ip: "10.0.0.10",
-                    text: "This is a Second"
-                },
-                {
-                    userid: 10000001,
-                    subjectId: 110003,
-                    ip: "10.0.0.10",
-                    text: "This is a Third"
-                }
-            ],
+
         };
         this.handleRejectReview = this.handleRejectReview.bind(this);
         this.handleApproveReview = this.handleApproveReview.bind(this);
@@ -235,8 +216,8 @@ class App extends Component {
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
         axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
-            axios.post(DATA_LH + Str.DATA_TIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
-            axios.post(DATA_LH + Str.DATA_TIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
         }).then( () => {
             this.setState({
                 user: {
@@ -311,7 +292,6 @@ class App extends Component {
             case SETTINGS_INDEX:
                 newBodyContent =
                     <Settings settings={this.state.user.settings}
-                              pendingTips={this.state.pendingTips}
                               handleApproveReview={this.handleApproveReview}
                               handleRejectReview={this.handleRejectReview}
                     />;

@@ -26,6 +26,7 @@ class Settings extends Component {
                 name: '-',
             },
             isOpen: false,
+            pendingTips: {}
         }
         this.handleOpenSecondary = this.handleOpenSecondary.bind(this);
         this.handleCloseSecondary = this.handleCloseSecondary.bind(this);
@@ -65,12 +66,12 @@ class Settings extends Component {
                 <Divider/>
                 <Subheader>Pending Tips awaiting approval</Subheader>
                 {
-                    this.props.pendingTips.map((item, index) => {
+                    this.state.pendingTips.map((item, index) => {
 
                         return <div key={index}>
                             <Divider/>
-                            <ListItem primaryText={"Subject: " + item.subjectId}
-                                      secondaryText={item.text}
+                            <ListItem primaryText={item.code}
+                                      secondaryText={"\"" + item.text + "\"" }
                             />
                             <IconButton
                                 onClick={() => this.handleApprove(index)}>
@@ -104,7 +105,7 @@ class Settings extends Component {
                                         primaryText="Faculty" secondaryText={this.state.faculty.name}/>
                                     <Divider/>
                                     <ListItem
-                                        primaryText="Disclaimer" secondaryText={""}
+                                        primaryText={Str.ACTION_TITLE_DISCLAIMER} secondaryText={Str.ACTION_TITLE_DISCLAIMER_SUB}
                                         onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
 
                                     <Divider/>
@@ -128,7 +129,7 @@ class Settings extends Component {
             return <div>
                 <Divider/>
                 <Subheader>ADMIN SETTINGS</Subheader>
-                <ListItem primaryText={Str.ACTION_TITLE_PENDINGTIPS + " (" + this.props.pendingTips.length + ")"}
+                <ListItem primaryText={Str.ACTION_TITLE_PENDINGTIPS + " (" + this.state.pendingTips.length + ")"}
                           onClick={() => this.handleOpenSecondary(this.getNewPendingView())}/>
                 <ListItem primaryText={Str.ACTION_TITLE_ANALYTICS}
                           onClick={() => this.handleOpenSecondary(this.getNewAnalyticsView())}/>
@@ -190,8 +191,17 @@ class Settings extends Component {
     }
 
     getNewPendingTips() {
-        return '';
-        //for axios when pending tips backend is up
+        let pendingEndpoint = Str.DATA_LH + Str.DATA_PENDINGTIPS_BASIC
+        axios.get(pendingEndpoint)
+            .then((res) => {
+                this.setState({
+                    pendingTips: res.data,
+                }, () => {
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     updateWithNewUserSchoolData() {

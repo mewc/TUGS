@@ -16,6 +16,11 @@ export const NAV_TITLE_RATINGS = "Ratings";
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
 export const ACTION_TITLE_PENDINGTIPS = "Approve Pending Tips";
 export const ACTION_TITLE_ANALYTICS = "Analytics";
+export const ACTION_TITLE_DISCLAIMER = "Disclaimer";
+export const ACTION_TITLE_DISCLAIMER_SUB = "";
+export const ACTION_TITLE_DISCLAIMER_SUB_ALT1 = "Why TUGS keeps you safe";
+export const ACTION_TITLE_DISCLAIMER_SUB_ALT2 = "Please Read";
+
 export const ACTION_LABEL_LEAVEREVIEW = "Submit a Tip";
 export const ACTION_HINT_LEAVEREVIEW = "Type in a short tip about this subject";
 export const ACTION_ERROR_LEAVEREVIEW = "Make it short and to the point";
@@ -60,7 +65,8 @@ export const DATA_FACULTIES = "faculties/";
 export const DATA_FACULTIES_BASIC = "faculties/basic/";
 export const DATA_SUBJECTS = "subjects/";
 export const DATA_SUBJECTS_BASIC = "subjects/basic/";
-export const DATA_TIPS = "pendingtips/";
+export const DATA_PENDINGTIPS_BASIC = "pendingtips/basic";
+export const DATA_PENDINGTIPS = "pendingtips/";
 
 export const DATA_ADD_TIP = "addTip/";
 
