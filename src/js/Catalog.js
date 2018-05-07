@@ -50,12 +50,18 @@ class Catalog extends Component {
     generateSubjectCards() {
         this.setState({
                 subjectCards: this.state.data[this.state.selectedIndex.school].faculties[this.state.selectedIndex.faculty].subjects.map((item) => {
+                    var isVotedUp = this.isVotedUp(item.id);
+                    var isVotedDn = this.isVotedDn(item.id);
                     var isStarred = this.isStarred(item.id);
+                    var isTipped = this.isTipped(item.id);
                     return <SubjectCard key={item.id}
                                         item={item}
                                         handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                         loggedIn={this.props.loggedIn}
                                         starred={isStarred}
+                                        tipped={isTipped}
+                                        votedUp={isVotedUp}
+                                        votedDn={isVotedDn}
                                         handleStarToggle={this.props.handleStarToggle}
                     />
                 })
@@ -119,6 +125,35 @@ class Catalog extends Component {
     isStarred(subId) {
         var is = false;
         for (var id of this.props.user.starred) {
+            if (id === subId) {
+                return true;
+            }
+        }
+        return is;
+    }
+
+    isTipped(subId){
+        var is = false;
+        for (var id of this.props.user.tipped) {
+            if (id === subId) {
+                return true;
+            }
+        }
+        return is;
+    }
+
+    isVotedUp(subId){
+        var is = false;
+        for (var id of this.props.user.votesUp) {
+            if (id === subId) {
+                return true;
+            }
+        }
+        return is;
+    }
+    isVotedDn(subId){
+        var is = false;
+        for (var id of this.props.user.votesDn) {
             if (id === subId) {
                 return true;
             }
