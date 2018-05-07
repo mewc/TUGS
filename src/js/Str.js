@@ -22,6 +22,7 @@ export const ACTION_SUCCESS_REJECTREVIEW = "Tip Rejected";
 export const ACTION_NODUPE_LEAVEREVIEW = "Review already left for that subject, try another";
 
 export const VALUE_MAX_TIPLENGTH = 128;
+export const VALUE_REFRESH_SIZE = 50;
 
 export const LOCALE_UK = "UK";
 export const LOCALE_US = "US";
@@ -36,10 +37,17 @@ export const DATA_LH = "http://localhost:3000/";  //so we can easily append to e
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
 export const DATA_BASIC = "basic/";
 export const DATA_ALL = "all/";
+export const DATA_FULL = "full/";
 
 export const DATA_USER_DEFAULTID = "10000001";
 export const DATA_USERS = "users/";
-export const DATA_STARRED = "starred/";
+export const DATA_STARRED_ALL = "starred/all";
+export const DATA_STARRED_BASIC = "starred/basic";
+export const DATA_VOTES_BASIC = "starred/basic";
+export const DATA_VOTESUP_BASIC = "votesup/basic";
+export const DATA_VOTESDN_BASIC = "votesdown/basic";
+export const DATA_RATING_BASIC = "rating/basic";
+export const DATA_TIPPED_BASIC = "tipped/basic";
 
 export const DATA_SCHOOLS_OLD = "schoolsOld/";
 

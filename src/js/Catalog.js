@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardHeader, List, ListItem} from 'material-ui';
+import {Card, CardHeader, List, ListItem, RefreshIndicator} from 'material-ui';
 import {Grid, Row, Col} from 'react-material-responsive-grid';
 import axios from "axios/index";
 
@@ -14,7 +14,7 @@ class Catalog extends Component {
         super(props);
         this.state = {
             data: '',
-            schoolItems: <div>Loading...</div>,
+            schoolItems: <RefreshIndicator left={0} top={0} size={Str.VALUE_REFRESH_SIZE} status={"loading"}/>,
             facultyItems: false, //bool to handle red of tabs
             subjectCards: false,
             selectedIndex: {
@@ -25,12 +25,12 @@ class Catalog extends Component {
     }
 
     componentDidMount() {
-        this.getUpdatedDataset();
+        this.getUpdatedSchoolDataset();
     }
 
-    getUpdatedDataset() {
+    getUpdatedSchoolDataset() {
         //this needs to be a request to the mongo backend so we can actually keep things persistent
-        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS_OLD)
+        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS + Str.DATA_FULL)
             .then((res) => {
                 this.setState({
                     data: res.data,
@@ -43,10 +43,28 @@ class Catalog extends Component {
             });
     }
 
+    getUpdatedFacultySubjectDataset() {
+        let selectedSchoolId = this.state.data[this.state.selectedIndex.school].id;
+        let getURL = Str.DATA_LH + Str.DATA_SCHOOLS + selectedSchoolId + "/" + Str.DATA_FULL;
+        console.log(getURL);
+        //this needs to be a request to the mongo backend so we can actually keep things persistent
+        axios.get(getURL)
+            .then((res) => {
+                this.setState({
+                    facSubData: res.data,
+                }, () => {
+                    this.generateFacultyItems();
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
 
     generateSubjectCards() {
         this.setState({
-                subjectCards: this.state.data[this.state.selectedIndex.school].faculties[this.state.selectedIndex.faculty].subjects.map((item) => {
+                subjectCards: this.state.facSubData[this.state.selectedIndex.faculty].faculty.subjects.map((item) => {
                     var isVotedUp = this.isVotedUp(item.id);
                     var isVotedDn = this.isVotedDn(item.id);
                     var isStarred = this.isStarred(item.id);
@@ -68,16 +86,18 @@ class Catalog extends Component {
 
     generateFacultyItems() {
         this.setState({
-                facultyItems: this.state.data[this.state.selectedIndex.school].faculties.map((item, index) => {
+                facultyItems: this.state.facSubData.map((item, index) => {
                     return <ListItem
                         key={index}
-                        primaryText={item.name}
-                        secondaryText={"Subjects: " + item.subjects.length}
+                        primaryText={item.faculty.name}
+                        secondaryText={"Subjects: " + item.faculty.subjects.length}
                         onClick={() => this.handleFacultyClick(index)}
                     />
                 })
             }
-        )
+            , () => {
+
+            })
     }
 
     generateSchoolItems() {
@@ -86,7 +106,7 @@ class Catalog extends Component {
                     return <ListItem
                         key={index}
                         primaryText={item.name}
-                        secondaryText={"Faculties: " + item.faculties.length}
+                        // secondaryText={"Faculties: " + item.faculties.length}
                         onClick={() => this.handleSchoolClick(index)}
                         value={index}
                     />
@@ -95,21 +115,21 @@ class Catalog extends Component {
         )
     }
 
-    handleSchoolClick(index){
+    handleSchoolClick(index) {
         this.setState({
             subjectCards: false, //to handle red of tabs
-            selectedIndex:{
+            selectedIndex: {
                 school: index,
                 faculty: null,
             }
         }, () => {
-            this.generateFacultyItems();
+            this.getUpdatedFacultySubjectDataset();
         })
     }
 
-    handleFacultyClick(index){
+    handleFacultyClick(index) {
         this.setState({
-            selectedIndex:{
+            selectedIndex: {
                 ...this.state.selectedIndex,
                 faculty: index
             }
@@ -129,7 +149,7 @@ class Catalog extends Component {
         return is;
     }
 
-    isTipped(subId){
+    isTipped(subId) {
         var is = false;
         for (var id of this.props.user.tipped) {
             if (id === subId) {
@@ -139,7 +159,7 @@ class Catalog extends Component {
         return is;
     }
 
-    isVotedUp(subId){
+    isVotedUp(subId) {
         var is = false;
         for (var id of this.props.user.votesUp) {
             if (id === subId) {
@@ -148,7 +168,8 @@ class Catalog extends Component {
         }
         return is;
     }
-    isVotedDn(subId){
+
+    isVotedDn(subId) {
         var is = false;
         for (var id of this.props.user.votesDn) {
             if (id === subId) {
@@ -164,11 +185,11 @@ class Catalog extends Component {
             <Grid>
                 <Row>
                     <Col xs4={2} sm={2} lg={2} xl={2}>
-                        <Card >
+                        <Card>
                             <CardHeader title={"Schools"}
                                         subtitle={this.state.schoolItems.length}
-                                        avatar={(this.state.facultyItems === false)? <School/> : <School/> }
-                                        // style={(this.state.facultyItems === false)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                        avatar={(this.state.facultyItems === false) ? <School/> : <School/>}
+                                // style={(this.state.facultyItems === false)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>
@@ -178,8 +199,8 @@ class Catalog extends Component {
                     <Col xs4={2} sm={4} lg={4} xl={4}>
                         <Card>
                             <CardHeader title={"Faculties"}
-                                        subtitle={(this.state.facultyItems.length > 0)? this.state.facultyItems.length : "Select a school"}
-                                        // style={(this.state.facultyItems.length > 0 && this.state.subjectCards === false )? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                        subtitle={(this.state.facultyItems.length > 0) ? this.state.facultyItems.length : "Select a school"}
+                                // style={(this.state.facultyItems.length > 0 && this.state.subjectCards === false )? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>
@@ -189,8 +210,8 @@ class Catalog extends Component {
                     <Col xs4={4} sm={6} lg={6} xl={6}>
                         <Card>
                             <CardHeader title={"Subjects"}
-                                        subtitle={(this.state.subjectCards.length > 0)? this.state.subjectCards.length : "Select a faculty"}
-                                        // style={(this.state.subjectCards.length > 0)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                        subtitle={(this.state.subjectCards.length > 0) ? this.state.subjectCards.length : "Select a faculty"}
+                                // style={(this.state.subjectCards.length > 0)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
                             />
                         </Card>
                         <List>
