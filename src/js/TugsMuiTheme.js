@@ -1,6 +1,6 @@
-import {grey50, grey200, grey400, grey700, grey900,
-    red900, red600, red400,
-    teal900, teal600, teal400,
+import {grey50, grey200, grey400, grey900,
+    red900, red600,
+    teal900, teal600,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 import spacing from 'material-ui/styles/spacing';

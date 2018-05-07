@@ -37,6 +37,7 @@ export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.c
 export const DATA_BASIC = "basic/";
 export const DATA_ALL = "all/";
 
+export const DATA_USER_DEFAULTID = "10000001";
 export const DATA_USERS = "users/";
 export const DATA_STARRED = "starred/";
 
@@ -48,6 +49,9 @@ export const DATA_FACULTIES = "faculties/";
 export const DATA_FACULTIES_BASIC = "faculties/basic/";
 export const DATA_SUBJECTS = "subjects/";
 export const DATA_SUBJECTS_BASIC = "subjects/basic/";
-export const DATA_PENDINGTIPS = "pendingtips/";
-export const DATA_ADDTIP = "addTip/";
-export const DATA_REMOVETIP = "removeTip/";
+export const DATA_TIPS = "pendingtips/";
+
+export const DATA_ADD_TIP = "addTip/";
+
+
+export const DATA_REMOVE_TIP = "removeTip/";

@@ -3,9 +3,9 @@ import {CardHeader, Card} from 'material-ui'
 import '../css/App.css';
 
 class Reviews extends Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
 
 
@@ -16,7 +16,7 @@ class Reviews extends Component {
                 {(this.props.reviewed.length > 0) ?
                     this.props.reviewed.map((item, index) => {
                         return <Card key={index}>
-                            <CardHeader title={"Reviewed" + item} subtitle={test}/>
+                            <CardHeader title={"Reviewed" + item} subtitle={"test"}/>
                         </Card>
                     })
                     :<div>No Reviewed Subjects</div>

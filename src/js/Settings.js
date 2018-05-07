@@ -88,18 +88,6 @@ class Settings extends Component {
     }
 
     render() {
-        var colSize = {
-            left:
-                [
-                    {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
-                    {xs: 4, s: 11, l: 12, xl: 12}, //isOpen:false
-                ],
-            right:
-                [
-                    {xs: 2, s: 6, l: 8, xl: 8}, //isOpen:true
-                    {xs: 0, s: 0, l: 0, xl: 0}, //isOpen:false
-                ],
-        };
 
         return (
             <div>
@@ -116,7 +104,8 @@ class Settings extends Component {
                                         primaryText="Faculty" secondaryText={this.state.faculty.name}/>
                                     <Divider/>
                                     <ListItem
-                                        primaryText="Disclaimer" secondaryText={""} onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
+                                        primaryText="Disclaimer" secondaryText={""}
+                                        onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
 
                                     <Divider/>
                                     {this.tryForAdminPanel()}
@@ -170,7 +159,9 @@ class Settings extends Component {
                 {this.getSettingsHomeButton()}
                 <Divider/>
                 <Card>
-                    <CardHeader title={"What you need to know"} subtitle={"How we make this safe to be honest and helpful to others"} avatar={<AlertIcon/>}/>
+                    <CardHeader title={"What you need to know"}
+                                subtitle={"How we make this safe to be honest and helpful to others"}
+                                avatar={<AlertIcon/>}/>
                     <CardText>
                         {Str.APP_PRIVACY_TEXT}
                     </CardText>
@@ -204,19 +195,28 @@ class Settings extends Component {
     }
 
     updateWithNewUserSchoolData() {
-        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS_OLD + this.props.settings.uniId + Str.DATA_FACULTIES  + this.props.settings.facultyId +
-            Str.DATA_BASIC)
-            .then((res) => {
-                console.log(res.data[0]);
+        let GET_FACULTY_URL = Str.DATA_LH + Str.DATA_FACULTIES + this.props.settings.facultyId + "/" +
+            Str.DATA_BASIC;
+        let GET_UNI_URL = Str.DATA_LH + Str.DATA_SCHOOLS + this.props.settings.uniId + "/" +
+            Str.DATA_BASIC;
+        let LINK_PROMISE_ARR = [,];
+
+        axios.all([
+            axios.get(GET_FACULTY_URL),
+            axios.get(GET_UNI_URL)
+        ])
+            .then(axios.spread((fac, uni) => {
                 this.setState({
                     uni: {
-                        name: res.data[0].name,
+                        name: uni.data.name,
                     },
-                    faculty: res.data[0].faculty[0]
+                    faculty: {
+                        name: fac.data.name
+                    }
                 }, () => {
                     console.log(this.state);
                 })
-            })
+            }))
             .catch((err) => {
                 console.log(err);
             })

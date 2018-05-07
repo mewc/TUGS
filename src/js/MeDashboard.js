@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import TugsMuiTheme from './TugsMuiTheme';
 import {Tab, Tabs} from 'material-ui';
 import StarIcon from 'material-ui/svg-icons/action/stars';
 import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
+// import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
 import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import '../css/App.css';
 
@@ -43,7 +42,7 @@ class MeDashboard extends Component {
     getUpdatedDataset() {
         let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + Str.DATA_STARRED;
 
-        axios.get(Str.DATA_LH + Str.DATA_USERS + this.props.user.id + Str.DATA_STARRED)
+        axios.get(userStarredEndpoint)
             .then((res) => {
                 console.log(res);
                 this.setState({
@@ -56,7 +55,6 @@ class MeDashboard extends Component {
     }
 
     handleTabChange = (index) => {
-        console.log(index);
         let newBodyContent = <Starred
             user={this.props.user}
             handleStarToggle={this.props.handleStarToggle}

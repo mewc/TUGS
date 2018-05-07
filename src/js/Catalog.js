@@ -6,11 +6,8 @@ import axios from "axios/index";
 import School from 'material-ui/svg-icons/social/school';
 
 import SubjectCard from './SubjectCard'
-import SchoolCard from './SchoolCard'
 import '../css/App.css';
-import {testData} from "../resources/testData";
 import * as Str from "./Str";
-import TugsMuiTheme from "./TugsMuiTheme";
 
 class Catalog extends Component {
     constructor(props) {

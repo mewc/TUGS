@@ -26,13 +26,9 @@ import Catalog from './Catalog';
 import MeDashboard from './MeDashboard';
 import * as Str from './Str';
 import '../css/App.css';
-import {testData} from '../resources/testData'
 import {DATA_LH} from "./Str";
 import {DATA_USERS} from "./Str";
-import {DATA_PENDINGTIPS} from "./Str";
-import {DATA_PENDINGTIPS_ADD} from "./Str";
-import {DATA_ADDTIP} from "./Str";
-import {DATA_REMOVETIP} from "./Str";
+import {baseUser} from '../resources/baseUser'
 
 const IconSettings = <IconSettingsImport/>;
 const IconYou = <IconPersonImport/>;
@@ -54,7 +50,7 @@ class App extends Component {
                 open: false,
                 message: "Snackbar message",
             },
-            user: testData.users[0],
+            user: baseUser,
             pendingTips: [
                 {
                     userid: 10000001,
@@ -99,6 +95,24 @@ class App extends Component {
 
     componentDidMount() {
         this.selectBottomNav(CATALOG_INDEX);
+        this.checkLogin();
+    }
+
+    checkLogin(){
+        //todo handle auth and setting of user state here
+        //get default user
+        console.log("Checking user login status")
+        axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
+            .then((res) => {
+                this.setState({
+                    user: res.data,
+                }, () => {
+                    console.log("User logged in");
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     handleSnackbarClose = () => {
@@ -166,7 +180,8 @@ class App extends Component {
     }
 
     handleApproveReview(pendingTipsIndex) {
-        var reviewApproved = this.state.pendingTips[pendingTipsIndex];
+        // var reviewApproved = this.state.pendingTips[pendingTipsIndex];
+
         //add review to the subject
         this.addApprovedTipToSubject(pendingTipsIndex);
 
@@ -203,14 +218,15 @@ class App extends Component {
     // submit a tip text to a subject id and it just ingest it
     // then we just update the front end with the update and we're all gooooood
     addApprovedTipToSubject(index) {
-        var fullTip = this.state.pendingTips[index];
+        //only commented out for compile warning suppression--
+        // var fullTip = this.state.pendingTips[index];
 
-        var tip = {
-            userid: 10000001,
-            subjectId: 110001,
-            ip: "10.0.0.10",
-            text: "This is a first"
-        }
+        // var tip = {
+        //     userid: 10000001,
+        //     subjectId: 110001,
+        //     ip: "10.0.0.10",
+        //     text: "This is a first"
+        // }
 
 
         // this.updateDataset();  //will need to be run when db integration is up and going
@@ -218,8 +234,9 @@ class App extends Component {
 
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
-        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + DATA_ADDTIP + subjectId).then(() => {
-            axios.post(DATA_LH + DATA_PENDINGTIPS + DATA_ADDTIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+            axios.post(DATA_LH + Str.DATA_TIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
+            axios.post(DATA_LH + Str.DATA_TIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", user: this.state.user.id})
         }).then( () => {
             this.setState({
                 user: {
@@ -239,7 +256,8 @@ class App extends Component {
                 console.log(this.state.pendingTips);
             })
         }).catch(()=> {
-            axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + DATA_REMOVETIP + subjectId)
+            //tip already exists
+            axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_REMOVE_TIP + subjectId)
         });
     }
 

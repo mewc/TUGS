@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import {Card, CardHeader} from 'material-ui'
-import SubjectCard from './SubjectCard'
 import '../css/App.css';
 
 class Starred extends Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     componentDidMount() {
     }
 
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <h1>My Starred Subjects ({this.props.starred.length})</h1>
