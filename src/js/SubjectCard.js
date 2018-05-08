@@ -69,7 +69,7 @@ class SubjectCard extends Component {
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
                         readOnly={this.userId === 7357}
-
+                        disabled={this.props.userId === 7357}
                     />
                 </span>
                 <span>
@@ -113,7 +113,8 @@ class SubjectCard extends Component {
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
 
                 <IconButton
-                    onClick={this.handleStarClick.bind(this)}>
+                    onClick={this.handleStarClick.bind(this)}
+                    disabled={this.props.userId === 7357}>
                     <StarIcon color={(this.state.starred) ? yellow800 : black}/>
                 </IconButton>
 

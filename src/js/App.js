@@ -47,8 +47,8 @@ class App extends Component {
                 valid: false,
                 user: baseUser,
             },
-            selectedBottomNavIndex: 0,
-            bodyContent: '',
+            selectedBottomNavIndex: -1, //so one isnt highlighted at the start if not auth'd
+            bodyContent: <div style={{margin: "30%"}}><h2>Please <Login checklogin={this.checkLogin.bind(this)}/> now</h2></div>,
             snackbar: {
                 open: false,
                 message: "Snackbar message",
@@ -202,8 +202,8 @@ class App extends Component {
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
-                    <Settings settings={this.state.user.settings}
-                              userId={this.state.user.id}
+                    <Settings settings={this.state.auth.user.settings}
+                              userId={this.state.auth.user.id}
                     />;
                 break;
             case STAR_INDEX:
@@ -268,6 +268,7 @@ class App extends Component {
                     />}
 
                     <div className="BottomNav">
+                        {(this.state.auth.valid)?
                         <Paper zDepth={2}>
                             <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
                                 <BottomNavigationItem
@@ -288,6 +289,7 @@ class App extends Component {
 
                             </BottomNavigation>
                         </Paper>
+                            :<div></div>}
                     </div>
                 </div>
             </MTP>
@@ -313,9 +315,10 @@ class Login extends Component {
 
     render() {
         return <FlatButton
-             label={Str.NAV_TITLE_LOGIN}
-            onClick={this.props.checklogin}
-        />;
+                    {...this.props}
+                    label={Str.NAV_TITLE_LOGIN}
+                    onClick={this.props.checklogin}
+                />;
     }
 }
 
