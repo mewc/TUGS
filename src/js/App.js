@@ -127,8 +127,8 @@ class App extends Component {
     }
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
-        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
-            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
+        Axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+            Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
                 ip: "10.0.0.10",
                 submittedBy: this.state.user.id
