@@ -101,7 +101,7 @@ export const testData = {
                     value: 3
                 }
             ],
-            starred: [
+            saved: [
                 1,2
             ],
             tipped: [
@@ -127,7 +127,7 @@ export const testData = {
                 1, 2, 3
             ],
             rating: [],
-            starred: [
+            saved: [
                 1
             ],
             tips: [2],
@@ -162,7 +162,7 @@ export const testData = {
                     value: 5
                 }
             ],
-            starred: [
+            saved: [
 
             ],
             tips: [2, 3],

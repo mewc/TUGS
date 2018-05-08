@@ -18,7 +18,7 @@ export const NAV_TITLE_SETTINGS = "Settings";
 export const NAV_TITLE_LOGIN = "Login";
 export const NAV_TITLE_SIGNOUT = "Sign Out";
 export const NAV_TITLE_TIP = "Tips";
-export const NAV_TITLE_STARRED = "Starred";
+export const NAV_TITLE_SAVED = "Saved";
 export const NAV_TITLE_RATINGS = "Ratings";
 export const NAV_TITLE_FACULTIES = "Faculties";
 export const NAV_TITLE_SCHOOLS = "Schools";
@@ -45,9 +45,6 @@ export const ACTION_AUTH_SIGNOUT = "Sign out success";
 export const VALUE_MAX_TIPLENGTH = 128;
 export const VALUE_REFRESH_SIZE = 50;
 
-
-
-
 export const DATA_LH = "http://localhost:3000/";  //so we can easily append to endpoint names
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
 export const DATA_BASIC = "basic/";
@@ -56,9 +53,9 @@ export const DATA_FULL = "full/";
 
 export const DATA_USER_DEFAULTID = "10000001";
 export const DATA_USERS = "users/";
-export const DATA_STARRED_ALL = "starred/all";
-export const DATA_STARRED_BASIC = "starred/basic";
-export const DATA_VOTES_BASIC = "starred/basic";
+export const DATA_SAVED_ALL = "saved/all";
+export const DATA_SAVED_BASIC = "saved/basic";
+export const DATA_VOTES_BASIC = "saved/basic";
 export const DATA_VOTESUP_BASIC = "votesup/basic";
 export const DATA_VOTESDN_BASIC = "votesdown/basic";
 export const DATA_RATING_BASIC = "rating/basic";
@@ -80,5 +77,5 @@ export const DATA_ADD_TIP = "addTip/";
 export const DATA_REMOVE_TIP = "removeTip/";
 export const DATA_APPROVE_TIP = "approveTip/";
 export const DATA_REJECT_TIP = "rejectTip/";
-export const DATA_ADD_STARRED = "addStarred/";
-export const DATA_REMOVE_STARRED = "removeStarred/";
+export const DATA_ADD_SAVED = "addSaved/";
+export const DATA_REMOVE_SAVED = "removeSaved/";
