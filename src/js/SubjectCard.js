@@ -5,9 +5,9 @@ import {
     LinearProgress,
     Card,
     CardActions,
-    // CardMedia,
     CardHeader,
     CardText,
+    // CardMedia,
     // CardTitle,
     Divider,
     FlatButton,
@@ -16,8 +16,8 @@ import {
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
 import StarIcon from 'material-ui/svg-icons/action/stars';
-import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
+// import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
+// import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
 import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import * as Str from './Str';
 import Axios from 'axios';
@@ -38,7 +38,7 @@ class SubjectCard extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.starred);
+        console.log(props);
         this.state = {
             starred: this.props.starred,    //all handled in here once initial state is set
             dialogOpen: false,
@@ -68,7 +68,7 @@ class SubjectCard extends Component {
                         value={Math.round(this.props.item.rewarding.avg)}
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
-                        readOnly={!this.props.loggedIn}
+                        readOnly={this.userId === 7357}
 
                     />
                 </span>
@@ -194,9 +194,6 @@ class SubjectCard extends Component {
             //add starred
             return this.addStarred(id)
         }
-
-        return true;
-
     }
 
     rmStarred(id) { //basically the same as review, can clean up

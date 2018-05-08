@@ -43,9 +43,10 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-            loggedIn: true,
-            user: baseUser,
+            auth: {
+                valid: false,
+                user: baseUser,
+            },
             selectedBottomNavIndex: 0,
             bodyContent: '',
             snackbar: {
@@ -58,6 +59,7 @@ class App extends Component {
         this.updateUserInfo = this.updateUserInfo.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
+        this.checkLogin = this.checkLogin.bind(this);
 
     }
 
@@ -75,18 +77,24 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.checkLogin(); //which callbacks for this.selectBottomNav(CATALOG_INDEX);
+        // this.checkLogin(); //which callbacks for this.selectBottomNav(CATALOG_INDEX);
 
     }
 
     checkLogin() {
         //todo handle auth and setting of user state here
+
         //get default user
         console.log("Checking user login status")
+        let isValid = true;
+
         Axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
             .then((res) => {
                 this.setState({
-                    user: res.data,
+                    auth: {
+                        valid: isValid,
+                        user: res.data
+                    },
                 }, () => {
                     console.log("User logged in");
                     this.selectBottomNav(CATALOG_INDEX);
@@ -113,12 +121,12 @@ class App extends Component {
 
 
     rmReview(id) {//basically the same as starred, can clean up
-        var array = this.state.user.tipped;
+        var array = this.state.auth.user.tipped;
         var index = array.indexOf(id)
         array.splice(index, 1);
         this.setState({
             user: {
-                ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
+                ...this.state.auth.user, //this adds all current user attr. and lets us overwrite what we want to
                 tipped: array,
             }
         }, () => {
@@ -127,7 +135,7 @@ class App extends Component {
     }
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
-        Axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+        Axios.post(DATA_LH + DATA_USERS + this.state.auth.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
             Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
                 ip: "10.0.0.10",
@@ -170,9 +178,9 @@ class App extends Component {
 
 
     handleRequestToLeaveReview = (subjectId, reviewText) => {
-        console.log(subjectId + " wants to be reviewed by " + this.state.user.id + " with tip " + reviewText);
+        console.log(subjectId + " wants to be reviewed by " + this.state.auth.user.id + " with tip " + reviewText);
 
-        if (this.alreadyReviewed(subjectId, this.state.user.tipped)) {
+        if (this.alreadyReviewed(subjectId, this.state.auth.user.tipped)) {
             this.triggerSnackbar("Review already left for that subject, try another");
         } else {
             this.addPendingTip(subjectId, reviewText);
@@ -187,8 +195,7 @@ class App extends Component {
         newBodyContent = this.state.bodyContent;
         var catalog =
             <Catalog
-                user={this.state.user}
-                loggedIn={this.state.loggedIn}
+                user={this.state.auth.user}
                 handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                 updateUserInfo={this.updateUserInfo}
             />;
@@ -202,7 +209,7 @@ class App extends Component {
             case STAR_INDEX:
                 newBodyContent =
                     <MeDashboard
-                        user={this.state.user}
+                        user={this.state.auth.user}
                         handleRequestToLeaveReview={this.handleRequestToLeaveReview}
                         handleStarToggle={this.handleStarToggle}
                     />;
@@ -232,11 +239,11 @@ class App extends Component {
                             title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
                             iconElementRight={
                                 <div>
-                                    {this.state.loggedIn ? <Logged/> : <Login/>}
-                                    {this.state.user.settings.admin ?
+                                    {this.state.auth.valid ? <Logged/> : <Login checklogin={this.checkLogin}/>}
+                                    {this.state.auth.user.settings.admin ?
                                         <FlatButton label="STATE" onClick={this.logState}/> :
                                         <div/>}
-                                    {this.state.user.settings.admin ?
+                                    {this.state.auth.user.settings.admin ?
                                         <FlatButton label="SNACK" onClick={() => this.triggerSnackbar("TEST THIS")}/> :
                                         <div/>}
                                 </div>
@@ -244,7 +251,7 @@ class App extends Component {
                             iconElementLeft={
                                 <div></div>
                             }
-                            style={this.state.user.settings.style}
+                            style={this.state.auth.user.settings.style}
                         />
                     </Headroom>
 
@@ -261,26 +268,26 @@ class App extends Component {
                     />}
 
                     <div className="BottomNav">
-                            <Paper zDepth={2}>
-                                <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
-                                    <BottomNavigationItem
-                                        label={Str.NAV_TITLE_CATALOG}
-                                        icon={IconCatalog}
-                                        onClick={() => this.selectBottomNav(0)}
-                                    />
-                                    <BottomNavigationItem
-                                        label={(this.state.user) ? this.state.user.name : Str.NAV_TITLE_YOU}
-                                        icon={IconYou}
-                                        onClick={() => this.selectBottomNav(1)}
-                                    />
-                                    <BottomNavigationItem
-                                        label={Str.NAV_TITLE_SETTINGS}
-                                        icon={IconSettings}
-                                        onClick={() => this.selectBottomNav(2)}
-                                    />
+                        <Paper zDepth={2}>
+                            <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
+                                <BottomNavigationItem
+                                    label={Str.NAV_TITLE_CATALOG}
+                                    icon={IconCatalog}
+                                    onClick={() => this.selectBottomNav(0)}
+                                />
+                                <BottomNavigationItem
+                                    label={(this.state.auth.user) ? this.state.auth.user.name : Str.NAV_TITLE_YOU}
+                                    icon={IconYou}
+                                    onClick={() => this.selectBottomNav(1)}
+                                />
+                                <BottomNavigationItem
+                                    label={Str.NAV_TITLE_SETTINGS}
+                                    icon={IconSettings}
+                                    onClick={() => this.selectBottomNav(2)}
+                                />
 
-                                </BottomNavigation>
-                            </Paper>
+                            </BottomNavigation>
+                        </Paper>
                     </div>
                 </div>
             </MTP>
@@ -305,7 +312,10 @@ class Login extends Component {
     static muiName = 'FlatButton';
 
     render() {
-        return (<FlatButton {...this.props} label={Str.NAV_TITLE_LOGIN}/>);
+        return <FlatButton
+             label={Str.NAV_TITLE_LOGIN}
+            onClick={this.props.checklogin}
+        />;
     }
 }
 

@@ -52,16 +52,12 @@ class MeDashboard extends Component {
         let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
         let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_TIPPED_BASIC;
         let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_RATING_BASIC;
-
-        console.log(userRatingsEndpoint);
-
         axios.all([
             axios.get(userStarredEndpoint),
             axios.get(userTippedEndpoint),
             axios.get(userRatingsEndpoint),
         ])
             .then(axios.spread((stars, tips, rates) => {
-                console.log(stars, tips, rates)
                 this.setState({
                     starredItems: stars.data,
                     tippedItems: tips.data,
