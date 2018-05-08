@@ -116,7 +116,20 @@ class App extends Component {
     }
 
     updateUserInfo(id) {
-
+        Axios.get(Str.DATA_LH + Str.DATA_USERS + id)
+            .then((res) => {
+                this.setState({
+                    auth:{
+                        user: res.data
+                    },
+                }, () => {
+                    console.log("data updated");
+                    this.selectBottomNav(CATALOG_INDEX);
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
 

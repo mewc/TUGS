@@ -200,27 +200,14 @@ class SubjectCard extends Component {
     rmStarred(id) { //basically the same as review, can clean up
         console.log("remove starred: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_STARRED + id).then(() => {
-            var array = this.state.user.starred;
-            var index = array.indexOf(id)
-            array.splice(index, 1);
-            this.setState({
-                user: {
-                    ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                    starred: array,
-                }
-            })
+            this.props.updateUserInfo;
         })
     }
 
     addStarred(id) {//basically the same as review, can clean up
         console.log("add starred: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_STARRED + id).then(() => {
-            this.setState({
-                user: {
-                    ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                    starred: [...this.state.user.starred, id]
-                }
-            })
+            this.props.updateUserInfo;
         })
     }
 
