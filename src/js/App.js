@@ -19,7 +19,8 @@ import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TugsLogo from '../resources/branding/tugs_logo_wrapped.png';
-import axios from 'axios';
+import Axios from 'axios';
+import Headroom from 'react-headroom';
 
 import Settings from './Settings';
 import Catalog from './Catalog';
@@ -44,19 +45,20 @@ class App extends Component {
         this.state = {
 
             loggedIn: true,
+            user: baseUser,
             selectedBottomNavIndex: 0,
             bodyContent: '',
             snackbar: {
                 open: false,
                 message: "Snackbar message",
             },
-            user: baseUser,
 
         };
         this.handleSignout = this.handleSignout.bind(this);
         this.updateUserInfo = this.updateUserInfo.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
+
     }
 
 
@@ -81,7 +83,7 @@ class App extends Component {
         //todo handle auth and setting of user state here
         //get default user
         console.log("Checking user login status")
-        axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
+        Axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
             .then((res) => {
                 this.setState({
                     user: res.data,
@@ -225,50 +227,60 @@ class App extends Component {
         return (
             <MTP muiTheme={getMuiTheme(TugsMuiTheme)}>
                 <div className="App">
-                    <AppBar
-                        title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
-                        iconElementRight={
-                            <div>
-                                {this.state.loggedIn ? <Logged/> : <Login/>}
-                                {this.state.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> :
-                                    <div/>}
-                            </div>
-                        }
-                        iconElementLeft={
-                            <div></div>
-                        }
-                        style={this.state.user.settings.style}
-                    />
+                    <Headroom>
+                        <AppBar
+                            title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
+                            iconElementRight={
+                                <div>
+                                    {this.state.loggedIn ? <Logged/> : <Login/>}
+                                    {this.state.user.settings.admin ?
+                                        <FlatButton label="STATE" onClick={this.logState}/> :
+                                        <div/>}
+                                    {this.state.user.settings.admin ?
+                                        <FlatButton label="SNACK" onClick={() => this.triggerSnackbar("TEST THIS")}/> :
+                                        <div/>}
+                                </div>
+                            }
+                            iconElementLeft={
+                                <div></div>
+                            }
+                            style={this.state.user.settings.style}
+                        />
+                    </Headroom>
 
-                    {this.state.bodyContent}
+                    <div className={"body-content"}>
+                        {this.state.bodyContent}
+                    </div>
 
                     {<Snackbar
                         open={this.state.snackbar.open}
                         message={this.state.snackbar.message}
-                        autoHideDuration={5000}
+                        autoHideDuration={4000}
                         onRequestClose={this.handleSnackbarClose}
+                        className={"snackbar"}
                     />}
 
                     <div className="BottomNav">
-                        <Paper zDepth={1}>
-                            <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
-                                <BottomNavigationItem
-                                    label={Str.NAV_TITLE_CATALOG}
-                                    icon={IconCatalog}
-                                    onClick={() => this.selectBottomNav(0)}
-                                />
-                                <BottomNavigationItem
-                                    label={(this.state.user) ? this.state.user.name : Str.NAV_TITLE_YOU}
-                                    icon={IconYou}
-                                    onClick={() => this.selectBottomNav(1)}
-                                />
-                                <BottomNavigationItem
-                                    label={Str.NAV_TITLE_SETTINGS}
-                                    icon={IconSettings}
-                                    onClick={() => this.selectBottomNav(2)}
-                                />
-                            </BottomNavigation>
-                        </Paper>
+                            <Paper zDepth={2}>
+                                <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
+                                    <BottomNavigationItem
+                                        label={Str.NAV_TITLE_CATALOG}
+                                        icon={IconCatalog}
+                                        onClick={() => this.selectBottomNav(0)}
+                                    />
+                                    <BottomNavigationItem
+                                        label={(this.state.user) ? this.state.user.name : Str.NAV_TITLE_YOU}
+                                        icon={IconYou}
+                                        onClick={() => this.selectBottomNav(1)}
+                                    />
+                                    <BottomNavigationItem
+                                        label={Str.NAV_TITLE_SETTINGS}
+                                        icon={IconSettings}
+                                        onClick={() => this.selectBottomNav(2)}
+                                    />
+
+                                </BottomNavigation>
+                            </Paper>
                     </div>
                 </div>
             </MTP>

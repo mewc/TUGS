@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import {Card, CardHeader, List, ListItem, RefreshIndicator} from 'material-ui';
 import {Grid, Row, Col} from 'react-material-responsive-grid';
 import axios from "axios/index";
+import TugsMuiTheme from "./TugsMuiTheme";
 
 import School from 'material-ui/svg-icons/social/school';
 
 import SubjectCard from './SubjectCard'
 import '../css/App.css';
 import * as Str from "./Str";
+import {NAV_TITLE_SCHOOLS} from "./Str";
+import {NAV_TITLE_SUBJECTS} from "./Str";
 
 class Catalog extends Component {
     constructor(props) {
@@ -115,6 +118,7 @@ class Catalog extends Component {
     handleSchoolClick(index) {
         this.setState({
             subjectCards: false, //to handle red of tabs
+            facultyCards: false, //to handle red of tabs
             selectedIndex: {
                 school: index,
                 faculty: null,
@@ -138,10 +142,7 @@ class Catalog extends Component {
 
     isStarred(subId) {
         let is = false;
-        console.log(subId);
-        console.log(this.props.user.starred);
         for (var id of this.props.user.starred) {
-            console.log(id);
                 if (id === subId) {
                     return true;
                 }
@@ -185,11 +186,12 @@ class Catalog extends Component {
             <Grid>
                 <Row>
                     <Col xs4={2} sm={2} lg={2} xl={2}>
-                        <Card>
-                            <CardHeader title={"Schools"}
+                        <Card  style={{ backgroundColor: TugsMuiTheme.palette.primary1Color, color: TugsMuiTheme.palette.lightTextColor}}>
+                            <CardHeader title={NAV_TITLE_SCHOOLS}
                                         subtitle={this.state.schoolItems.length}
-                                        avatar={(this.state.facultyItems === false) ? <School/> : <School/>}
-                                // style={(this.state.facultyItems === false)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                        avatar={(this.state.facultyItems === false) ? <School color={TugsMuiTheme.palette.accent1Color}/> : <School  color={TugsMuiTheme.palette.accent1Color}/>}
+                                        titleColor={TugsMuiTheme.palette.alternateTextColor}
+                                        subtitleColor={TugsMuiTheme.palette.midTextColor}
                             />
                         </Card>
                         <List>
@@ -197,10 +199,11 @@ class Catalog extends Component {
                         </List>
                     </Col>
                     <Col xs4={2} sm={4} lg={4} xl={4}>
-                        <Card>
-                            <CardHeader title={"Faculties"}
+                        <Card style={{ backgroundColor: TugsMuiTheme.palette.primary1Color}}>
+                            <CardHeader title={Str.NAV_TITLE_FACULTIES}
                                         subtitle={(this.state.facultyItems.length > 0) ? this.state.facultyItems.length : "Select a school"}
-                                // style={(this.state.facultyItems.length > 0 && this.state.subjectCards === false )? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                        titleColor={TugsMuiTheme.palette.alternateTextColor}
+                                        subtitleColor={TugsMuiTheme.palette.midTextColor}
                             />
                         </Card>
                         <List>
@@ -208,10 +211,11 @@ class Catalog extends Component {
                         </List>
                     </Col>
                     <Col xs4={4} sm={6} lg={6} xl={6}>
-                        <Card>
-                            <CardHeader title={"Subjects"}
+                        <Card  style={{ backgroundColor: TugsMuiTheme.palette.primary1Color, color: TugsMuiTheme.palette.lightTextColor}}>
+                            <CardHeader title={NAV_TITLE_SUBJECTS}
                                         subtitle={(this.state.subjectCards.length > 0) ? this.state.subjectCards.length : "Select a faculty"}
-                                // style={(this.state.subjectCards.length > 0)? {backgroundColor: TugsMuiTheme.palette.primary2Color} : "Select a school"}
+                                            titleColor={TugsMuiTheme.palette.alternateTextColor}
+                                            subtitleColor={TugsMuiTheme.palette.midTextColor}
                             />
                         </Card>
                         <List>

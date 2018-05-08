@@ -7,6 +7,7 @@ import RejectIcon from 'material-ui/svg-icons/content/clear'
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back'
 import HubIcon from 'material-ui/svg-icons/hardware/device-hub'
 import AlertIcon from 'material-ui/svg-icons/alert/error-outline'
+import TugsMuiTheme from './TugsMuiTheme'
 
 import {Grid, Row, Col} from 'react-material-responsive-grid';
 import axios from "axios/index";
@@ -126,7 +127,6 @@ class Settings extends Component {
                              lg={(this.state.isOpen) ? 8 : 12} xl={(this.state.isOpen) ? 8 : 12}>
                             <div>
                                 <List>
-                                    <Subheader>Settings </Subheader>
                                     <ListItem
                                         primaryText="School" secondaryText={this.state.uni.name}/>
                                     <ListItem
