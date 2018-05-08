@@ -39,6 +39,8 @@ export const ACTION_SUCCESS_LEAVEREVIEW = "Your tip was submitted to be reviewed
 export const ACTION_SUCCESS_APPROVEREVIEW = "Tip Approved";
 export const ACTION_SUCCESS_REJECTREVIEW = "Tip Rejected";
 export const ACTION_NODUPE_LEAVEREVIEW = "Review already left for that subject, try another";
+export const ACTION_AUTH_SIGNIN = "Sign in success";
+export const ACTION_AUTH_SIGNOUT = "Sign out success";
 
 export const VALUE_MAX_TIPLENGTH = 128;
 export const VALUE_REFRESH_SIZE = 50;
