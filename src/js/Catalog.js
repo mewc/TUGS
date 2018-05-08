@@ -118,6 +118,7 @@ class Catalog extends Component {
     handleSchoolClick(index) {
         this.setState({
             subjectCards: false, //to handle red of tabs
+            facultyCards: false, //to handle red of tabs
             selectedIndex: {
                 school: index,
                 faculty: null,
@@ -141,10 +142,7 @@ class Catalog extends Component {
 
     isStarred(subId) {
         let is = false;
-        console.log(subId);
-        console.log(this.props.user.starred);
         for (var id of this.props.user.starred) {
-            console.log(id);
                 if (id === subId) {
                     return true;
                 }
