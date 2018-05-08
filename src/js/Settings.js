@@ -13,6 +13,7 @@ import {Grid, Row, Col} from 'react-material-responsive-grid';
 import axios from "axios/index";
 
 import '../css/App.css';
+import {DATA_LH} from "./Str";
 
 class Settings extends Component {
     constructor(props) {
@@ -39,18 +40,24 @@ class Settings extends Component {
         this.getNewPendingTips();
     }
 
-    handleReject(i) {
-        this.props.handleRejectReview(i);
-        this.updatePendingTipView();
-        console.log(i + " rejected");
-        console.log(this.props);
+    handleReject(item, index) {
+        axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
+            this.handleRejectReview(index);
+            this.updatePendingTipView();
+            console.log(item + " rejected");
+            console.log(this.props);
+        });
     }
 
-    handleApprove(i) {
-        this.props.handleApproveReview(i);
-        this.updatePendingTipView();
-        console.log(i + " approved");
-        console.log(this.props);
+    handleApprove(item, index) {
+        console.log(item);
+        axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
+            this.handleApproveReview(index);
+            this.updatePendingTipView();
+            console.log(item + " approved");
+            console.log(this.props);
+        });
+
     }
 
     updatePendingTipView() {
@@ -59,6 +66,27 @@ class Settings extends Component {
             pageSecondaryElement: newSecondaryElement,
         })
     }
+
+    handleRejectReview(pendingTipsIndex) {
+        this.rmFromPendingTips(pendingTipsIndex);
+
+    }
+
+    handleApproveReview(pendingTipsIndex) {
+        // var reviewApproved = this.state.pendingTips[pendingTipsIndex];
+        this.rmFromPendingTips(pendingTipsIndex);
+    }
+
+    rmFromPendingTips(index) {
+        var pendingTipsArray = this.state.pendingTips;
+        //remove from state
+        pendingTipsArray.splice(index, 1);
+
+        this.setState({
+            pendingTips: pendingTipsArray
+        }, () => console.log("PendingTips " + index + " removed from saved"));
+    }
+
 
     getNewPendingView() {
         return <div>
@@ -75,11 +103,11 @@ class Settings extends Component {
                                       secondaryText={"\"" + item.text + "\"" }
                             />
                             <IconButton
-                                onClick={() => this.handleApprove(index)}>
+                                onClick={() => this.handleApprove(item, index)}>
                                 <ApproveIcon/>
                             </IconButton>
                             <IconButton
-                                onClick={() => this.handleReject(index)}>
+                                onClick={() => this.handleReject(item, index)}>
                                 <RejectIcon/>
                             </IconButton>
 

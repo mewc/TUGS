@@ -54,8 +54,6 @@ class App extends Component {
             },
 
         };
-        this.handleRejectReview = this.handleRejectReview.bind(this);
-        this.handleApproveReview = this.handleApproveReview.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
         this.updateUserInfo = this.updateUserInfo.bind(this);
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
@@ -114,31 +112,6 @@ class App extends Component {
     }
 
 
-    handleRejectReview(pendingTipsIndex) {
-        this.rmFromPendingTips(pendingTipsIndex);
-
-    }
-
-    handleApproveReview(pendingTipsIndex) {
-        // var reviewApproved = this.state.pendingTips[pendingTipsIndex];
-
-        //add review to the subject
-        this.addApprovedTipToSubject(pendingTipsIndex);
-
-        this.rmFromPendingTips(pendingTipsIndex);
-    }
-
-    rmFromPendingTips(index) {
-        var pendingTipsArray = this.state.pendingTips;
-        //remove from state
-        pendingTipsArray.splice(index, 1);
-
-        this.setState({
-            pendingTips: pendingTipsArray
-        }, () => console.log("PendingTips " + index + " removed from saved"));
-    }
-
-
     rmReview(id) {//basically the same as starred, can clean up
         var array = this.state.user.tipped;
         var index = array.indexOf(id)
@@ -153,60 +126,24 @@ class App extends Component {
         })
     }
 
-
-    //this is where we need to be able to, in the back end,
-    // submit a tip text to a subject id and it just ingest it
-    // then we just update the front end with the update and we're all gooooood
-    addApprovedTipToSubject(index) {
-        //only commented out for compile warning suppression--
-        // var fullTip = this.state.pendingTips[index];
-
-        // var tip = {
-        //     userid: 10000001,
-        //     subjectId: 110001,
-        //     ip: "10.0.0.10",
-        //     text: "This is a first"
-        // }
-
-
-        // this.updateDataset();  //will need to be run when db integration is up and going
-    }
-
-
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
-        Axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
-            Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
+        axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
                 ip: "10.0.0.10",
-                user: this.state.user.id
-            })
-            Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
-                text: reviewText,
-                ip: "10.0.0.10",
-                user: this.state.user.id
+                submittedBy: this.state.user.id
             })
         }).then(() => {
             this.setState({
                 user: {
                     ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
                     tipped: [...this.state.user.tipped, subjectId],
-                },
-                pendingTips: [...this.state.pendingTips,
-                    {
-                        userid: this.state.user.id,
-                        text: reviewText,
-                        subjectId: subjectId,
-                        ip: "10.0.0.0",
-                    }
-                ]
-            }, () => {
+                }
+                }, () => {
                 this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
                 console.log(this.state.pendingTips);
             })
-        }).catch(() => {
-            //tip already exists
-            Axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_REMOVE_TIP + subjectId)
-        });
+        })
     }
 
 
@@ -259,8 +196,7 @@ class App extends Component {
             case SETTINGS_INDEX:
                 newBodyContent =
                     <Settings settings={this.state.user.settings}
-                              handleApproveReview={this.handleApproveReview}
-                              handleRejectReview={this.handleRejectReview}
+                              userId={this.state.user.id}
                     />;
                 break;
             case STAR_INDEX:

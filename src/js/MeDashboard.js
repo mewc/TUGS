@@ -106,7 +106,7 @@ class MeDashboard extends Component {
             activeIndex: index,
             bodyContent: newBodyContent
         })
-    }
+    };
 
     render() {
         return (
