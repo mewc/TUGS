@@ -7,9 +7,6 @@ import {
     BottomNavigationItem,
     Paper,
     FlatButton,
-    IconButton,
-    IconMenu,
-    MenuItem,
     Snackbar,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';
@@ -17,7 +14,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconSettingsImport from 'material-ui/svg-icons/action/settings';
 import IconPersonImport from 'material-ui/svg-icons/social/person';
 import IconCatalogImport from 'material-ui/svg-icons/action/view-quilt';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TugsLogo from '../resources/branding/tugs_logo_wrapped.png';
 import Axios from 'axios';
 import Headroom from 'react-headroom';
@@ -29,7 +25,9 @@ import * as Str from './Str';
 import '../css/App.css';
 import {DATA_LH} from "./Str";
 import {DATA_USERS} from "./Str";
-import {baseUser} from '../resources/baseUser'
+import {baseUser} from '../resources/baseUser';
+import LoginButton from './LoginButton';
+import LoggedInMenu from './LoggedInMenu';
 
 const IconSettings = <IconSettingsImport/>;
 const IconYou = <IconPersonImport/>;
@@ -38,17 +36,23 @@ const IconCatalog = <IconCatalogImport/>;
 const SETTINGS_INDEX = 2;
 const STAR_INDEX = 1;
 const CATALOG_INDEX = 0;
+const SIGNED_OUT_INDEX = -1;
+
+const SIGNED_OUT_AUTH = {
+        valid: false,
+        user: baseUser,
+};
+
+let SIGNED_OUT_BODYCONTENT = <div></div>;
 
 class App extends Component {
     constructor(props) {
         super(props);
+        SIGNED_OUT_BODYCONTENT = <div style={{margin: "30%"}}><h2>Please <LoginButton checkLogin={this.checkLogin.bind(this)}/> now</h2></div>;
         this.state = {
-            auth: {
-                valid: false,
-                user: baseUser,
-            },
-            selectedBottomNavIndex: 0,
-            bodyContent: '',
+            auth: SIGNED_OUT_AUTH,
+            selectedBottomNavIndex: -1, //so one isnt highlighted at the start if not auth'd
+            bodyContent: SIGNED_OUT_BODYCONTENT,
             snackbar: {
                 open: false,
                 message: "Snackbar message",
@@ -60,25 +64,22 @@ class App extends Component {
         this.handleRequestToLeaveReview = this.handleRequestToLeaveReview.bind(this);
         this.logState = this.logState.bind(this);
         this.checkLogin = this.checkLogin.bind(this);
-
+        this.handleSignout = this.handleSignout.bind(this);
     }
-
-
-    handleSnackbarTrigger = (message) => {
-        //when theres something that can use a snackbar, use this
-    }
-
-    handleSignout = () => {
-        console.log("signing out");
-        this.setState({
-            loggedIn: false,
-        })
-    }
-
 
     componentDidMount() {
         // this.checkLogin(); //which callbacks for this.selectBottomNav(CATALOG_INDEX);
 
+    }
+
+    handleSignout = () => {
+        console.log("User " + this.state.auth.user.id + "signing out");
+        this.setState({
+            auth: SIGNED_OUT_AUTH,
+            bodyContent: SIGNED_OUT_BODYCONTENT,
+        }, () => {
+            this.triggerSnackbar(Str.ACTION_AUTH_SIGNOUT);
+        });
     }
 
     checkLogin() {
@@ -120,6 +121,7 @@ class App extends Component {
             .then((res) => {
                 this.setState({
                     auth:{
+                        ...this.state.auth, //without this valid gets lost, user is overridden in next line
                         user: res.data
                     },
                 }, () => {
@@ -215,8 +217,8 @@ class App extends Component {
         switch (index) {
             case SETTINGS_INDEX:
                 newBodyContent =
-                    <Settings settings={this.state.user.settings}
-                              userId={this.state.user.id}
+                    <Settings settings={this.state.auth.user.settings}
+                              userId={this.state.auth.user.id}
                     />;
                 break;
             case STAR_INDEX:
@@ -229,6 +231,9 @@ class App extends Component {
                 break;
             case CATALOG_INDEX:
                 newBodyContent = catalog;
+                break;
+            case SIGNED_OUT_INDEX:
+                newBodyContent = SIGNED_OUT_BODYCONTENT;
                 break;
             default:
                 newBodyContent = catalog;
@@ -252,12 +257,11 @@ class App extends Component {
                             title={<img src={TugsLogo} alt={Str.APP_TITLE_FULL} className="appbar-logo"/>}
                             iconElementRight={
                                 <div>
-                                    {this.state.auth.valid ? <Logged/> : <Login checklogin={this.checkLogin}/>}
+                                    {this.state.auth.valid
+                                        ? <LoggedInMenu handleSignout={this.handleSignout}/>
+                                        : <LoginButton checkLogin={this.checkLogin}/>}
                                     {this.state.auth.user.settings.admin ?
                                         <FlatButton label="STATE" onClick={this.logState}/> :
-                                        <div/>}
-                                    {this.state.auth.user.settings.admin ?
-                                        <FlatButton label="SNACK" onClick={() => this.triggerSnackbar("TEST THIS")}/> :
                                         <div/>}
                                 </div>
                             }
@@ -281,6 +285,7 @@ class App extends Component {
                     />}
 
                     <div className="BottomNav">
+                        {(this.state.auth.valid)?
                         <Paper zDepth={2}>
                             <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
                                 <BottomNavigationItem
@@ -301,6 +306,7 @@ class App extends Component {
 
                             </BottomNavigation>
                         </Paper>
+                            :<div></div>}
                     </div>
                 </div>
             </MTP>
@@ -310,27 +316,9 @@ class App extends Component {
 
 }
 
-const Logged = (props) => (
-        <IconMenu {...props}
-                  iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-        >
-            <MenuItem primaryText={Str.NAV_TITLE_SIGNOUT} onClick={() => this.handleSignout}/>
-        </IconMenu>
-    )
-;
 
-class Login extends Component {
-    static muiName = 'FlatButton';
 
-    render() {
-        return <FlatButton
-             label={Str.NAV_TITLE_LOGIN}
-            onClick={this.props.checklogin}
-        />;
-    }
-}
+
 
 
 export default App;
