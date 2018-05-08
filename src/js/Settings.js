@@ -10,7 +10,7 @@ import AlertIcon from 'material-ui/svg-icons/alert/error-outline'
 import TugsMuiTheme from './TugsMuiTheme'
 
 import {Grid, Row, Col} from 'react-material-responsive-grid';
-import axios from "axios/index";
+import Axios from "axios/index";
 
 import '../css/App.css';
 import {DATA_LH} from "./Str";
@@ -41,7 +41,7 @@ class Settings extends Component {
     }
 
     handleReject(item, index) {
-        axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
             this.handleRejectReview(index);
             this.updatePendingTipView();
             console.log(item + " rejected");
@@ -51,7 +51,7 @@ class Settings extends Component {
 
     handleApprove(item, index) {
         console.log(item);
-        axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
             this.handleApproveReview(index);
             this.updatePendingTipView();
             console.log(item + " approved");
@@ -220,7 +220,7 @@ class Settings extends Component {
 
     getNewPendingTips() {
         let pendingEndpoint = Str.DATA_LH + Str.DATA_PENDINGTIPS_BASIC
-        axios.get(pendingEndpoint)
+        Axios.get(pendingEndpoint)
             .then((res) => {
                 this.setState({
                     pendingTips: res.data,
@@ -239,11 +239,11 @@ class Settings extends Component {
             Str.DATA_BASIC;
         let LINK_PROMISE_ARR = [,];
 
-        axios.all([
-            axios.get(GET_FACULTY_URL),
-            axios.get(GET_UNI_URL)
+        Axios.all([
+            Axios.get(GET_FACULTY_URL),
+            Axios.get(GET_UNI_URL)
         ])
-            .then(axios.spread((fac, uni) => {
+            .then(Axios.spread((fac, uni) => {
                 this.setState({
                     uni: {
                         name: uni.data.name,

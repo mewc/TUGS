@@ -78,3 +78,5 @@ export const DATA_ADD_TIP = "addTip/";
 export const DATA_REMOVE_TIP = "removeTip/";
 export const DATA_APPROVE_TIP = "approveTip/";
 export const DATA_REJECT_TIP = "rejectTip/";
+export const DATA_ADD_STARRED = "addStarred/";
+export const DATA_REMOVE_STARRED = "removeStarred/";
