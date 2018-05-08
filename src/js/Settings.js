@@ -40,8 +40,13 @@ class Settings extends Component {
     }
 
     handleReject(item, index) {
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id,
-            {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {
+            subjectId: item.subject.id,
+            text: item.text,
+            ip: item.ip,
+            submittedBy: item.submittedBy,
+            rejectedBy: this.props.userId
+        }).then(() => {
             this.handleRejectReview(index);
             this.updatePendingTipView();
             console.log(item + " rejected");
@@ -51,8 +56,13 @@ class Settings extends Component {
 
     handleApprove(item, index) {
         console.log(item);
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id,
-            {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {
+            subjectId: item.subject.id,
+            text: item.text,
+            ip: item.ip,
+            submittedBy: item.submittedBy,
+            approvedBy: this.props.userId
+        }).then(() => {
             this.handleApproveReview(index);
             this.updatePendingTipView();
             console.log(item + " approved");
@@ -101,7 +111,7 @@ class Settings extends Component {
                         return <div key={index}>
                             <Divider/>
                             <ListItem primaryText={item.code}
-                                      secondaryText={"\"" + item.text + "\"" }
+                                      secondaryText={"\"" + item.text + "\""}
                             />
                             <IconButton
                                 onClick={() => this.handleApprove(item, index)}>
@@ -133,7 +143,8 @@ class Settings extends Component {
                                     primaryText="Faculty" secondaryText={this.state.faculty.name}/>
                                 <Divider/>
                                 <ListItem
-                                    primaryText={Str.ACTION_TITLE_DISCLAIMER} secondaryText={Str.ACTION_TITLE_DISCLAIMER_SUB}
+                                    primaryText={Str.ACTION_TITLE_DISCLAIMER}
+                                    secondaryText={Str.ACTION_TITLE_DISCLAIMER_SUB}
                                     onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
 
                                 <Divider/>
@@ -218,7 +229,7 @@ class Settings extends Component {
     }
 
     getNewPendingTips() {
-        let pendingEndpoint = Str.DATA_LH + Str.DATA_PENDINGTIPS_BASIC
+        let pendingEndpoint = Str.DATA_LH + Str.DATA_PENDINGTIPS;
         Axios.get(pendingEndpoint)
             .then((res) => {
                 this.setState({

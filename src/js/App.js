@@ -39,8 +39,8 @@ const CATALOG_INDEX = 0;
 const SIGNED_OUT_INDEX = -1;
 
 const SIGNED_OUT_AUTH = {
-        valid: false,
-        user: baseUser,
+    valid: false,
+    user: baseUser,
 };
 
 let SIGNED_OUT_BODYCONTENT = <div></div>;
@@ -48,7 +48,9 @@ let SIGNED_OUT_BODYCONTENT = <div></div>;
 class App extends Component {
     constructor(props) {
         super(props);
-        SIGNED_OUT_BODYCONTENT = <div style={{margin: "30%"}}><h2>Please <LoginButton checkLogin={this.checkLogin.bind(this)}/> now</h2></div>;
+        SIGNED_OUT_BODYCONTENT =
+            <div style={{margin: "30%"}}><h2>Please <LoginButton checkLogin={this.checkLogin.bind(this)}/> now</h2>
+            </div>;
         this.state = {
             auth: SIGNED_OUT_AUTH,
             selectedBottomNavIndex: -1, //so one isnt highlighted at the start if not auth'd
@@ -120,7 +122,7 @@ class App extends Component {
         Axios.get(Str.DATA_LH + Str.DATA_USERS + id)
             .then((res) => {
                 this.setState({
-                    auth:{
+                    auth: {
                         ...this.state.auth, //without this valid gets lost, user is overridden in next line
                         user: res.data
                     },
@@ -154,17 +156,18 @@ class App extends Component {
             Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
                 ip: "10.0.0.10",
-                submittedBy: this.state.user.id
+                submittedBy: this.state.auth.user.id
             })
         }).then(() => {
             this.setState({
-                user: {
-                    ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
-                    tipped: [...this.state.user.tipped, subjectId],
+                auth: {
+                    user: {
+                        ...this.state.auth.user, //this adds all current user attr. and lets us overwrite what we want to
+                        tipped: [...this.state.auth.user.tipped, subjectId],
+                    }
                 }
-                }, () => {
+            }, () => {
                 this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
-                console.log(this.state.pendingTips);
             })
         })
     }
@@ -285,28 +288,28 @@ class App extends Component {
                     />}
 
                     <div className="BottomNav">
-                        {(this.state.auth.valid)?
-                        <Paper zDepth={2}>
-                            <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
-                                <BottomNavigationItem
-                                    label={Str.NAV_TITLE_CATALOG}
-                                    icon={IconCatalog}
-                                    onClick={() => this.selectBottomNav(0)}
-                                />
-                                <BottomNavigationItem
-                                    label={(this.state.auth.user) ? this.state.auth.user.name : Str.NAV_TITLE_YOU}
-                                    icon={IconYou}
-                                    onClick={() => this.selectBottomNav(1)}
-                                />
-                                <BottomNavigationItem
-                                    label={Str.NAV_TITLE_SETTINGS}
-                                    icon={IconSettings}
-                                    onClick={() => this.selectBottomNav(2)}
-                                />
+                        {(this.state.auth.valid) ?
+                            <Paper zDepth={2}>
+                                <BottomNavigation selectedIndex={this.state.selectedBottomNavIndex}>
+                                    <BottomNavigationItem
+                                        label={Str.NAV_TITLE_CATALOG}
+                                        icon={IconCatalog}
+                                        onClick={() => this.selectBottomNav(0)}
+                                    />
+                                    <BottomNavigationItem
+                                        label={(this.state.auth.user) ? this.state.auth.user.name : Str.NAV_TITLE_YOU}
+                                        icon={IconYou}
+                                        onClick={() => this.selectBottomNav(1)}
+                                    />
+                                    <BottomNavigationItem
+                                        label={Str.NAV_TITLE_SETTINGS}
+                                        icon={IconSettings}
+                                        onClick={() => this.selectBottomNav(2)}
+                                    />
 
-                            </BottomNavigation>
-                        </Paper>
-                            :<div></div>}
+                                </BottomNavigation>
+                            </Paper>
+                            : <div></div>}
                     </div>
                 </div>
             </MTP>
@@ -315,10 +318,6 @@ class App extends Component {
     }
 
 }
-
-
-
-
 
 
 export default App;
