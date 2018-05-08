@@ -67,8 +67,9 @@ export const DATA_SUBJECTS = "subjects/";
 export const DATA_SUBJECTS_BASIC = "subjects/basic/";
 export const DATA_PENDINGTIPS_BASIC = "pendingtips/basic";
 export const DATA_PENDINGTIPS = "pendingtips/";
+export const DATA_ADMIN = "admin/";
 
 export const DATA_ADD_TIP = "addTip/";
-
-
 export const DATA_REMOVE_TIP = "removeTip/";
+export const DATA_APPROVE_TIP = "approveTip/";
+export const DATA_REJECT_TIP = "rejectTip/";
