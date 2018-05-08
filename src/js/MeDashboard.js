@@ -7,14 +7,14 @@ import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import '../css/App.css';
 
 import Reviews from './Reviews';
-import Starred from './Starred';
+import Saved from './Saved';
 import Ratings from './Ratings';
 import * as Str from "./Str";
 import axios from "axios/index";
 
 const INDEX_RATINGS = 2;
 const INDEX_REVIEWS = 1;
-const INDEX_STARRED = 0;
+const INDEX_SAVED = 0;
 
 
 
@@ -24,7 +24,7 @@ class MeDashboard extends Component {
         this.state = {
             activeIndex: 0,
             bodyContent: <RefreshIndicator left={100} top={100} size={Str.VALUE_REFRESH_SIZE} status={"loading"}/>,
-            starredItems: [],
+            savedItems: [],
             tippedItems: [],
             ratedItems: [],
         }
@@ -33,15 +33,15 @@ class MeDashboard extends Component {
 
 
     componentDidMount() {
-        //TODO Implement this when /users/#/starred/all endpoint works (getting subject objects)
+        //TODO Implement this when /users/#/saved/all endpoint works (getting subject objects)
         this.getUpdatedUserSubjectDatasets();
 
     }
 
     setDefaultBody(){
         this.setState({
-            bodyContent: <Starred
-                items={this.state.starredItems}
+            bodyContent: <Saved
+                items={this.state.savedItems}
                 handleStarToggle={this.props.handleStarToggle}
                 handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                  />
@@ -49,17 +49,17 @@ class MeDashboard extends Component {
     }
 
     getUpdatedUserSubjectDatasets() {
-        let userStarredEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_STARRED_BASIC;
+        let userSavedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_SAVED_BASIC;
         let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_TIPPED_BASIC;
         let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_RATING_BASIC;
         axios.all([
-            axios.get(userStarredEndpoint),
+            axios.get(userSavedEndpoint),
             axios.get(userTippedEndpoint),
             axios.get(userRatingsEndpoint),
         ])
             .then(axios.spread((stars, tips, rates) => {
                 this.setState({
-                    starredItems: stars.data,
+                    savedItems: stars.data,
                     tippedItems: tips.data,
                     ratedItems: rates.data,
                 }, () => {
@@ -74,13 +74,13 @@ class MeDashboard extends Component {
     }
 
     handleTabChange = (index) => {
-        let newBodyContent = <Starred
-                items={this.state.starredItems}
+        let newBodyContent = <Saved
+                items={this.state.savedItems}
                 handleStarToggle={this.props.handleStarToggle}
                 handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
             />;  //nb same as line ~45 setDefaultBody()
         switch (index) {
-            case INDEX_STARRED:
+            case INDEX_SAVED:
                 //Default
                 break;
             case INDEX_REVIEWS:
@@ -95,7 +95,7 @@ class MeDashboard extends Component {
                 break;
             default:
                 //Default
-                index = INDEX_STARRED;
+                index = INDEX_SAVED;
 
         }
         this.setState({
@@ -111,7 +111,7 @@ class MeDashboard extends Component {
                     initialSelectedIndex={this.state.activeIndex}
                     onChange={this.handleTabChange}
                 >
-                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_STARRED + " (" + this.state.starredItems.length +")"} value={0}/>
+                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_SAVED + " (" + this.state.savedItems.length +")"} value={0}/>
                     <Tab icon={<RateReviewIcon/>} label={Str.NAV_TITLE_TIP + " (" + this.state.tippedItems.length +")"} value={1}/>
                     <Tab icon={<ThumbUpIcon/>} label={Str.NAV_TITLE_RATINGS + " (" + this.state.ratedItems.length +")"} value={2}/>
                 </Tabs>

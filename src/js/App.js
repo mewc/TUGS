@@ -137,7 +137,7 @@ class App extends Component {
     }
 
 
-    rmReview(id) {//basically the same as starred, can clean up
+    rmReview(id) {//basically the same as saved, can clean up
         var array = this.state.auth.user.tipped;
         var index = array.indexOf(id)
         array.splice(index, 1);
@@ -151,7 +151,7 @@ class App extends Component {
         })
     }
 
-    addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
+    addPendingTip(subjectId, reviewText) {//basically the same as saved, can clean up
         Axios.post(DATA_LH + DATA_USERS + this.state.auth.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
             Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
@@ -173,7 +173,7 @@ class App extends Component {
     }
 
 
-    alreadyReviewed(rvwId, rvwArray) { //basically the same as starred, can clean up
+    alreadyReviewed(rvwId, rvwArray) { //basically the same as saved, can clean up
         var is = false;
         for (var i = 0; i < rvwArray.length; i++) {
             if (rvwArray[i] === rvwId) {

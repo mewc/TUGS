@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Card, CardHeader} from 'material-ui'
 import '../css/App.css';
 
-class Starred extends Component {
+class Saved extends Component {
     // constructor(props) {
     //     super(props);
     // }
@@ -28,4 +28,4 @@ class Starred extends Component {
 
 }
 
-export default Starred;
+export default Saved;

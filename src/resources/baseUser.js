@@ -15,7 +15,7 @@ export const baseUser =
             [
 
             ],
-        starred:
+        saved:
             [
 
             ],
