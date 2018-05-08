@@ -77,7 +77,7 @@ class App extends Component {
 
     }
 
-    checkLogin(){
+    checkLogin() {
         //todo handle auth and setting of user state here
         //get default user
         console.log("Checking user login status")
@@ -105,10 +105,9 @@ class App extends Component {
 
     }
 
-    updateUserInfo(id){
+    updateUserInfo(id) {
 
     }
-
 
 
     rmReview(id) {//basically the same as starred, can clean up
@@ -127,29 +126,22 @@ class App extends Component {
 
     addPendingTip(subjectId, reviewText) {//basically the same as starred, can clean up
         axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
-            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {text: reviewText, ip: "10.0.0.10", submittedBy: this.state.user.id})
-        }).then( () => {
+            axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
+                text: reviewText,
+                ip: "10.0.0.10",
+                submittedBy: this.state.user.id
+            })
+        }).then(() => {
             this.setState({
                 user: {
                     ...this.state.user, //this adds all current user attr. and lets us overwrite what we want to
                     tipped: [...this.state.user.tipped, subjectId],
-                },
-                pendingTips: [...this.state.pendingTips,
-                    {
-                        userid: this.state.user.id,
-                        text: reviewText,
-                        subjectId: subjectId,
-                        ip: "10.0.0.0",
-                    }
-                ]
-            }, () => {
+                }
+                }, () => {
                 this.triggerSnackbar(Str.ACTION_SUCCESS_LEAVEREVIEW);
                 console.log(this.state.pendingTips);
             })
-        }).catch(()=> {
-            //tip already exists
-            axios.post(DATA_LH + DATA_USERS + this.state.user.id + "/" + Str.DATA_REMOVE_TIP + subjectId)
-        });
+        })
     }
 
 
