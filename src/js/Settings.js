@@ -40,7 +40,8 @@ class Settings extends Component {
     }
 
     handleReject(item, index) {
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id,
+            {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, rejectedBy: this.props.userId}).then(() => {
             this.handleRejectReview(index);
             this.updatePendingTipView();
             console.log(item + " rejected");
@@ -50,7 +51,8 @@ class Settings extends Component {
 
     handleApprove(item, index) {
         console.log(item);
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
+        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id,
+            {subjectId: item.subjectId, text: item.text, ip: item.ip, submittedBy: item.submittedBy, approvedBy: this.props.userId}).then(() => {
             this.handleApproveReview(index);
             this.updatePendingTipView();
             console.log(item + " approved");
@@ -120,30 +122,30 @@ class Settings extends Component {
 
         return (
             <div>
-                    <Row>
-                        <Col xs4={(this.state.isOpen) ? 2 : 4} sm={(this.state.isOpen) ? 6 : 12}
-                             lg={(this.state.isOpen) ? 8 : 12} xl={(this.state.isOpen) ? 8 : 12}>
-                            <div>
-                                <List>
-                                    <ListItem
-                                        primaryText="School" secondaryText={this.state.uni.name}/>
-                                    <ListItem
-                                        primaryText="Faculty" secondaryText={this.state.faculty.name}/>
-                                    <Divider/>
-                                    <ListItem
-                                        primaryText={Str.ACTION_TITLE_DISCLAIMER} secondaryText={Str.ACTION_TITLE_DISCLAIMER_SUB}
-                                        onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
+                <Row>
+                    <Col xs4={(this.state.isOpen) ? 2 : 4} sm={(this.state.isOpen) ? 6 : 12}
+                         lg={(this.state.isOpen) ? 8 : 12} xl={(this.state.isOpen) ? 8 : 12}>
+                        <div>
+                            <List>
+                                <ListItem
+                                    primaryText="School" secondaryText={this.state.uni.name}/>
+                                <ListItem
+                                    primaryText="Faculty" secondaryText={this.state.faculty.name}/>
+                                <Divider/>
+                                <ListItem
+                                    primaryText={Str.ACTION_TITLE_DISCLAIMER} secondaryText={Str.ACTION_TITLE_DISCLAIMER_SUB}
+                                    onClick={() => this.handleOpenSecondary(this.getNewDisclaimerView())}/>
 
-                                    <Divider/>
-                                    {this.tryForAdminPanel()}
-                                </List>
-                            </div>
-                        </Col>
-                        <Col xs4={(this.state.isOpen) ? 2 : 0} sm={(this.state.isOpen) ? 5 : 0}
-                             lg={(this.state.isOpen) ? 4 : 0} xl={(this.state.isOpen) ? 4 : 0}>
-                            {this.state.pageSecondaryElement}
-                        </Col>
-                    </Row>
+                                <Divider/>
+                                {this.tryForAdminPanel()}
+                            </List>
+                        </div>
+                    </Col>
+                    <Col xs4={(this.state.isOpen) ? 2 : 0} sm={(this.state.isOpen) ? 5 : 0}
+                         lg={(this.state.isOpen) ? 4 : 0} xl={(this.state.isOpen) ? 4 : 0}>
+                        {this.state.pageSecondaryElement}
+                    </Col>
+                </Row>
             </div>
         )
     }

@@ -20,9 +20,7 @@ View the trello board (invite only)
 
 ## Scaling goals
 
-1. Single University and a single faculty
-1. Single University and all faculties
-1. Second University and all faculties
+1. Select few Victorian Universities
 1. All Victorian Universities
 1. All Australian Universities
 1. AU, UK, US Universities
