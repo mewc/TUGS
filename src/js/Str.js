@@ -56,7 +56,7 @@ export const TOOLTIP_FAVOURITE_SUBJECT = "Shortlist for later";
 /* ENDPOINTS */
 
 export const DATA_LH = "http://localhost:3000/";  //so we can easily append to endpoint names
-export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
+export const DATA_LIVE = "https://tugs-backend.herokuapp.com/";
 export const DATA_BASIC = "basic/";
 export const DATA_ALL = "all/";
 export const DATA_FULL = "full/";
@@ -92,4 +92,4 @@ export const DATA_ADD_INTENSITYRATING = "addIntensityRating/";
 export const DATA_REMOVE_INTENSITYRATING = "removeIntensityRating/";
 
 export const DATA_ADD_STARRATE = "addRating/";
-export const DATA_REMOVE_STARRATE = "addRating/";
+export const DATA_REMOVE_STARRATE = "removeRating/";

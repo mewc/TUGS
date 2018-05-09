@@ -90,7 +90,7 @@ class App extends Component {
         console.log("Checking user login status")
         let isValid = true;
 
-        Axios.get(Str.DATA_LH + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
+        Axios.get(Str.DATA_LIVE + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
             .then((res) => {
                 this.setState({
                     auth: {
@@ -118,7 +118,7 @@ class App extends Component {
     }
 
     updateUserInfo(id) {
-        Axios.get(Str.DATA_LH + Str.DATA_USERS + id)
+        Axios.get(Str.DATA_LIVE + Str.DATA_USERS + id)
             .then((res) => {
                 this.setState({
                     auth: {
@@ -152,8 +152,8 @@ class App extends Component {
 
     //this is weirdly changing things locally after changing it in backend. Could have persistence issues
     addPendingTip(subjectId, reviewText) {//basically the same as saved, can clean up
-        Axios.post(DATA_LH + DATA_USERS + this.state.auth.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
-            Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
+        Axios.post(Str.DATA_LIVE + DATA_USERS + this.state.auth.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
+            Axios.post(Str.DATA_LIVE + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
                 text: reviewText,
                 ip: "10.0.0.10",
                 submittedBy: this.state.auth.user.id

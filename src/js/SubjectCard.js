@@ -178,14 +178,14 @@ class SubjectCard extends Component {
 
     rmSaved(id) {
         console.log("remove saved: " + id)
-        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
+        Axios.post(Str.DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
             this.props.updateUserInfo(this.props.userId);
         })
     }
 
     addSaved(id) {
         console.log("add saved: " + id)
-        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
+        Axios.post(Str.DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
             this.props.updateUserInfo(this.props.userId);
         })
     }

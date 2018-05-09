@@ -42,7 +42,7 @@ class StarRateButton extends Component {
                 label={Str.ACTION_TITLE_STARRATE}
                 onClick={this.handleDialogToggle}>
                 <StarRatingIcon
-                    data-tip={(this.state.disabled) ? Str.TOOLTIP_INTENSITY_DISABLED : null}/>
+                    data-tip={(this.state.disabled) ? Str.TOOLTIP_STARRATE_DISABLED : null}/>
             </IconButton>
 
             <Dialog
@@ -90,8 +90,8 @@ class StarRateButton extends Component {
 
 
     handleSubmit() {
-        let AddToUser = Str.DATA_LH + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId;
-        let AddToSubject = Str.DATA_LH + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE;
+        let AddToUser = Str.DATA_LIVE + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId;
+        let AddToSubject = Str.DATA_LIVE + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE;
         Axios.post(AddToUser, {value: this.state.rateValue}).then(() => {
             Axios.post(AddToSubject, {value: this.state.rateValue})
         });

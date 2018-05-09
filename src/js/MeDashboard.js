@@ -49,9 +49,9 @@ class MeDashboard extends Component {
     }
 
     getUpdatedUserSubjectDatasets() {
-        let userSavedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_SAVED_BASIC;
-        let userTippedEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_TIPPED_BASIC;
-        let userRatingsEndpoint = Str.DATA_LH + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_RATING_BASIC;
+        let userSavedEndpoint = Str.DATA_LIVE + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_SAVED_BASIC;
+        let userTippedEndpoint = Str.DATA_LIVE + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_TIPPED_BASIC;
+        let userRatingsEndpoint = Str.DATA_LIVE + Str.DATA_USERS + this.props.user.id + "/" + Str.DATA_RATING_BASIC;
         axios.all([
             axios.get(userSavedEndpoint),
             axios.get(userTippedEndpoint),

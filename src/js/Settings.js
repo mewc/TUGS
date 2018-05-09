@@ -40,7 +40,7 @@ class Settings extends Component {
     }
 
     handleReject(item, index) {
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {
+        Axios.post(Str.DATA_LIVE + Str.DATA_ADMIN + Str.DATA_REJECT_TIP + item._id, {
             subjectId: item.subject.id,
             text: item.text,
             ip: item.ip,
@@ -56,7 +56,7 @@ class Settings extends Component {
 
     handleApprove(item, index) {
         console.log(item);
-        Axios.post(DATA_LH + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {
+        Axios.post(Str.DATA_LIVE + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {
             subjectId: item.subject.id,
             text: item.text,
             ip: item.ip,
@@ -231,7 +231,7 @@ class Settings extends Component {
     }
 
     getNewPendingTips() {
-        let pendingEndpoint = Str.DATA_LH + Str.DATA_PENDINGTIPS;
+        let pendingEndpoint = Str.DATA_LIVE + Str.DATA_PENDINGTIPS;
         Axios.get(pendingEndpoint)
             .then((res) => {
                 this.setState({
@@ -245,9 +245,9 @@ class Settings extends Component {
     }
 
     updateWithNewUserSchoolData() {
-        let GET_FACULTY_URL = Str.DATA_LH + Str.DATA_FACULTIES + this.props.settings.facultyId + "/" +
+        let GET_FACULTY_URL = Str.DATA_LIVE + Str.DATA_FACULTIES + this.props.settings.facultyId + "/" +
             Str.DATA_BASIC;
-        let GET_UNI_URL = Str.DATA_LH + Str.DATA_SCHOOLS + this.props.settings.uniId + "/" +
+        let GET_UNI_URL = Str.DATA_LIVE + Str.DATA_SCHOOLS + this.props.settings.uniId + "/" +
             Str.DATA_BASIC;
 
         Axios.all([

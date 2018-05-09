@@ -33,7 +33,7 @@ class Catalog extends Component {
 
     getUpdatedSchoolDataset() {
         //this needs to be a request to the mongo backend so we can actually keep things persistent
-        axios.get(Str.DATA_LH + Str.DATA_SCHOOLS + Str.DATA_FULL)
+        axios.get(Str.DATA_LIVE + Str.DATA_SCHOOLS + Str.DATA_FULL)
             .then((res) => {
                 this.setState({
                     data: res.data,
@@ -48,7 +48,7 @@ class Catalog extends Component {
 
     getUpdatedFacultySubjectDataset() {
         let selectedSchoolId = this.state.data[this.state.selectedIndex.school].id;
-        let getURL = Str.DATA_LH + Str.DATA_SCHOOLS + selectedSchoolId + "/" + Str.DATA_FULL;
+        let getURL = Str.DATA_LIVE + Str.DATA_SCHOOLS + selectedSchoolId + "/" + Str.DATA_FULL;
         console.log(getURL);
         //this needs to be a request to the mongo backend so we can actually keep things persistent
         axios.get(getURL)
