@@ -12,7 +12,6 @@ import IntensityIcon from 'material-ui/svg-icons/social/whatshot';
 import * as Str from './Str';
 import Axios from 'axios';
 import Tooltip from 'react-tooltip';
-import {DATA_LH} from "./Str";
 import {DATA_USERS} from "./Str";
 import {DATA_ADD_INTENSITYRATING} from "./Str";
 import {DATA_SUBJECTS} from "./Str";
@@ -82,8 +81,8 @@ class IntensityRateButton extends Component {
     }
 
     handleSubmitIntenseRate() {
-        let addToUserEndpoint = DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_ADD_INTENSITYRATING + this.props.subjectId;
-        let addToSubjectEndpoint = DATA_LIVE + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING;
+        let addToUserEndpoint = Str.DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_ADD_INTENSITYRATING + this.props.subjectId;
+        let addToSubjectEndpoint = Str.DATA_LIVE + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING;
 
         Axios.post(addToUserEndpoint, {value: this.state.rateValue}).then(() => {
             Axios.post(addToSubjectEndpoint, {value: this.state.rateValue})
