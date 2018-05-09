@@ -9,7 +9,7 @@ import HubIcon from 'material-ui/svg-icons/hardware/device-hub'
 import AlertIcon from 'material-ui/svg-icons/alert/error-outline'
 
 import Axios from "axios/index";
-import {Row, Col} from 'react-material-responsive-grid';
+import {Grid, Row, Col} from 'react-material-responsive-grid';
 
 import '../css/App.css';
 import {DATA_LH} from "./Str";
@@ -132,6 +132,7 @@ class Settings extends Component {
 
         return (
             <div>
+                <Grid>
                 <Row>
                     <Col xs4={(this.state.isOpen) ? 2 : 4} sm={(this.state.isOpen) ? 6 : 12}
                          lg={(this.state.isOpen) ? 8 : 12} xl={(this.state.isOpen) ? 8 : 12}>
@@ -157,6 +158,7 @@ class Settings extends Component {
                         {this.state.pageSecondaryElement}
                     </Col>
                 </Row>
+                </Grid>
             </div>
         )
     }

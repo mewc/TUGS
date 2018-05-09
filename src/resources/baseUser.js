@@ -3,14 +3,6 @@ export const baseUser =
         id: 7357,
         name:
             "BaseUser",
-        votesUp:
-            [
-
-            ],
-        votesDn:
-            [
-
-            ],
         rating:
             [
 
@@ -20,7 +12,13 @@ export const baseUser =
 
             ],
         tipped:
-            [],
+            [
+
+            ],
+        intensityRatings:
+            [
+
+            ],
         settings:
             {
                 admin: false,

@@ -24,7 +24,10 @@ export const NAV_TITLE_FACULTIES = "Faculties";
 export const NAV_TITLE_SCHOOLS = "Schools";
 export const NAV_TITLE_SUBJECTS = LOCALISED_SUBJECTNAME_AU;
 
+export const ACTION_TITLE_SAVED = "Saved";
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
+export const ACTION_TITLE_INTENSITYRATE = "Rate the Intensity of this subject";
+export const ACTION_TITLE_STARRATE = "Rate how Rewarding this subject was for you";
 export const ACTION_TITLE_PENDINGTIPS = "Approve Pending Tips";
 export const ACTION_TITLE_ANALYTICS = "Analytics";
 export const ACTION_TITLE_DISCLAIMER = "Disclaimer";
@@ -45,6 +48,13 @@ export const ACTION_AUTH_SIGNOUT = "Sign out success";
 export const VALUE_MAX_TIPLENGTH = 128;
 export const VALUE_REFRESH_SIZE = 50;
 
+export const TOOLTIP_TIP_DISABLED = "Tip already submitted";
+export const TOOLTIP_INTENSITY_DISABLED = "Intensity rating submitted already";
+export const TOOLTIP_STARRATE_DISABLED = "Star rating submitted already";
+export const TOOLTIP_FAVOURITE_SUBJECT = "Shortlist for later";
+
+/* ENDPOINTS */
+
 export const DATA_LH = "http://localhost:3000/";  //so we can easily append to endpoint names
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
 export const DATA_BASIC = "basic/";
@@ -55,9 +65,6 @@ export const DATA_USER_DEFAULTID = "10000001";
 export const DATA_USERS = "users/";
 export const DATA_SAVED_ALL = "saved/all";
 export const DATA_SAVED_BASIC = "saved/basic";
-export const DATA_VOTES_BASIC = "saved/basic";
-export const DATA_VOTESUP_BASIC = "votesup/basic";
-export const DATA_VOTESDN_BASIC = "votesdown/basic";
 export const DATA_RATING_BASIC = "rating/basic";
 export const DATA_TIPPED_BASIC = "tipped/basic";
 
@@ -77,5 +84,12 @@ export const DATA_ADD_TIP = "addTip/";
 export const DATA_REMOVE_TIP = "removeTip/";
 export const DATA_APPROVE_TIP = "approveTip/";
 export const DATA_REJECT_TIP = "rejectTip/";
+
 export const DATA_ADD_SAVED = "addSaved/";
 export const DATA_REMOVE_SAVED = "removeSaved/";
+
+export const DATA_ADD_INTENSITYRATING = "addIntensityRating/";
+export const DATA_REMOVE_INTENSITYRATING = "removeIntensityRating/";
+
+export const DATA_ADD_STARRATE = "addRating/";
+export const DATA_REMOVE_STARRATE = "addRating/";

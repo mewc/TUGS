@@ -71,12 +71,16 @@ class Catalog extends Component {
                     (item, index) => {
                         let isSaved = this.isSaved(item.id);
                         let isTipped = this.isTipped(item.id);
+                        let isIntensityRated = this.isIntensityRated(item.id);
+                        let isStarRated = this.isStarRated(item.id);
                         return <SubjectCard key={item.id}
                                             item={item}
                                             handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                             userId={this.props.user.id}
-                                            saved={isSaved}
-                                            tipped={isTipped}
+                                            isSaved={isSaved}
+                                            isTipped={isTipped}
+                                            isIntensityRated={isIntensityRated}
+                                            isStarRated={isStarRated}
                                             updateUserInfo={this.props.updateUserInfo}
                         />
                     })
@@ -143,9 +147,9 @@ class Catalog extends Component {
     isSaved(subId) {
         let is = false;
         for (var id of this.props.user.saved) {
-                if (id === subId) {
-                    return true;
-                }
+            if (id === subId) {
+                return true;
+            }
         }
         return is;
     }
@@ -160,20 +164,21 @@ class Catalog extends Component {
         return is;
     }
 
-    isVotedUp(subId) {
+    isIntensityRated(subId) {
         var is = false;
-        for (var id of this.props.user.votesUp) {
-            if (id === subId) {
+        for (var rate of this.props.user.intensityRatings) {
+            if (rate.id === subId) {
                 return true;
             }
         }
         return is;
     }
 
-    isVotedDn(subId) {
+    isStarRated(subId) {
         var is = false;
-        for (var id of this.props.user.votesDn) {
-            if (id === subId) {
+        for (var rate of this.props.user.ratings) {
+            console.log(rate.id === subId);
+            if (rate.id === subId) {
                 return true;
             }
         }
@@ -186,10 +191,15 @@ class Catalog extends Component {
             <Grid>
                 <Row>
                     <Col xs4={2} sm={2} lg={2} xl={2}>
-                        <Card  style={{ backgroundColor: TugsMuiTheme.palette.primary1Color, color: TugsMuiTheme.palette.lightTextColor}}>
+                        <Card style={{
+                            backgroundColor: TugsMuiTheme.palette.primary1Color,
+                            color: TugsMuiTheme.palette.lightTextColor
+                        }}>
                             <CardHeader title={NAV_TITLE_SCHOOLS}
                                         subtitle={this.state.schoolItems.length}
-                                        avatar={(this.state.facultyItems === false) ? <School color={TugsMuiTheme.palette.accent1Color}/> : <School  color={TugsMuiTheme.palette.accent1Color}/>}
+                                        avatar={(this.state.facultyItems === false) ?
+                                            <School color={TugsMuiTheme.palette.accent1Color}/> :
+                                            <School color={TugsMuiTheme.palette.accent1Color}/>}
                                         titleColor={TugsMuiTheme.palette.alternateTextColor}
                                         subtitleColor={TugsMuiTheme.palette.midTextColor}
                             />
@@ -199,7 +209,7 @@ class Catalog extends Component {
                         </List>
                     </Col>
                     <Col xs4={2} sm={4} lg={4} xl={4}>
-                        <Card style={{ backgroundColor: TugsMuiTheme.palette.primary1Color}}>
+                        <Card style={{backgroundColor: TugsMuiTheme.palette.primary1Color}}>
                             <CardHeader title={Str.NAV_TITLE_FACULTIES}
                                         subtitle={(this.state.facultyItems.length > 0) ? this.state.facultyItems.length : "Select a school"}
                                         titleColor={TugsMuiTheme.palette.alternateTextColor}
@@ -211,11 +221,14 @@ class Catalog extends Component {
                         </List>
                     </Col>
                     <Col xs4={4} sm={6} lg={6} xl={6}>
-                        <Card  style={{ backgroundColor: TugsMuiTheme.palette.primary1Color, color: TugsMuiTheme.palette.lightTextColor}}>
+                        <Card style={{
+                            backgroundColor: TugsMuiTheme.palette.primary1Color,
+                            color: TugsMuiTheme.palette.lightTextColor
+                        }}>
                             <CardHeader title={NAV_TITLE_SUBJECTS}
                                         subtitle={(this.state.subjectCards.length > 0) ? this.state.subjectCards.length : "Select a faculty"}
-                                            titleColor={TugsMuiTheme.palette.alternateTextColor}
-                                            subtitleColor={TugsMuiTheme.palette.midTextColor}
+                                        titleColor={TugsMuiTheme.palette.alternateTextColor}
+                                        subtitleColor={TugsMuiTheme.palette.midTextColor}
                             />
                         </Card>
                         <List>

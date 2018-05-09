@@ -11,7 +11,8 @@
     "react-headroom": "^2.2.2",
     "react-material-responsive-grid": "^1.2.1",
     "react-scripts": "1.1.4",
-    "react-show-more-text": "^1.0.3"
+    "react-show-more-text": "^1.0.3",
+    "react-tooltip": "^3.5.1"
   },
   "scripts": {
     "start": "PORT=3333 react-scripts start",

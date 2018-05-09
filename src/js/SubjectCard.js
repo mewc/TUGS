@@ -7,42 +7,34 @@ import {
     CardActions,
     CardHeader,
     CardText,
-    // CardMedia,
-    // CardTitle,
     Divider,
-    FlatButton,
-    Dialog,
-    TextField
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
-import StarIcon from 'material-ui/svg-icons/action/stars';
-// import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-// import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
-import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
-import * as Str from './Str';
-import Axios from 'axios';
-import ShowMoreText from 'react-show-more-text'
+import SaveIcon from 'material-ui/svg-icons/action/favorite-border';
 
-import {yellow800, black} from 'material-ui/styles/colors'
-import {ACTION_ERROR_LEAVEREVIEW} from "./Str";
-import {ACTION_LABEL_LEAVEREVIEW} from "./Str";
-import {VALUE_MAX_TIPLENGTH} from "./Str";
+import ToggleStarFull from 'material-ui/svg-icons/toggle/star';
+import ToggleStarEmpty from 'material-ui/svg-icons/toggle/star-border';
+import Axios from 'axios';
+import ShowMoreText from 'react-show-more-text';
+
+import {yellow800, black} from 'material-ui/styles/colors';
 import TugsMuiTheme from "./TugsMuiTheme";
 import {DATA_USERS} from "./Str";
 import {DATA_LH} from "./Str";
 import {DATA_ADD_SAVED} from "./Str";
 import {DATA_REMOVE_SAVED} from "./Str";
+import IntensityRateButton from "./IntensityRateButton";
+import LeaveTipButton from "./LeaveTipButton";
+import StarRateButton from "./StarRateButton";
 
 
 class SubjectCard extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             saved: this.props.saved,    //all handled in here once initial state is set
             dialogOpen: false,
-            tipText: '',
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
@@ -68,8 +60,10 @@ class SubjectCard extends Component {
                         value={Math.round(this.props.item.rewarding.avg)}
                         max={5}
                         onChange={(value) => console.log(`Rated with value ${value}`)}
-                        readOnly={this.userId === 7357}
+                        readOnly={true}
                         disabled={this.props.userId === 7357}
+                        iconFilled={<ToggleStarFull color={TugsMuiTheme.palette.primary1Color}/>}
+                        iconHovered={<ToggleStarEmpty color={TugsMuiTheme.palette.primary2Color}/>}
                     />
                 </span>
                 <span>
@@ -111,47 +105,32 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-
-                <IconButton
-                    onClick={this.handleStarClick.bind(this)}
-                    disabled={this.props.userId === 7357}>
-                    <StarIcon color={(this.state.saved) ? yellow800 : black}/>
-                </IconButton>
-
-                <IconButton
-                    disabled={(this.props.userId === 7357 || this.props.isTipped)} //shorthand for true false if statements
-                    label={Str.ACTION_TITLE_LEAVEREVIEW}
-                    onClick={this.handleDialogToggle}>
-                    <RateReviewIcon/>
-                </IconButton>
-                <Dialog
-                    title={Str.ACTION_TITLE_LEAVEREVIEW}
-                    actions={[
-                        <FlatButton label="Cancel" default={true} onClick={this.handleDialogToggle}/>,
-                        <FlatButton label="Submit" primary={true} onClick={this.handleSubmitReview}/>
-                    ]}
-                    open={this.state.dialogOpen}
-
-                >
-
-                    <TextField
-                        hintText={Str.ACTION_HINT_LEAVEREVIEW}
-                        errorText={ACTION_ERROR_LEAVEREVIEW}
-                        multiLine={true}
-                        floatingLabelText={ACTION_LABEL_LEAVEREVIEW}
-                        rows={1}
-                        rowsMax={3}
-                        fullWidth={true}
-                        onChange={(e) => {
-                            if (e.target.value.length > VALUE_MAX_TIPLENGTH) {
-                                e.target.value = e.target.value.toString().slice(0, VALUE_MAX_TIPLENGTH);
-                            }
-                            this.setState({
-                                tipText: e.target.value
-                            })
-                        }}
+                <div style={{display: "inline"}}>
+                    <IconButton
+                        onClick={this.handleStarClick.bind(this)}
+                        disabled={this.props.userId === 7357}>
+                        <SaveIcon color={(this.state.saved) ? TugsMuiTheme.palette.primary1Color : black}/>
+                    </IconButton>
+                    <LeaveTipButton
+                        disabled={(this.props.userId === 7357 || this.props.isTipped)}
+                        handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
+                        subjectId={this.props.item.id}
                     />
-                </Dialog>
+
+                <IntensityRateButton
+                    updateUserInfo={this.props.updateUserInfo}
+                    userId={this.props.userId}
+                    subjectId={this.props.item.id}
+                    disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
+                />
+
+                    <StarRateButton
+                        updateUserInfo={this.props.updateUserInfo}
+                        disabled={(this.props.userId === 7357 || this.props.isStarRated)}
+                        subjectId={this.props.item.id}
+                        userId={this.props.userId}
+                    />
+                </div>
             </CardActions>
         </Card>
     }
@@ -197,17 +176,17 @@ class SubjectCard extends Component {
         }
     }
 
-    rmSaved(id) { //basically the same as review, can clean up
+    rmSaved(id) {
         console.log("remove saved: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
-            this.props.updateUserInfo;
+            this.props.updateUserInfo(this.props.userId);
         })
     }
 
-    addSaved(id) {//basically the same as review, can clean up
+    addSaved(id) {
         console.log("add saved: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
-            this.props.updateUserInfo;
+            this.props.updateUserInfo(this.props.userId);
         })
     }
 
