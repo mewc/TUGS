@@ -263,9 +263,7 @@ class App extends Component {
                                     {this.state.auth.valid
                                         ? <LoggedInMenu handleSignout={this.handleSignout}/>
                                         : <LoginButton checkLogin={this.checkLogin}/>}
-                                    {this.state.auth.user.settings.admin ?
-                                        <FlatButton label="STATE" onClick={this.logState}/> :
-                                        <div/>}
+                                    {/*{this.state.auth.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> : <div/>}*/}
                                 </div>
                             }
                             iconElementLeft={

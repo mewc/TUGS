@@ -24,7 +24,11 @@ export const NAV_TITLE_FACULTIES = "Faculties";
 export const NAV_TITLE_SCHOOLS = "Schools";
 export const NAV_TITLE_SUBJECTS = LOCALISED_SUBJECTNAME_AU;
 
+export const ACTION_TITLE_FAVOURITE = "Favourite";
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
+export const ACTION_TITLE_SUBMITREVIEW = "Leave Review";
+export const ACTION_TITLE_INTENSITYRATE = "Rate Intensity";
+export const ACTION_TITLE_STARRATE = "Rate helpfulness";
 export const ACTION_TITLE_PENDINGTIPS = "Approve Pending Tips";
 export const ACTION_TITLE_ANALYTICS = "Analytics";
 export const ACTION_TITLE_DISCLAIMER = "Disclaimer";
@@ -45,6 +49,10 @@ export const ACTION_AUTH_SIGNOUT = "Sign out success";
 export const VALUE_MAX_TIPLENGTH = 128;
 export const VALUE_REFRESH_SIZE = 50;
 
+export const TOOLTIP_TIP_DISABLED = "Tip already submitted";
+export const TOOLTIP_INTENSITY_DISABLED = "Intensity rating submitted already";
+export const TOOLTIP_STARRATE_DISABLED = "Star rating submitted already";
+export const TOOLTIP_FAVOURITE_SUBJECT = "Shortlist for later";
 
 
 

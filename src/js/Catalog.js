@@ -71,12 +71,16 @@ class Catalog extends Component {
                     (item, index) => {
                         let isStarred = this.isStarred(item.id);
                         let isTipped = this.isTipped(item.id);
+                        let isIntensityRated = this.isIntensityRated(item.id);
+                        let isStarRated = this.isStarRated(item.id);
                         return <SubjectCard key={item.id}
                                             item={item}
                                             handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                             userId={this.props.user.id}
-                                            starred={isStarred}
-                                            tipped={isTipped}
+                                            isStarred={isStarred}
+                                            isTipped={isTipped}
+                                            isIntensityRated={isIntensityRated}
+                                            isStarRated={isStarRated}
                                             updateUserInfo={this.props.updateUserInfo}
                         />
                     })
@@ -142,7 +146,7 @@ class Catalog extends Component {
 
     isStarred(subId) {
         let is = false;
-        for (var id of this.props.user.starred) {
+        for (var id of this.props.user.saved) {
                 if (id === subId) {
                     return true;
                 }
@@ -160,9 +164,14 @@ class Catalog extends Component {
         return is;
     }
 
-    isVotedUp(subId) {
+    isIntensityRated(subId) {
+        //TODO rm temp hard boolean
+        return false;
+
+
+
         var is = false;
-        for (var id of this.props.user.votesUp) {
+        for (var id of this.props.user.intensityRatings) {
             if (id === subId) {
                 return true;
             }
@@ -170,9 +179,9 @@ class Catalog extends Component {
         return is;
     }
 
-    isVotedDn(subId) {
+    isStarRated(subId) {
         var is = false;
-        for (var id of this.props.user.votesDn) {
+        for (var id of this.props.user.ratings) {
             if (id === subId) {
                 return true;
             }
