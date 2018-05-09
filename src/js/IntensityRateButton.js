@@ -6,6 +6,7 @@ import {
     // CardTitle,
     FlatButton,
     Dialog,
+    Slider,
 } from 'material-ui';
 import IntensityIcon from 'material-ui/svg-icons/social/whatshot';
 import * as Str from './Str';
@@ -23,6 +24,7 @@ class IntensityRateButton extends Component {
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
+        this.handleRateChange = this.handleRateChange.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +32,7 @@ class IntensityRateButton extends Component {
 
     render() {
         return <span>
-<Tooltip/>
+            <Tooltip/>
             <IconButton
                 disabled={(this.props.disabled)} //shorthand for true false if statements
                 label={Str.ACTION_TITLE_INTENSITYRATE}
@@ -47,11 +49,24 @@ class IntensityRateButton extends Component {
                 ]}
                 open={this.state.dialogOpen}
                 onRequestClose={this.handleDialogToggle}>
-                <p>Intensity rate selection here</p>
-
+                {"I would consider this subject "}{this.state.rateValue}{"/10 on an intensity scale"}
+                <Slider
+                    step={1} value={0} max={10} min={0} name={Str.ACTION_TITLE_INTENSITYRATE}
+                    onChange={(event, value) => this.handleRateChange(event, value)}
+                    style={{height: "20px"}}
+                />
             </Dialog>
         </span>
 
+
+    }
+
+    handleRateChange(event, value) {
+        this.setState({
+            rateValue: value,
+        }, () => {
+            console.log('Intensity rated with value ' + value);
+        })
 
     }
 
