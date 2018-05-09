@@ -12,6 +12,10 @@ import IntensityIcon from 'material-ui/svg-icons/social/whatshot';
 import * as Str from './Str';
 import Axios from 'axios';
 import Tooltip from 'react-tooltip';
+import {DATA_LH} from "./Str";
+import {DATA_USERS} from "./Str";
+import {DATA_ADD_INTENSITYRATING} from "./Str";
+import {DATA_SUBJECTS} from "./Str";
 
 
 class IntensityRateButton extends Component {
@@ -25,6 +29,7 @@ class IntensityRateButton extends Component {
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
         this.handleRateChange = this.handleRateChange.bind(this);
+        this.handleSubmitIntenseRate = this.handleSubmitIntenseRate.bind(this);
     }
 
     componentDidMount() {
@@ -58,7 +63,6 @@ class IntensityRateButton extends Component {
             </Dialog>
         </span>
 
-
     }
 
     handleRateChange(event, value) {
@@ -76,12 +80,12 @@ class IntensityRateButton extends Component {
         })
     }
 
-
     handleSubmitIntenseRate() {
-        console.log("subject card submit intensity rate run for " + this.props.item.id);
-        this.handleDialogToggle()
-
-        //TODO perform axios calls that uses this.state.rateValue
+        console.log("subject card submit intensity rate run for " + this.props.subjectId);
+        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_INTENSITYRATING + this.props.subjectId, {value: this.state.rateValue}).then(() => {
+            Axios.post(DATA_LH + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING, {value: this.state.rateValue})
+        });
+        this.handleDialogToggle();
     }
 
 }

@@ -89,3 +89,5 @@ export const DATA_APPROVE_TIP = "approveTip/";
 export const DATA_REJECT_TIP = "rejectTip/";
 export const DATA_ADD_SAVED = "addSaved/";
 export const DATA_REMOVE_SAVED = "removeSaved/";
+export const DATA_ADD_INTENSITYRATING = "addIntensityRating/";
+export const DATA_REMOVE_INTENSITYRATING = "removeIntensityRating/";

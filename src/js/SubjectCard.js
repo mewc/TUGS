@@ -127,9 +127,11 @@ class SubjectCard extends Component {
                         disabled={(this.props.userId === 7357 || this.props.isTipped)}
                     />
 
-                    <IntensityRateButton
-                        disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
-                    />
+                <IntensityRateButton
+                    userId={this.props.userId}
+                    subjectId={this.props.item.id}
+                    disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
+                />
 
                     <StarRateButton
                         disabled={(this.props.userId === 7357 || this.props.isStarRated)}
