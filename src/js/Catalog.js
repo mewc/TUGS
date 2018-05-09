@@ -69,7 +69,7 @@ class Catalog extends Component {
         this.setState({
                 subjectCards: this.state.facSubData[this.state.selectedIndex.faculty].faculty.subjects.map(
                     (item, index) => {
-                        let isStarred = this.isStarred(item.id);
+                        let isSaved = this.isSaved(item.id);
                         let isTipped = this.isTipped(item.id);
                         let isIntensityRated = this.isIntensityRated(item.id);
                         let isStarRated = this.isStarRated(item.id);
@@ -77,7 +77,7 @@ class Catalog extends Component {
                                             item={item}
                                             handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
                                             userId={this.props.user.id}
-                                            isStarred={isStarred}
+                                            isSaved={isSaved}
                                             isTipped={isTipped}
                                             isIntensityRated={isIntensityRated}
                                             isStarRated={isStarRated}
@@ -144,7 +144,7 @@ class Catalog extends Component {
     }
 
 
-    isStarred(subId) {
+    isSaved(subId) {
         let is = false;
         for (var id of this.props.user.saved) {
                 if (id === subId) {

@@ -32,8 +32,8 @@ import {yellow800, black} from 'material-ui/styles/colors';
 import TugsMuiTheme from "./TugsMuiTheme";
 import {DATA_USERS} from "./Str";
 import {DATA_LH} from "./Str";
-import {DATA_ADD_STARRED} from "./Str";
-import {DATA_REMOVE_STARRED} from "./Str";
+import {DATA_ADD_SAVED} from "./Str";
+import {DATA_REMOVE_SAVED} from "./Str";
 import IntensityRateButton from "./IntensityRateButton";
 import LeaveTipButton from "./LeaveTipButton";
 import StarRateButton from "./StarRateButton";
@@ -44,7 +44,7 @@ class SubjectCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            starred: this.props.starred,    //all handled in here once initial state is set
+            saved: this.props.saved,    //all handled in here once initial state is set
             dialogOpen: false,
             tipText: '',
         }
@@ -122,7 +122,7 @@ class SubjectCard extends Component {
                     <IconButton
                         onClick={this.handleStarClick.bind(this)}
                         disabled={this.props.userId === 7357}>
-                        <SaveIcon color={(this.state.starred) ? yellow800 : black}/>
+                        <SaveIcon color={(this.state.saved) ? yellow800 : black}/>
                     </IconButton>
                 </span>
                 <LeaveTipButton
@@ -156,7 +156,7 @@ class SubjectCard extends Component {
     handleStarClick() {
         //this will change visuals,
         this.setState({
-            starred: !this.state.starred,
+            saved: !this.state.saved,
         }, () => {
             this.props.updateUserInfo(this.props.userId); //to handle backend sync across app
             this.handleStarToggle(this.props.item.id)
@@ -164,7 +164,7 @@ class SubjectCard extends Component {
     }
 
     getStarColor() {
-        if (this.state.starred) {
+        if (this.state.saved) {
             return yellow800
         } else {
             return black
@@ -173,25 +173,25 @@ class SubjectCard extends Component {
 
 
     handleStarToggle(id) {
-        if (!this.state.starred) {
+        if (!this.state.saved) {
             //remove star
-            return this.rmStarred(id)
+            return this.rmSaved(id)
         } else {
-            //add starred
-            return this.addStarred(id)
+            //add saved
+            return this.addSaved(id)
         }
     }
 
-    rmStarred(id) { //basically the same as review, can clean up
-        console.log("remove starred: " + id)
-        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_STARRED + id).then(() => {
+    rmSaved(id) { //basically the same as review, can clean up
+        console.log("remove saved: " + id)
+        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
             this.props.updateUserInfo;
         })
     }
 
-    addStarred(id) {//basically the same as review, can clean up
-        console.log("add starred: " + id)
-        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_STARRED + id).then(() => {
+    addSaved(id) {//basically the same as review, can clean up
+        console.log("add saved: " + id)
+        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
             this.props.updateUserInfo;
         })
     }
