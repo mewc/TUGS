@@ -90,8 +90,10 @@ class StarRateButton extends Component {
 
 
     handleSubmit() {
-        Axios.post(Str.DATA_LH + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId, {value: this.state.rateValue}).then(() => {
-            Axios.post(Str.DATA_LH + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE, {value: this.state.rateValue})
+        let AddToUser = Str.DATA_LH + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId;
+        let AddToSubject = Str.DATA_LH + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE;
+        Axios.post(AddToUser, {value: this.state.rateValue}).then(() => {
+            Axios.post(AddToSubject, {value: this.state.rateValue})
         });
         this.handleDialogToggle();
         this.setState({

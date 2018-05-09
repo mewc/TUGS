@@ -150,6 +150,7 @@ class App extends Component {
         })
     }
 
+    //this is weirdly changing things locally after changing it in backend. Could have persistence issues
     addPendingTip(subjectId, reviewText) {//basically the same as saved, can clean up
         Axios.post(DATA_LH + DATA_USERS + this.state.auth.user.id + "/" + Str.DATA_ADD_TIP + subjectId).then(() => {
             Axios.post(DATA_LH + Str.DATA_PENDINGTIPS + Str.DATA_ADD_TIP + subjectId, {
@@ -160,6 +161,7 @@ class App extends Component {
         }).then(() => {
             this.setState({
                 auth: {
+                    ...this.state.auth, //user will have been logged in to submit this, its fine to do
                     user: {
                         ...this.state.auth.user, //this adds all current user attr. and lets us overwrite what we want to
                         tipped: [...this.state.auth.user.tipped, subjectId],

@@ -91,5 +91,5 @@ export const DATA_REMOVE_SAVED = "removeSaved/";
 export const DATA_ADD_INTENSITYRATING = "addIntensityRating/";
 export const DATA_REMOVE_INTENSITYRATING = "removeIntensityRating/";
 
-export const DATA_ADD_STARRATE = "addIntensityRating/";
-export const DATA_REMOVE_STARRATE = "addIntensityRating/";
+export const DATA_ADD_STARRATE = "addRating/";
+export const DATA_REMOVE_STARRATE = "addRating/";

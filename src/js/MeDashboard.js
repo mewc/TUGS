@@ -57,11 +57,12 @@ class MeDashboard extends Component {
             axios.get(userTippedEndpoint),
             axios.get(userRatingsEndpoint),
         ])
-            .then(axios.spread((stars, tips, rates) => {
+            .then(axios.spread((stars, tips, ratings) => {
+                console.log
                 this.setState({
                     savedItems: stars.data,
                     tippedItems: tips.data,
-                    ratedItems: rates.data,
+                    ratedItems: ratings.data,
                 }, () => {
 
                     this.setDefaultBody();
