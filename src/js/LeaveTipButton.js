@@ -23,9 +23,12 @@ class IntensityRateButton extends Component {
         super(props);
         this.state = {
             dialogOpen: false,
+            tipText: '',
+            disabled: this.props.disabled,
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -36,10 +39,10 @@ class IntensityRateButton extends Component {
         return <span>
             <Tooltip/>
             <IconButton
-                disabled={this.props.disabled} //shorthand for true false if statements
+                disabled={this.state.disabled} //shorthand for true false if statements
                 label={Str.ACTION_TITLE_LEAVEREVIEW}
                 onClick={this.handleDialogToggle}>
-                <RateReviewIcon data-tip={(this.props.disabled)?Str.TOOLTIP_TIP_DISABLED:null}/>
+                <RateReviewIcon data-tip={(this.state.disabled)?Str.TOOLTIP_TIP_DISABLED:null}/>
             </IconButton>
 
             <Dialog
@@ -85,8 +88,11 @@ class IntensityRateButton extends Component {
 
 
     handleSubmit() {
-        console.log("subject card submit intensity rate run for " + this.props.item.id);
+        this.props.handleRequestToLeaveReview(this.props.subjectId, this.state.tipText);
         this.handleDialogToggle()
+        this.setState({
+            disabled: true
+        })
     }
 
 }

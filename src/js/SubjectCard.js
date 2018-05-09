@@ -46,7 +46,6 @@ class SubjectCard extends Component {
         this.state = {
             saved: this.props.saved,    //all handled in here once initial state is set
             dialogOpen: false,
-            tipText: '',
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
@@ -121,10 +120,12 @@ class SubjectCard extends Component {
                     <IconButton
                         onClick={this.handleStarClick.bind(this)}
                         disabled={this.props.userId === 7357}>
-                        <SaveIcon color={(this.state.saved) ? yellow800 : black}/>
+                        <SaveIcon color={(this.state.saved) ? TugsMuiTheme.palette.primary1Color : black}/>
                     </IconButton>
                     <LeaveTipButton
                         disabled={(this.props.userId === 7357 || this.props.isTipped)}
+                        handleRequestToLeaveReview={this.props.handleRequestToLeaveReview}
+                        subjectId={this.props.item.id}
                     />
 
                 <IntensityRateButton
@@ -135,6 +136,8 @@ class SubjectCard extends Component {
 
                     <StarRateButton
                         disabled={(this.props.userId === 7357 || this.props.isStarRated)}
+                        subjectId={this.props.item.id}
+                        userId={this.props.userId}
                     />
                 </div>
             </CardActions>

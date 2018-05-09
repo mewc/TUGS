@@ -53,7 +53,7 @@ export const TOOLTIP_INTENSITY_DISABLED = "Intensity rating submitted already";
 export const TOOLTIP_STARRATE_DISABLED = "Star rating submitted already";
 export const TOOLTIP_FAVOURITE_SUBJECT = "Shortlist for later";
 
-
+/* ENDPOINTS */
 
 export const DATA_LH = "http://localhost:3000/";  //so we can easily append to endpoint names
 export const DATA_LIVE = "SOME SORT OF HEROKU URL http://tugsbackend.herokuapp.com/";
@@ -65,9 +65,6 @@ export const DATA_USER_DEFAULTID = "10000001";
 export const DATA_USERS = "users/";
 export const DATA_SAVED_ALL = "saved/all";
 export const DATA_SAVED_BASIC = "saved/basic";
-export const DATA_VOTES_BASIC = "saved/basic";
-export const DATA_VOTESUP_BASIC = "votesup/basic";
-export const DATA_VOTESDN_BASIC = "votesdown/basic";
 export const DATA_RATING_BASIC = "rating/basic";
 export const DATA_TIPPED_BASIC = "tipped/basic";
 
@@ -87,7 +84,12 @@ export const DATA_ADD_TIP = "addTip/";
 export const DATA_REMOVE_TIP = "removeTip/";
 export const DATA_APPROVE_TIP = "approveTip/";
 export const DATA_REJECT_TIP = "rejectTip/";
+
 export const DATA_ADD_SAVED = "addSaved/";
 export const DATA_REMOVE_SAVED = "removeSaved/";
+
 export const DATA_ADD_INTENSITYRATING = "addIntensityRating/";
 export const DATA_REMOVE_INTENSITYRATING = "removeIntensityRating/";
+
+export const DATA_ADD_STARRATE = "addIntensityRating/";
+export const DATA_REMOVE_STARRATE = "addIntensityRating/";

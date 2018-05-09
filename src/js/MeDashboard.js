@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Tab, Tabs, RefreshIndicator} from 'material-ui';
-import StarIcon from 'material-ui/svg-icons/action/stars';
+import SaveIcon from 'material-ui/svg-icons/action/favorite-border';
 import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
 // import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
 import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
@@ -111,7 +111,7 @@ class MeDashboard extends Component {
                     initialSelectedIndex={this.state.activeIndex}
                     onChange={this.handleTabChange}
                 >
-                    <Tab icon={<StarIcon/>} label={Str.NAV_TITLE_SAVED + " (" + this.state.savedItems.length +")"} value={0}/>
+                    <Tab icon={<SaveIcon/>} label={Str.NAV_TITLE_SAVED + " (" + this.state.savedItems.length +")"} value={0}/>
                     <Tab icon={<RateReviewIcon/>} label={Str.NAV_TITLE_TIP + " (" + this.state.tippedItems.length +")"} value={1}/>
                     <Tab icon={<ThumbUpIcon/>} label={Str.NAV_TITLE_RATINGS + " (" + this.state.ratedItems.length +")"} value={2}/>
                 </Tabs>

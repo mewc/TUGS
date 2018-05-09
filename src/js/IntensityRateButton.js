@@ -25,6 +25,7 @@ class IntensityRateButton extends Component {
         this.state = {
             dialogOpen: false,
             rateValue: 0,
+            disabled: this.props.disabled,
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
@@ -39,11 +40,11 @@ class IntensityRateButton extends Component {
         return <span>
             <Tooltip/>
             <IconButton
-                disabled={(this.props.disabled)} //shorthand for true false if statements
+                disabled={(this.state.disabled)} //shorthand for true false if statements
                 label={Str.ACTION_TITLE_INTENSITYRATE}
                 onClick={this.handleDialogToggle}>
                 <IntensityIcon
-                    data-tip={(this.props.disabled) ? Str.TOOLTIP_INTENSITY_DISABLED : null}/>
+                    data-tip={(this.state.disabled) ? Str.TOOLTIP_INTENSITY_DISABLED : null}/>
             </IconButton>
 
             <Dialog
@@ -86,6 +87,9 @@ class IntensityRateButton extends Component {
             Axios.post(DATA_LH + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING, {value: this.state.rateValue})
         });
         this.handleDialogToggle();
+        this.setState({
+            disabled: true,
+        })
     }
 
 }

@@ -23,10 +23,12 @@ class StarRateButton extends Component {
         this.state = {
             dialogOpen: false,
             rateValue: 0,
+            disabled: this.props.disabled
         }
 
         this.handleDialogToggle = this.handleDialogToggle.bind(this);
         this.handleRateChange = this.handleRateChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -36,11 +38,11 @@ class StarRateButton extends Component {
         return <span>
             <Tooltip/>
             <IconButton
-                disabled={(this.props.disabled)} //shorthand for true false if statements
+                disabled={(this.state.disabled)} //shorthand for true false if statements
                 label={Str.ACTION_TITLE_STARRATE}
                 onClick={this.handleDialogToggle}>
                 <StarRatingIcon
-                    data-tip={(this.props.disabled) ? Str.TOOLTIP_INTENSITY_DISABLED : null}/>
+                    data-tip={(this.state.disabled) ? Str.TOOLTIP_INTENSITY_DISABLED : null}/>
             </IconButton>
 
             <Dialog
@@ -88,10 +90,13 @@ class StarRateButton extends Component {
 
 
     handleSubmit() {
-        console.log("subject card submit star rate run for " + this.props.item.id);
-        this.handleDialogToggle()
-
-        //TODO perform axios calls that uses this.state.rateValue
+        Axios.post(Str.DATA_LH + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId, {value: this.state.rateValue}).then(() => {
+            Axios.post(Str.DATA_LH + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE, {value: this.state.rateValue})
+        });
+        this.handleDialogToggle();
+        this.setState({
+            disabled: true,
+        })
     }
 
 }
