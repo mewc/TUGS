@@ -20,7 +20,7 @@ import ShowMoreText from 'react-show-more-text';
 import {yellow800, black} from 'material-ui/styles/colors';
 import TugsMuiTheme from "./TugsMuiTheme";
 import {DATA_USERS} from "./Str";
-import {DATA_LH} from "./Str";
+import * as Str from "./Str";
 import {DATA_ADD_SAVED} from "./Str";
 import {DATA_REMOVE_SAVED} from "./Str";
 import IntensityRateButton from "./IntensityRateButton";
