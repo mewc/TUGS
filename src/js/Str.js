@@ -24,11 +24,10 @@ export const NAV_TITLE_FACULTIES = "Faculties";
 export const NAV_TITLE_SCHOOLS = "Schools";
 export const NAV_TITLE_SUBJECTS = LOCALISED_SUBJECTNAME_AU;
 
-export const ACTION_TITLE_FAVOURITE = "Favourite";
+export const ACTION_TITLE_SAVED = "Saved";
 export const ACTION_TITLE_LEAVEREVIEW = "Leave Review";
-export const ACTION_TITLE_SUBMITREVIEW = "Leave Review";
-export const ACTION_TITLE_INTENSITYRATE = "Rate Intensity";
-export const ACTION_TITLE_STARRATE = "Rate helpfulness";
+export const ACTION_TITLE_INTENSITYRATE = "Rate the Intensity of this subject";
+export const ACTION_TITLE_STARRATE = "Rate how Rewarding this subject was for you";
 export const ACTION_TITLE_PENDINGTIPS = "Approve Pending Tips";
 export const ACTION_TITLE_ANALYTICS = "Analytics";
 export const ACTION_TITLE_DISCLAIMER = "Disclaimer";
