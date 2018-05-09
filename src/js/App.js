@@ -6,7 +6,6 @@ import {
     BottomNavigation,
     BottomNavigationItem,
     Paper,
-    FlatButton,
     Snackbar,
 } from 'material-ui';
 import MTP from 'material-ui/styles/MuiThemeProvider';

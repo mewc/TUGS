@@ -7,26 +7,15 @@ import {
     CardActions,
     CardHeader,
     CardText,
-    // CardMedia,
-    // CardTitle,
     Divider,
-    FlatButton,
-    Dialog,
-    TextField
 } from 'material-ui';
 import {Rating} from 'material-ui-rating';
 import SaveIcon from 'material-ui/svg-icons/action/favorite-border';
-// import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-// import ThumbDnIcon from 'material-ui/svg-icons/action/thumb-down';
 
-import IntensityIcon from 'material-ui/svg-icons/social/whatshot';
-import StarRatingIcon from 'material-ui/svg-icons/toggle/star-half';
 import ToggleStarFull from 'material-ui/svg-icons/toggle/star';
 import ToggleStarEmpty from 'material-ui/svg-icons/toggle/star-border';
-import * as Str from './Str';
 import Axios from 'axios';
 import ShowMoreText from 'react-show-more-text';
-import Tooltip from 'react-tooltip';
 
 import {yellow800, black} from 'material-ui/styles/colors';
 import TugsMuiTheme from "./TugsMuiTheme";
@@ -129,12 +118,14 @@ class SubjectCard extends Component {
                     />
 
                 <IntensityRateButton
+                    updateUserInfo={this.props.updateUserInfo}
                     userId={this.props.userId}
                     subjectId={this.props.item.id}
                     disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
                 />
 
                     <StarRateButton
+                        updateUserInfo={this.props.updateUserInfo}
                         disabled={(this.props.userId === 7357 || this.props.isStarRated)}
                         subjectId={this.props.item.id}
                         userId={this.props.userId}
@@ -185,17 +176,17 @@ class SubjectCard extends Component {
         }
     }
 
-    rmSaved(id) { //basically the same as review, can clean up
+    rmSaved(id) {
         console.log("remove saved: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
-            this.props.updateUserInfo;
+            this.props.updateUserInfo(this.props.userId);
         })
     }
 
-    addSaved(id) {//basically the same as review, can clean up
+    addSaved(id) {
         console.log("add saved: " + id)
         Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
-            this.props.updateUserInfo;
+            this.props.updateUserInfo(this.props.userId);
         })
     }
 

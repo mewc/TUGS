@@ -97,6 +97,7 @@ class StarRateButton extends Component {
         this.setState({
             disabled: true,
         })
+        this.props.updateUserInfo(this.props.userId);
     }
 
 }

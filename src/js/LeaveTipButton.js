@@ -10,7 +10,6 @@ import {
 } from 'material-ui';
 import RateReviewIcon from 'material-ui/svg-icons/maps/rate-review';
 import * as Str from './Str';
-import Axios from 'axios';
 import Tooltip from 'react-tooltip';
 import {ACTION_ERROR_LEAVEREVIEW} from "./Str";
 import {VALUE_MAX_TIPLENGTH} from "./Str";

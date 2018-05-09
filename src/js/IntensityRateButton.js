@@ -82,14 +82,17 @@ class IntensityRateButton extends Component {
     }
 
     handleSubmitIntenseRate() {
-        console.log("subject card submit intensity rate run for " + this.props.subjectId);
-        Axios.post(DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_INTENSITYRATING + this.props.subjectId, {value: this.state.rateValue}).then(() => {
-            Axios.post(DATA_LH + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING, {value: this.state.rateValue})
+        let addToUserEndpoint = DATA_LH + DATA_USERS + this.props.userId + '/' + DATA_ADD_INTENSITYRATING + this.props.subjectId;
+        let addToSubjectEndpoint = DATA_LH + DATA_SUBJECTS + this.props.subjectId + '/' + DATA_ADD_INTENSITYRATING;
+
+        Axios.post(addToUserEndpoint, {value: this.state.rateValue}).then(() => {
+            Axios.post(addToSubjectEndpoint, {value: this.state.rateValue})
         });
         this.handleDialogToggle();
         this.setState({
             disabled: true,
-        })
+        });
+        this.props.updateUserInfo(this.props.userId);
     }
 
 }
