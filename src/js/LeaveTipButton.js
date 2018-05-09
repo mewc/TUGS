@@ -39,7 +39,7 @@ class IntensityRateButton extends Component {
                 disabled={this.props.disabled} //shorthand for true false if statements
                 label={Str.ACTION_TITLE_LEAVEREVIEW}
                 onClick={this.handleDialogToggle}>
-                <RateReviewIcon/>
+                <RateReviewIcon data-tip={(this.props.disabled)?Str.TOOLTIP_TIP_DISABLED:null}/>
             </IconButton>
 
             <Dialog
@@ -49,7 +49,6 @@ class IntensityRateButton extends Component {
                     <FlatButton label="Submit" primary={true} onClick={this.handleSubmit}/>
                 ]}
                 open={this.state.dialogOpen}
-
             >
 
                 <TextField

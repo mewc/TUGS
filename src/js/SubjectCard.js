@@ -117,26 +117,24 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-
-                <span>
+                <div style={{display: "inline"}}>
                     <IconButton
                         onClick={this.handleStarClick.bind(this)}
                         disabled={this.props.userId === 7357}>
                         <SaveIcon color={(this.state.saved) ? yellow800 : black}/>
                     </IconButton>
-                </span>
-                <LeaveTipButton
-                    disabled={(this.props.userId === 7357 || this.props.isTipped)}
-                />
+                    <LeaveTipButton
+                        disabled={(this.props.userId === 7357 || this.props.isTipped)}
+                    />
 
-                <IntensityRateButton
-                    disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
-                />
+                    <IntensityRateButton
+                        disabled={(this.props.userId === 7357 || this.props.isIntensityRated)}
+                    />
 
-                <StarRateButton
-                    disabled={(this.props.userId === 7357 || this.props.isStarRated)}
-                />
-
+                    <StarRateButton
+                        disabled={(this.props.userId === 7357 || this.props.isStarRated)}
+                    />
+                </div>
             </CardActions>
         </Card>
     }
