@@ -105,7 +105,7 @@ class SubjectCard extends Component {
             </CardText>
             <Divider/>
             <CardActions expandable={true} style={{backgroundColor: "#eae9ea"}}>
-                <div style={{display: "inline"}}>
+                <div style={{display: "flex", "justify-content": "center"}}>
                     <IconButton
                         onClick={this.handleStarClick.bind(this)}
                         disabled={this.props.userId === 7357}>
