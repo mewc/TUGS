@@ -17,7 +17,7 @@ import {DATA_LH} from "./Str";
 class Settings extends Component {
     constructor(props) {
         super(props);
-        console.log(props.settings);
+        //console.log(props.settings);
         this.state = {
             pageSecondaryElement: <div></div>,
             uni: {
@@ -49,13 +49,13 @@ class Settings extends Component {
         }).then(() => {
             this.handleRejectReview(index);
             this.updatePendingTipView();
-            console.log(item + " rejected");
-            console.log(this.props);
+            //console.log(item + " rejected");
+            //console.log(this.props);
         });
     }
 
     handleApprove(item, index) {
-        console.log(item);
+        //console.log(item);
         Axios.post(Str.DATA_LIVE + Str.DATA_ADMIN + Str.DATA_APPROVE_TIP + item._id, {
             subjectId: item.subject.id,
             text: item.text,
@@ -65,8 +65,8 @@ class Settings extends Component {
         }).then(() => {
             this.handleApproveReview(index);
             this.updatePendingTipView();
-            console.log(item + " approved");
-            console.log(this.props);
+            //console.log(item + " approved");
+            //console.log(this.props);
         });
 
     }
@@ -95,7 +95,7 @@ class Settings extends Component {
 
         this.setState({
             pendingTips: pendingTipsArray
-        }, () => console.log("PendingTips " + index + " removed from saved"));
+        }, () => //console.log("PendingTips " + index + " removed from saved"));
     }
 
 
@@ -240,7 +240,7 @@ class Settings extends Component {
                 })
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             });
     }
 
@@ -263,11 +263,11 @@ class Settings extends Component {
                         name: fac.data.name
                     }
                 }, () => {
-                    console.log(this.state);
+                    //console.log(this.state);
                 })
             }))
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             })
     }
 }

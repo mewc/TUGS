@@ -77,11 +77,11 @@ class IntensityRateButton extends Component {
     }
 
     handleDialogToggle() {
-        console.log(this.state.dialogOpen);
+        //console.log(this.state.dialogOpen);
         this.setState({
             dialogOpen: !this.state.dialogOpen,
         }, () => {
-            console.log(this.state.dialogOpen);
+            //console.log(this.state.dialogOpen);
         })
     }
 

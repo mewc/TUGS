@@ -74,7 +74,7 @@ class App extends Component {
     }
 
     handleSignout = () => {
-        console.log("User " + this.state.auth.user.id + "signing out");
+        //console.log("User " + this.state.auth.user.id + "signing out");
         this.setState({
             auth: SIGNED_OUT_AUTH,
             bodyContent: SIGNED_OUT_BODYCONTENT,
@@ -87,7 +87,7 @@ class App extends Component {
         //todo handle auth and setting of user state here
 
         //get default user
-        console.log("Checking user login status")
+        //console.log("Checking user login status")
         let isValid = true;
 
         Axios.get(Str.DATA_LIVE + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
@@ -98,12 +98,12 @@ class App extends Component {
                         user: res.data
                     },
                 }, () => {
-                    console.log("User logged in");
+                    //console.log("User logged in");
                     this.selectBottomNav(CATALOG_INDEX);
                 })
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             });
     }
 
@@ -126,12 +126,12 @@ class App extends Component {
                         user: res.data
                     },
                 }, () => {
-                    console.log("data updated");
+                    //console.log("data updated");
                     this.selectBottomNav(CATALOG_INDEX);
                 })
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             });
     }
 
@@ -197,7 +197,7 @@ class App extends Component {
 
 
     handleRequestToLeaveReview = (subjectId, reviewText) => {
-        console.log(subjectId + " wants to be reviewed by " + this.state.auth.user.id + " with tip " + reviewText);
+        //console.log(subjectId + " wants to be reviewed by " + this.state.auth.user.id + " with tip " + reviewText);
 
         if (this.alreadyReviewed(subjectId, this.state.auth.user.tipped)) {
             this.triggerSnackbar("Review already left for that subject, try another");
@@ -249,7 +249,7 @@ class App extends Component {
     }
 
     logState() {
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     render() {

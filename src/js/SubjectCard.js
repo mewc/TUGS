@@ -59,7 +59,7 @@ class SubjectCard extends Component {
                     <Rating
                         value={Math.round(this.props.item.rewarding.avg)}
                         max={5}
-                        onChange={(value) => console.log(`Rated with value ${value}`)}
+                        onChange={(value) => //console.log(`Rated with value ${value}`)}
                         readOnly={true}
                         disabled={this.props.userId === 7357}
                         iconFilled={<ToggleStarFull color={TugsMuiTheme.palette.primary1Color}/>}
@@ -142,7 +142,7 @@ class SubjectCard extends Component {
     }
 
     handleSubmitReview() {
-        console.log("subject card submit review run for " + this.props.item.id);
+        //console.log("subject card submit review run for " + this.props.item.id);
         this.handleDialogToggle();
         this.props.handleRequestToLeaveReview(this.props.item.id, this.state.tipText)
     }
@@ -177,14 +177,14 @@ class SubjectCard extends Component {
     }
 
     rmSaved(id) {
-        console.log("remove saved: " + id)
+        //console.log("remove saved: " + id)
         Axios.post(Str.DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_REMOVE_SAVED + id).then(() => {
             this.props.updateUserInfo(this.props.userId);
         })
     }
 
     addSaved(id) {
-        console.log("add saved: " + id)
+        //console.log("add saved: " + id)
         Axios.post(Str.DATA_LIVE + DATA_USERS + this.props.userId + '/' + DATA_ADD_SAVED + id).then(() => {
             this.props.updateUserInfo(this.props.userId);
         })

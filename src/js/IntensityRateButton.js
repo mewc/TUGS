@@ -69,7 +69,7 @@ class IntensityRateButton extends Component {
         this.setState({
             rateValue: value,
         }, () => {
-            console.log('Intensity rated with value ' + value);
+            //console.log('Intensity rated with value ' + value);
         })
 
     }

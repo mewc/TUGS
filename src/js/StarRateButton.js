@@ -77,7 +77,7 @@ class StarRateButton extends Component {
         this.setState({
             rateValue: value,
         }, () => {
-            console.log(`Rated with value ${value}`);
+            //console.log(`Rated with value ${value}`);
         })
 
     }

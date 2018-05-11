@@ -58,7 +58,7 @@ class MeDashboard extends Component {
             axios.get(userRatingsEndpoint),
         ])
             .then(axios.spread((stars, tips, ratings) => {
-                console.log
+                //console.log
                 this.setState({
                     savedItems: stars.data,
                     tippedItems: tips.data,
@@ -70,7 +70,7 @@ class MeDashboard extends Component {
 
             }))
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             })
     }
 

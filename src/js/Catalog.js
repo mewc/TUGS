@@ -42,14 +42,14 @@ class Catalog extends Component {
                 })
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             });
     }
 
     getUpdatedFacultySubjectDataset() {
         let selectedSchoolId = this.state.data[this.state.selectedIndex.school].id;
         let getURL = Str.DATA_LIVE + Str.DATA_SCHOOLS + selectedSchoolId + "/" + Str.DATA_FULL;
-        console.log(getURL);
+        //console.log(getURL);
         //this needs to be a request to the mongo backend so we can actually keep things persistent
         axios.get(getURL)
             .then((res) => {
@@ -60,7 +60,7 @@ class Catalog extends Component {
                 })
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             });
     }
 
@@ -177,7 +177,7 @@ class Catalog extends Component {
     isStarRated(subId) {
         var is = false;
         for (var rate of this.props.user.ratings) {
-            console.log(rate.id === subId);
+            //console.log(rate.id === subId);
             if (rate.id === subId) {
                 return true;
             }
