@@ -95,7 +95,9 @@ class Settings extends Component {
 
         this.setState({
             pendingTips: pendingTipsArray
-        }, () => //console.log("PendingTips " + index + " removed from saved"));
+        }, () => {
+            //console.log("PendingTips " + index + " removed from saved"));
+        })
     }
 
 
