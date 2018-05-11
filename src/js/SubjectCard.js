@@ -59,7 +59,7 @@ class SubjectCard extends Component {
                     <Rating
                         value={Math.round(this.props.item.rewarding.avg)}
                         max={5}
-                        onChange={(value) => //console.log(`Rated with value ${value}`)}
+                        onChange={(value) => {/*console.log(`Rated with value ${value}`)*/}}
                         readOnly={true}
                         disabled={this.props.userId === 7357}
                         iconFilled={<ToggleStarFull color={TugsMuiTheme.palette.primary1Color}/>}
