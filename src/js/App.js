@@ -27,6 +27,8 @@ import {DATA_USERS} from "./Str";
 import {baseUser} from '../resources/baseUser';
 import LoginButton from './LoginButton';
 import LoggedInMenu from './LoggedInMenu';
+import firebase from 'firebase';
+
 
 const IconSettings = <IconSettingsImport/>;
 const IconYou = <IconPersonImport/>;
@@ -66,6 +68,16 @@ class App extends Component {
         this.logState = this.logState.bind(this);
         this.checkLogin = this.checkLogin.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
+
+        var config = {
+            apiKey: "AIzaSyDMkUPowjkFVixjSVuOYFBawhZOAgGOBCQ",
+            authDomain: "tugs-app.firebaseapp.com",
+            databaseURL: "https://tugs-app.firebaseio.com",
+            projectId: "tugs-app",
+            storageBucket: "tugs-app.appspot.com",
+            messagingSenderId: "630752733618"
+        };
+        firebase.initializeApp(config);
     }
 
     componentDidMount() {
@@ -84,27 +96,51 @@ class App extends Component {
     }
 
     checkLogin() {
-        //todo handle auth and setting of user state here
-
-        //get default user
-        //console.log("Checking user login status")
+        //get firebase user login
+        //  https://firebase.google.com/docs/auth/?authuser=0
         let isValid = true;
+        var provider = new firebase.auth.GoogleAuthProvider();
 
-        Axios.get(Str.DATA_LIVE + Str.DATA_USERS + Str.DATA_USER_DEFAULTID)
-            .then((res) => {
-                this.setState({
-                    auth: {
-                        valid: isValid,
-                        user: res.data
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            console.log("User logged in");
+            console.log(token);
+            console.log(user);
+
+            this.setState({
+                auth: {
+                    ...this.state.auth,
+                    valid: true,
+                    token: token,
+                    user: {
+                        ...this.state.auth.user,
+                        id: user,
                     },
-                }, () => {
-                    //console.log("User logged in");
-                    this.selectBottomNav(CATALOG_INDEX);
-                })
-            })
-            .catch((err) => {
-                //console.log(err);
+                },
+            },() => {
+                console.log("User logged in");
+                console.log(this.state.auth.valid);
+                console.log(this.state.auth.user);
+                this.selectBottomNav(CATALOG_INDEX);
             });
+
+
+            }).catch(function(error) {
+            // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // // The email of the user's account used.
+            // var email = error.email;
+            // // The firebase.auth.AuthCredential type that was used.
+            // var credential = error.credential;
+            // ...
+
+        });
+
     }
 
     handleSnackbarClose = () => {
@@ -249,7 +285,7 @@ class App extends Component {
     }
 
     logState() {
-        //console.log(this.state);
+        console.log(this.state);
     }
 
     render() {

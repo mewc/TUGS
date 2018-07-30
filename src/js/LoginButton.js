@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import {FlatButton} from 'material-ui';
-
 import * as Str from "./Str";
 
 class LoginButton extends Component {
