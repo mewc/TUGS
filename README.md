@@ -1,6 +1,6 @@
-# TUGS - The University Guide by Students
+# TUGS - The University Guide by Students. (studentuniguide.com)
 
-A react app created by mewc (croft1) && ramzihossari
+A react app created by mewc && ramzihossari
 
 ## Purpose
 
@@ -29,7 +29,7 @@ View the trello board (invite only)
 
 #### Live Deployment
 
-not available just yet, stay tuned.
+Working build: tugs.herokuapp.com
 
 ### Contributing
 
@@ -37,6 +37,15 @@ Please message us if you're interested in contributing.
 
 #### Authors
 
-[mewc](https://mewc.info) [(croft1)](https://github.com/croft1/)
+[mewc](https://mewc.info)
 
 [ramzihossari](https://github.com/ramzihossari/)
+
+#### Made using
+
+- React.js
+- node.js
+- mongodb
+- firebase (auth)
+- express
+- material ui
