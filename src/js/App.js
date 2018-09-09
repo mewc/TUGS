@@ -50,7 +50,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         SIGNED_OUT_BODYCONTENT =
-            <div style={{margin: "30%"}}><h2>Please <LoginButton checkLogin={this.checkLogin.bind(this)}/> now</h2>
+            <div style={{margin: "30%"}}><h2>Please <LoginButton isAdmin={false} checkLogin={this.checkLogin.bind(this)}/> now</h2>
             </div>;
         this.state = {
             auth: SIGNED_OUT_AUTH,
@@ -95,7 +95,7 @@ class App extends Component {
         });
     }
 
-    checkLogin() {
+    checkLogin(isAdmin) {
         //get firebase user login
         //  https://firebase.google.com/docs/auth/?authuser=0
         let isValid = true;
@@ -118,7 +118,10 @@ class App extends Component {
                     token: token,
                     user: {
                         ...this.state.auth.user,
-                        id: user,
+                        // id: user,
+                          id: 10000004, //This is used here because full user saving isn't done and we use the default test user
+                          name: user.displayName,
+                          isAdmin: isAdmin
                     },
                 },
             },() => {
@@ -141,6 +144,19 @@ class App extends Component {
 
         });
 
+    }
+
+    submitUser(){
+      let AddToUser = Str.DATA_LIVE + Str.DATA_USERS + this.props.userId + '/' + Str.DATA_ADD_STARRATE + this.props.subjectId;
+      let AddToSubject = Str.DATA_LIVE + Str.DATA_SUBJECTS + this.props.subjectId + '/' + Str.DATA_ADD_STARRATE;
+      Axios.post(AddToUser, {value: this.state.rateValue}).then(() => {
+          Axios.post(AddToSubject, {value: this.state.rateValue})
+      });
+      this.handleDialogToggle();
+      this.setState({
+          disabled: true,
+      })
+      this.props.updateUserInfo(this.props.userId);
     }
 
     handleSnackbarClose = () => {
@@ -299,7 +315,7 @@ class App extends Component {
                                 <div>
                                     {this.state.auth.valid
                                         ? <LoggedInMenu handleSignout={this.handleSignout}/>
-                                        : <LoginButton checkLogin={this.checkLogin}/>}
+                                        : <LoginButton isAdmin={true} checkLogin={this.checkLogin}/>}
                                     {/*{this.state.auth.user.settings.admin ? <FlatButton label="STATE" onClick={this.logState}/> : <div/>}*/}
                                 </div>
                             }

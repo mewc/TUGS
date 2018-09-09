@@ -7,10 +7,12 @@ class LoginButton extends Component {
     static muiName = 'FlatButton';
 
     render() {
+      let label = Str.NAV_TITLE_LOGIN;
+        (this.props.isAdmin)? label = "Admin " + Str.NAV_TITLE_LOGIN : false;
 
         return <FlatButton
-            label={Str.NAV_TITLE_LOGIN}
-            onClick={this.props.checkLogin}
+            label={label}
+            onClick={() => this.props.checkLogin(this.props.isAdmin)}
         />;
     }
 }
